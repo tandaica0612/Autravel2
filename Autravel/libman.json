@@ -25,6 +25,10 @@
     {
       "library": "bootstrap-slider@11.0.2",
       "destination": "Content/plugins/bootstrap-slider/"
+    },
+    {
+      "library": "tinymce@5.7.1",
+      "destination": "Content/plugins/tinymce/"
     }
   ]
 }

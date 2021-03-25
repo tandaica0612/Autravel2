@@ -16,8 +16,8 @@ namespace Autravel.Controllers
             ViewBag.ChuDe = SqlModule.GetDataTable(" SELECT * FROM [TopicTour]");
             ViewBag.BANNER = SqlModule.GetDataTable(" SELECT * FROM  [BANNER] where type ='COMBO' order by ISNULL(stt,9999)");
             ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Tour_ID,Tour_Name,Tour_Price,Tour_Image,Tour_TimeZoneText,Tour_StarRate FROM [VTour] WHERE Tour_Fixed =1 AND Tour_Active=1");
-            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Autravel].[dbo].[Location]");
-            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Autravel].[dbo].[Post] t1");
+            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
+            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
             return View();
         }
         public PartialViewResult ComboSale()
@@ -56,7 +56,7 @@ namespace Autravel.Controllers
             sql = sql.Replace("#KeySearch#", KeySearch);
 
             var data = SqlModule.GetDataTable(sql);
-            ViewBag.Hotel_Facilities = SqlModule.GetDataTable("  SELECT   *  FROM [Autravel].[dbo].[Hotel_Facilities]");
+            ViewBag.Hotel_Facilities = SqlModule.GetDataTable("  SELECT   *  FROM [Hotel_Facilities]");
             ViewBag.KeySearch = KeySearch == "*" ? "Danh sách Combo" : KeySearch;
             return PartialView(data);
         }
@@ -93,7 +93,7 @@ namespace Autravel.Controllers
         [HttpPost]
         public ActionResult GetLocation()
         {
-            var data = SqlModule.GetDataTable(" SELECT   [Location_Name] FROM [Autravel].[dbo].[Location]");
+            var data = SqlModule.GetDataTable(" SELECT   [Location_Name] FROM [Location]");
             var json = new Controllers.Huy.BaseController().ToJson(data);
             return Json(json, JsonRequestBehavior.AllowGet);
         }

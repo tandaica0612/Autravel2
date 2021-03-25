@@ -12,7 +12,7 @@ namespace Autravel.Extentions
         public  static bool SendEmail(string[] _email, string Subject, string body,string[] _cc = null)
         {
             //  return false;
-            var account = SqlModule.GetDataTable(" SELECT TOP 1 * FROM Autravel.dbo.SetupMailSMTP   order by NEWID()").Rows[0];
+            var account = SqlModule.GetDataTable(" SELECT TOP 1 * FROM  dbo.SetupMailSMTP   order by NEWID()").Rows[0];
             MailMessage mail = new MailMessage();
 
             try

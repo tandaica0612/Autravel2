@@ -14,15 +14,15 @@ namespace Autravel.Controllers
         {
             ViewBag.BANNER = SqlModule.GetDataTable(" SELECT * FROM  [BANNER] where type ='HOTEL' order by ISNULL(stt,9999)");
             ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage,Hotel_TimeZoneText,Hotel_StarRate FROM [VHotel] ");
-            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Autravel].[dbo].[Location]");
-            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Autravel].[dbo].[Post] t1");
+            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
+            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
             return View();
         }
         public ActionResult ListHotel(string KeySearch, string ThoiGian = "")
         {
             ViewBag.KeySearch = KeySearch;
             ViewBag.ThoiGian = ThoiGian;
-            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT  [Location_ID],[Location_Name] FROM [Autravel].[dbo].[Location]");
+            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT  [Location_ID],[Location_Name] FROM [Location]");
             return View();
         }
         public ActionResult ListHotelGrid(string filter = "", string KeySearch = "")
@@ -37,7 +37,7 @@ namespace Autravel.Controllers
             sql = sql.Replace("#KeySearch#", KeySearch);
 
             var data = SqlModule.GetDataTable(sql);
-            ViewBag.Hotel_Facilities = SqlModule.GetDataTable("  SELECT   *  FROM [Autravel].[dbo].[Hotel_Facilities]");
+            ViewBag.Hotel_Facilities = SqlModule.GetDataTable("  SELECT   *  FROM [Hotel_Facilities]");
             ViewBag.KeySearch = KeySearch == "*" ? "Danh sách Hotel" : KeySearch;
             return PartialView(data);
         }
@@ -59,7 +59,7 @@ namespace Autravel.Controllers
             {
                 return Content("Không tìm thấy");
             }
-            ViewBag.Room = SqlModule.GetDataTable("SELECT *  FROM [Autravel].[dbo].[V_RoomHotel] where Hotel_ID=" + ID);
+            ViewBag.Room = SqlModule.GetDataTable("SELECT *  FROM [V_RoomHotel] where Hotel_ID=" + ID);
             ViewBag.RoomHotel_Extensions = SqlModule.GetDataTable("SELECT *  FROM  [RoomHotel_Extensions]");
             return View(data.Rows[0]);
         }
@@ -68,8 +68,8 @@ namespace Autravel.Controllers
         {
             
             ViewBag.RoomHotel_Extensions = SqlModule.GetDataTable("SELECT *  FROM  [RoomHotel_Extensions]");
-            var Room = SqlModule.GetDataTable("SELECT *  FROM [Autravel].[dbo].[V_RoomHotel] where Hotel_ID=" + ID);
-              Room = SqlModule.GetDataTable("SELECT *  FROM [Autravel].[dbo].[V_RoomHotel]");
+            var Room = SqlModule.GetDataTable("SELECT *  FROM [V_RoomHotel] where Hotel_ID=" + ID);
+              Room = SqlModule.GetDataTable("SELECT *  FROM [V_RoomHotel]");
              return PartialView(Room);
         }
         public ActionResult LienQuan(float Hotel_Score)

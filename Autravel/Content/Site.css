@@ -192,3 +192,7 @@ body {
     color: #fff;
     text-decoration: none;
 }
+
+.sidebar-menu > li > a {
+    padding: 5px 5px 5px 15px!important;
+ }

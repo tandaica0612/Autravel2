@@ -136,6 +136,7 @@
     <Compile Include="Controllers\Huy\BookingHotelsController.cs" />
     <Compile Include="Controllers\Huy\BookingToursController.cs" />
     <Compile Include="Controllers\Huy\BookingVouchersController.cs" />
+    <Compile Include="Controllers\Huy\ConfigInfomationsController.cs" />
     <Compile Include="Controllers\Huy\ContactInfosController.cs" />
     <Compile Include="Controllers\Huy\HotelsController.cs" />
     <Compile Include="Controllers\Huy\Hotel_EvaluatesController.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Extentions\DataTableExtentions.cs" />
     <Compile Include="Extentions\SendMailExtentions.cs" />
+    <Compile Include="Extentions\Text.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3475,6 +3477,7 @@
     <Content Include="Views\PHotel\LoadRoom.cshtml" />
     <Content Include="Views\RoomHotel_Prices\Index.cshtml" />
     <Content Include="Views\Banner\Index.cshtml" />
+    <Content Include="Views\ConfigInfomations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

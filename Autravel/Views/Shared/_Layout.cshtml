@@ -28,7 +28,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Autravel</a>
+                <a class="navbar-brand" href="/">@Text.Show("COMPANY")</a>
             </div>
             <div class="col-sm-8 col-md-8 menu_fix_top collapse navbar-collapse" aria-expanded="false">
                 <nav class="bg-light navbar-expand-sm justify-content-center">
@@ -44,7 +44,7 @@
             </div>
             <div class="navbar-logo col-md-2 col-sm-2 hidden-xs">
                 <span>Hotline:</span>
-                <label>0869.660.438</label>
+                <label>@Text.Show("HotLine")</label>
             </div>
         </div>
     </div>
@@ -79,9 +79,9 @@
                     <section class="col-md-3 section-footer">
                         <h4 class="titel-footer">LIÊN HỆ</h4>
                         <ul class="ul-footer-item">
-                            <li class="li-footer-item">Số 9A, Thanh Liệt, Thanh Trì, Hà Nội</li>
-                            <li class="li-footer-item"><a href="tel:0869660438">0869.660.438</a></li>
-                            <li class="li-footer-item"><a href="mailto:info@autravel.vn">info@autravel.vn</a></li>
+                            <li class="li-footer-item">@Text.Show("COMPANY_Address")</li>
+                            <li class="li-footer-item"><a href="tel:@Text.Show("HotLine")">@Text.Show("HotLine")</a></li>
+                            <li class="li-footer-item"><a href="mailto:@Text.Show("COMPANY_Mail")">@Text.Show("COMPANY_Mail")</a></li>
                         </ul>
                     </section>
                     <section class="col-md-4 section-footer">

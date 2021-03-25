@@ -1,0 +1,302 @@
+﻿/*CSS All Site Admin*/
+body {
+}
+.content-wrapper .wrap {
+    display: flex;
+}
+nav.navbar.navbar-static-top {
+    display: block;
+    padding: inherit;
+}
+div#post-body-content > .col-md-12 {
+    padding: 0px;
+}
+.content-wrapper .wrap form {
+    width: 100%;
+}
+.input-group span.input-group-addon {
+    background-color: #eee;
+}
+td.disabled.day {
+    color: #cac9c9 !important;
+    pointer-events: none;
+}
+div#category-all .inside img {
+    background-color: #c8c8c8;
+}
+/*End CSS All Site Admin*/
+.imageitem {
+    height: 200px;
+    overflow: hidden;
+    margin: 5px 0;
+}
+.imageitem img {
+    height: 180px;
+    object-fit: contain;
+    object-position: center;
+    background: #000;
+}
+.imageitem p {
+    bottom: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+ 
+#titlediv #title-prompt-text {
+    font-size: 1.4em;
+    padding: 6px 10px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#titlediv #Post_Tile, #titlediv #Hotel_Name {
+    padding: 3px 8px;
+    font-size: 1.7em;
+    line-height: 100%;
+    height: 1.7em;
+    width: 100%;
+    outline: 0;
+    margin: 0 0 3px;
+    background-color: #fff;
+}
+form input[type=text],
+form input[type=search],
+form input[type=radio],
+form input[type=tel],
+form input[type=time],
+form input[type=url],
+form input[type=week],
+form input[type=password],
+form input[type=checkbox],
+form input[type=color],
+form input[type=date],
+form input[type=datetime],
+form input[type=datetime-local],
+form input[type=email],
+form input[type=month],
+form input[type=number],
+form select,
+form textarea {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    background-color: #fff;
+    color: #32373c;
+    outline: 0;
+    -webkit-transition: 50ms border-color ease-in-out;
+    transition: 50ms border-color ease-in-out;
+}
+.dx-datagrid input[type=text],
+.dx-datagrid input[type=search],
+.dx-datagrid input[type=radio],
+.dx-datagrid input[type=tel],
+.dx-datagrid input[type=time],
+.dx-datagrid input[type=url],
+.dx-datagrid input[type=week],
+.dx-datagrid input[type=password],
+.dx-datagrid input[type=checkbox],
+.dx-datagrid input[type=color],
+.dx-datagrid input[type=date],
+.dx-datagrid input[type=datetime],
+.dx-datagrid input[type=datetime-local],
+.dx-datagrid input[type=email],
+.dx-datagrid input[type=month],
+.dx-datagrid input[type=number],
+.dx-datagrid select,
+.dx-datagrid textarea {
+    border: unset;
+}
+#wp-content-editor-tools {
+    background-color: #f1f1f1;
+    padding-top: 20px;
+}
+.wp-media-buttons .add_media.selectmedia {
+    padding-left: 5px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px solid #7c7c7c;
+}
+.wp-media-buttons .add_media.selectmedia:before {
+    margin-right: 5px;
+}
+.media-frame-toolbar .modal-body {
+    height: auto;
+    width: auto;
+    margin: 0;
+    overflow: auto;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.media-frame-toolbar .modal-footer {
+    left: 200px;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    z-index: 100;
+}
+#postbox-container-1 #publishing-action {
+    text-align: right;
+    float: right;
+    line-height: 23px;
+}
+    #postbox-container-1 #publishing-action #publish {
+        height: 30px;
+        line-height: 28px;
+        padding: 0 12px 2px;
+    }
+.box-header.with-border h3.box-title.fileter-title {
+    width: 100%;
+}
+.AddCategory {
+    margin-bottom: 0px;
+}
+.box.box-info.box ul li {
+    list-style: none;
+}
+.box.box-info.box ul {
+    padding-left: 15px;
+}
+.postimagediv #set-post-thumbnail{
+
+}
+.imageitem button.button-link.check {
+    display: none;
+    height: 24px;
+    background-color: #0073aa;
+    -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px #0073aa;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #0073aa;
+    width: 24px;
+    padding: 0;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    outline: 0;
+}
+.imageitem.selected button.button-link.check{
+    display:block;
+}
+.imageitem.selected .check .media-modal-icon {
+    display: block;
+    background-position: -1px 0;
+    height: 15px;
+    width: 15px;
+    color: #fff;
+}
+.AddCategory {
+    border: none !important;
+    box-shadow: none !important;
+}
+.AddCategory a{
+    font-size:12px;
+    text-decoration: underline;
+}
+div#category-all {
+    display: flex;
+    border: 1px solid #ddd;
+}
+.box.box-info.box ul li label {
+    font-weight: 500;
+}
+.Post_tag {
+    margin-top: 20px;
+}
+.col-sm-12 .box-body table{
+    width: 100%;
+}
+td.title.column-title.has-row-actions.column-primary.page-title strong {
+    display: block;
+}
+table.wp-list-table.widefat.fixed.striped.posts thead tr th {
+    padding-bottom: 10px;
+}
+table.wp-list-table.widefat.fixed.striped.posts thead {
+    border-bottom: 1px solid #c3c3c3; 
+}
+table.wp-list-table.widefat.fixed.striped.posts tbody tr td {
+    padding-top: 10px;
+    padding-right:10px;
+    vertical-align: top;
+    width: 1%;
+    white-space: nowrap;
+    table-layout: fixed;
+}
+table.wp-list-table.widefat.fixed.striped.posts tbody tr td.wpex_post_thumbs img{
+    background-color:#c3c3c3;
+}
+/*Tour*/
+.form-group.div_List_Images.col-md-12 {
+    padding: 0;
+    border: 1px #c3c3c3 dotted;
+    min-height: 50px;
+}
+.Select_multi_Media .item_image {
+    max-width: 100%;
+    overflow: hidden;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0px;
+}
+.item_image img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.row.Price_Tour_UnFixed.form-inline .form-group {
+    width: 100%;
+}
+.row.Price_Tour_UnFixed.form-inline .label_input {
+    width: 50%;
+}
+/*End Tour*/
+/*Hotel*/
+.RatingStar li.fa {
+    font-size: 24px;
+    color: #fda502;
+    cursor: pointer;
+}
+.ListImgRoom img {
+    width: 100%;
+    margin-bottom: 5px;
+    min-height: 100px;
+    max-height: 150px;
+    min-width: 100%;
+}
+.ExtentionRoom .form-group .input-group .input-group-addon:first-child {
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.ExtentionRoom .form-group .input-group .form-control:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: hidden;
+}
+.div_People {
+    display: flex;
+}
+.div_People .input-group {
+    float: left;
+}
+textarea.infoContentRoom {
+    width: 100%;
+}
+.selectImgRoom {
+    margin-bottom: 10px;
+}
+.Hotel_AllRoom .itemRoom {
+    padding-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+.div_People span.label_input {
+    padding: 6px 12px;
+}
+/*End Hotel*/
+
+.Tour_Rules .box-header, .Tour_Schedule .box-header, .Tour_Itinerary .box-header {
+    padding: 15PX !important
+}

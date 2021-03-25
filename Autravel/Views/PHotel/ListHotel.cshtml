@@ -1,0 +1,125 @@
+﻿@using System.Data;
+@{ 
+    var DiaDiem = (DataTable)ViewBag.DiaDiem;
+
+}
+<style>
+
+
+    .KhoiHanh {
+        margin-top: 20px;
+        border: 0 !important
+    }
+
+        .KhoiHanh td {
+            padding: 3px;
+            border: 0 !important
+        }
+
+    .dot {
+        height: 40px;
+        width: 40px;
+        padding: 3px;
+        border: 1px solid;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        font-size: 12px;
+    }
+
+
+    .checkbox {
+        cursor: pointer
+    }
+
+        .checkbox:hover {
+            background-color: #f9f9f9
+        }
+</style>
+<link href="~/Content/plugins/bootstrap-slider/slider.css" rel="stylesheet" />
+<script src="~/Content/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
+<div class="container" style="margin-top:70px">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon" id="btnKeySearch" style="border-right: 0;background-color: #fff;cursor:pointer"><i class="fa fa-search"></i></span>
+                <input class="form-control" style="border-left:0" id="KeySearch" placeholder="Tìm thêm Hotel" value="@ViewBag.KeySearch" />
+            </div>
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">Lọc kết quả <a id="ResetSearch" class="pull-right btn" style="padding:0">Đặt lại</a></div>
+                <div class="panel-body">
+                    <b>Thời gian nghỉ</b>
+                    <label class="checkbox"><input type="checkbox" value="NIGHT1" /> 2 ngày 1 đêm</label>
+                    <label class="checkbox"><input type="checkbox" value="NIGHT2" /> 3 ngày 2 đêm</label>
+                    <label class="checkbox"><input type="checkbox" value="NIGHT3" /> 4 ngày 3 đêm</label>
+                    <label class="checkbox"><input type="checkbox" value="NIGHT4" /> 5 ngày 4 đêm</label>
+                    <label class="checkbox"><input type="checkbox" value="DAYMORE" /> >5 ngày đêm</label>
+                    <hr />
+                    <b>Khoảng giá</b>
+                    <label class="checkbox"><input type="checkbox" value="PRICE500" /> Dưới 500.000 đ</label>
+                    <label class="checkbox"><input type="checkbox" value="PRICE1000" /> 500.000 đ - 1.000.000 đ</label>
+                    <label class="checkbox"><input type="checkbox" value="PRICE2000" /> 1.000.000 đ - 2.000.000 đ</label>
+                    <label class="checkbox"><input type="checkbox" value="PRICE5000" /> 3.000.000 đ - 5.000.000 đ</label>
+                    <label class="checkbox"><input type="checkbox" value="PRICEMORE" /> Trên 5.000.000 đ</label>
+                    <b>Hoặc</b>
+                    <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" />
+                    <hr />
+                    <b>Tiêu chuẩn hạng khách sạn</b>
+                    <label class="checkbox"><input type="checkbox" value="START1" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(1))</label>
+                    <label class="checkbox"><input type="checkbox" value="START2" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(2))</label>
+                    <label class="checkbox"><input type="checkbox" value="START3" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(3))</label>
+                    <label class="checkbox"><input type="checkbox" value="START4" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(4))</label>
+                    <label class="checkbox"><input type="checkbox" value="START5" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(5))</label>
+                    <hr />
+                    <b>Địa điểm</b>
+                    @foreach (DataRow item in DiaDiem.Rows)
+                    {
+                     <label class="checkbox"><input type="checkbox" value="@item["Location_ID"]" /> @item["Location_Name"]</label>                         
+                    }
+                 </div>
+            </div>
+            @Html.Action("Support", "Home")
+        </div>
+        <div class="col-md-9" id="gridsearchResult">
+
+        </div>
+
+    </div>
+</div>
+<script>
+    // With JQuery
+    $('#ex1').slider({
+        formatter: function (value) {
+            return 'Current value: ' + value;
+        }
+    });
+    $("#ResetSearch").click(function (e) {
+
+        e.preventDefault();
+        $('.checkbox input').prop("checked", false);
+        loadgrid();
+    });
+
+    loadgrid();
+    function loadgrid() {
+        var filter = $(".checkbox input:checked").map(function () {
+            return this.value;
+        }).get().join(",");
+        var KeySearch = $('#KeySearch').val();
+        KeySearch = encodeURI(KeySearch);
+        $('#gridsearchResult').load("/PHotel/ListHotelgrid?filter=" + filter + "&KeySearch=" + KeySearch);
+
+    }
+    $(".checkbox input").click(function (e) {
+        loadgrid();
+    });
+    $("#btnKeySearch").click(function (e) {
+        loadgrid();
+    });
+    $("#KeySearch").keydown(function (e) {
+        if (e.which == 13) {
+            $('#btnKeySearch').click();
+        }
+    });
+</script>

@@ -1,0 +1,41 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="col-sm-6">
+                        <h3 class="box-title">DANH SÁCH TÀI KHOẢN</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="" class="fa fa-edit btn btn-success pull-right editAccount" data-userid="0" data-toggle="modal" data-target="#myModal"></a>
+                        @*@Html.ActionLink("Thêm mới", "AddPost", "Manager", null, new { @class = "btn btn-success pull-right" })*@
+                    </div>
+                </div>
+                <div id="dvDataAllPostdetail">
+                    @Html.Partial("GetDataAccount")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:90%;height:90%;" role="document">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/js/Account.js"></script>

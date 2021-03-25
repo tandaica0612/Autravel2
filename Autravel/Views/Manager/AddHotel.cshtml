@@ -1,0 +1,241 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model Autravel.Models.Hotel
+@{
+    ViewBag.Title = "Thêm mới khách sạn";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Location> l_Location = new Location().GetAll();
+    List<TopicTour> l_topicTours = new TopicTour().GetAll();
+    List<RoomHotel> l_roomHotel = new RoomHotel().GetAllByHotelID(Model.Hotel_ID);
+}
+<h2>@Model.Hotel_Name</h2>
+@if (TempData["MessagePost"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
+        @Html.Raw(TempData["MessagePost"])
+
+    </div>
+}
+<div class="wrap">
+    @using (Html.BeginForm("UpdateHotel", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" id="Post_id" name="Post_id" value="@Model.Hotel_ID">
+        <input type="hidden" id="AreaSelectImage" name="AreaSelectImage">
+        <div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-2">
+                <div id="post-body-content" style="position: relative;" class="col-md-9 col-xs-12">
+                    <div id="titlediv">
+                        <div id="titlewrap">
+                            @*<label class="screen-reader-text" id="title-prompt-text" for="title">Tiêu đề bài viết</label>*@
+                            <input type="text" name="Hotel_Name" size="30" id="Hotel_Name" spellcheck="true" autocomplete="off" placeholder="Tên khách sạn" value="@Model.Hotel_Name">
+                        </div>
+                    </div><!-- /titlediv -->
+                    <div class="div_Hotel_Address col-md-12" id="div_Hotel_Address">
+                        <div class="form-group input-group">
+                            <label for="usr" class="input-group-addon">Địa chỉ:</label>
+                            <input type="text" class="form-control" id="Hotel_Address" name="Hotel_Address" value="@Model.Hotel_Address">
+                        </div>
+                    </div>
+                    <div id="postdivrich" class="postarea wp-editor-expand">
+                        <div id="wp-content-editor-tools" class="wp-editor-tools hide-if-no-js">
+                            <div id="wp-content-media-buttons" class="wp-media-buttons">
+                                <button type="button" id="insert-media-button" class="btn add_media selectmedia fa fa-camera" data-editor="content" data-toggle="modal" data-target="#myModal">Add Media</button>
+                            </div>
+                        </div>
+                        <textarea id="editor" name="editor">@Model.Hotel_Content</textarea>
+                        @*<div id="editor">
+                <div class="col-12">
+
+                </div>
+            </div>*@
+                    </div>
+                    <div class="Select_multi_Media col-md-12" id="Select_multi_Media">
+                        <div class="form-group">
+                            <label for="usr">Ảnh khách sạn:</label>
+                            <a id="selectmultimedia" class="fa fa-plus button thickbox btn selectmultimedia selectmedia" data-toggle="modal" data-target="#myModal">Thêm ảnh</a>
+                            <input type="hidden" class="form-control" id="List_Images_Combo" name="List_Images_Combo" value="@Model.Hotel_ListImage">
+                        </div>
+                        <div class="form-group div_List_Images col-md-12">
+                            @if (Model.Hotel_ListImage != "" && Model.Hotel_ListImage != null)
+                            {
+                                var itemImage = Model.Hotel_ListImage.Split(',');
+                                foreach (var itemInList in itemImage)
+                                {
+                                    if (itemInList != "")
+                                    {<div class="form-group col-md-2 item_image"><img src="@itemInList" class="item_image_combo"></div>}
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="box box-info box Hotel_RulesRefund col-md-12 collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Điều khoản và chính sách hoàn hủy</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <textarea id="editor_Hotel_RulesRefund" name="editor_Hotel_RulesRefund"></textarea>
+                        </div>
+                    </div>
+                    <div class="box box-info box Hotel_AllRoom col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Danh sách phòng</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                             <span> Vui lòng lưu thông tin khách sạn trước! </span>
+                        </div>
+                    </div>
+                </div><!-- /post-body-content -->
+
+                <div id="postbox-container-1" class="postbox-container col-md-3 col-xs-12">
+                    <div class="box box-info box publish">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Đăng khách sạn</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <label class="lbl_Rating">Đánh giá sao</label>
+                            <input class="Star_Rating hidden" name="Star_Rating" id="Star_Rating" />
+                            <ol class="form-group RatingStar">
+                                <li id="Star1" class="fa fa-star-o" value="1"></li>
+                                <li id="Star2" class="fa fa-star-o" value="2"></li>
+                                <li id="Star3" class="fa fa-star-o" value="3"></li>
+                                <li id="Star4" class="fa fa-star-o" value="4"></li>
+                                <li id="Star5" class="fa fa-star-o" value="5"></li>
+                            </ol>
+                            <div class="form-group">
+                                <div id="publishing-action">
+                                    <span class="spinner"></span>
+                                    <input name="original_publish" type="hidden" id="original_publish" value="Đăng khách sạn">
+                                    <input type="submit" name="publish" id="publish" class="btn btn-primary mce-btn-large" value="Đăng khách sạn" onclick="updatemark()">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box box-info box Category Location">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Địa Danh</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <input type="hidden" name="post_category_arr" value="0">
+                                <ul id="Locationchecklist" data-wp-lists="list:Location" class="Locationchecklist form-no-clear">
+                                    @foreach (var itemLocation in l_Location)
+                                    {
+                                        string status = "";
+                                        if (Funtions.ContainItemInList(Model.Hotel_Location.ToString(), itemLocation.Location_ID.ToString()))
+                                        { status = "checked"; }
+                                        <li id="@itemLocation.Location_ID">
+                                            <label class="selectit">
+                                                <input value="@itemLocation.Location_ID" type="radio" name="tour_Location" id="@itemLocation.Location_ID" @status> @itemLocation.Location_Name
+                                            </label>
+                                        </li>
+                                        @*<li id="@itemLocation.Location_ID"><label class="selectit"><input value="@itemLocation.Location_ID" type="radio" name="tour_Location" id="@itemLocation.Location_ID"> @itemLocation.Location_Name</label></li>*@
+                                    }
+                                </ul>
+                            </div>
+                            <div class="box box-info box AddLocation collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <a class="box-title fileter-title fa fa-plus">Thêm địa danh</a>
+                                </div>
+                                <div class="box-body">
+                                    <div id="category-all" class="tabs-panel">
+                                        <input type="text" name="post_Locationnew" id="post_Locationnew" class="form-control">
+                                        <input type="button" name="btnAddLocation" id="btnAddLocation" class="btn btn-default mce-btn-large" value="Thêm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-info box postimagediv">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Ảnh tiêu biểu</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <div class="inside">
+                                    <img width="266" height="166" src="@Model.HotelImage" class="attachment-266x266 size-266x266" alt="Chọn ảnh" sizes="(max-width: 266px) 100vw, 266px">
+                                    <p class="hide-if-no-js">
+                                        <a href="#" id="set-post-thumbnail" class="thickbox btn selectmedia col-md-6" data-editor="content" data-toggle="modal" data-target="#myModal">Chọn ảnh tiêu biểu </a>
+                                        <a href="#" id="delete-post-thumbnail" class="thickbox btn removeimage col-md-6">Xóa ảnh tiêu biểu </a>
+                                    </p>
+                                    <input type="hidden" id="_thumbnail_id" name="_thumbnail_id" value="@Model.HotelImage">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /post-body -->
+            <br class="clear">
+        </div><!-- /poststuff -->
+    }
+</div>
+
+<script type="text/javascript">
+    setTimeout(function () {
+        CKEDITOR.replace('editor', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        }); 
+        CKEDITOR.replace('editor_Hotel_RulesRefund', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        });
+    }, 100);
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        var date = new Date();
+        date.setDate(date.getDate());
+        $('.Tour_DepartureDate').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '0',
+            autoclose: true,
+            Default: false
+        });
+    });
+</script>
+<script>
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+    function FunctionTextChange(ev) {
+        var Price = ev.value;
+        Price = Price.replace(",", "");
+        $(ev).val(formatNumber(Price));
+    }
+</script>
+
+<script src="~/Content/js/LoadMedia.js"></script>
+<script src="~/Content/js/Combo.js"></script>
+
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:90%;height:90%;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @*@Html.Partial("LoadAllImage")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>

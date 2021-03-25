@@ -1,0 +1,71 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model List<Autravel.Models.RoomHotel>
+
+@if (Model !=null &&  Model.Count > 0)
+{
+    foreach (var itemRoom in Model)
+    {
+        <div class="itemRoom col-md-12" data-roomhotelid="">
+            <div class="ListImgRoom  col-md-3">
+                <img src="@itemRoom.RoomHotel_Image" class="img_roomhotel" />
+                <a href='#' class='thickbox btn selectmedia selectImgRoom' data-toggle='modal' data-target='#myModal'>Chọn ảnh</a>
+                <div class="form-group">
+                    <div class="input-group div_RoomHotel_Acreage">
+                        <span class="input-group-addon label_input">Diện tích </span>
+                        <input type="text" class="form-control RoomHotel_Acreage" name="RoomHotel_Acreage" value="@itemRoom.RoomHotel_Acreage">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group div_RoomHotel_TotalPrice">
+                        <span class="input-group-addon label_input">Giá tiền </span>
+                        <input type="text" class="form-control RoomHotel_TotalPrice" name="RoomHotel_TotalPrice" value="@itemRoom.RoomHotel_TotalPrice">
+                    </div>
+                </div>
+            </div>
+            <div class="ExtentionRoom  col-md-5">
+                <div class="form-group">
+                    <div class="input-group div_RoomName">
+                        <span class="input-group-addon label_input">Tên phòng </span>
+                        <input type="text" class="form-control RoomName" name="RoomName" value="@itemRoom.RoomHotel_Title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group div_RoomHotel_View">
+                        <span class="input-group-addon label_input">Hướng </span>
+                        <input type="text" class="form-control RoomHotel_View" name="RoomHotel_View" value="@itemRoom.RoomHotel_View">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group div_RoomHotel_Bed">
+                        <span class="input-group-addon label_input">Giường </span>
+                        <input type="text" class="form-control RoomHotel_Bed" name="RoomHotel_Bed" value="@itemRoom.RoomHotel_Bed">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group div_People">
+                        <span class="label_input col-md-3">Số lượng </span>
+                        <div class="form-group col-md-9">
+                            <div class="input-group col-md-6 div_RoomHotel_Adutls">
+                                <span class="input-group-addon label_input">NL </span>
+                                <input type="text" class="form-control RoomHotel_Adutls" name="RoomHotel_Adutls" value="@itemRoom.RoomHotel_Adutls">
+                            </div>
+                            <div class="input-group col-md-6 div_RoomHotel_Infants">
+                                <span class="input-group-addon label_input">TE </span>
+                                <input type="text" class="form-control RoomHotel_Infants" name="RoomHotel_Infants" value="@itemRoom.RoomHotel_Infants">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ContentRoom col-md-4">
+                <div class="form-group row">
+                    <span class="control-label">Thông tin phòng</span>
+                    <textarea rows="10" class="infoContentRoom form-control">@itemRoom.RoomHotel_Content</textarea>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{<span>Hiện tại chưa có thông tin phòng được cập nhật!</span> }

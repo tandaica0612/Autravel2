@@ -1,0 +1,99 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@model System.Data.DataTable
+@{
+    var Hotel_Facilities = (DataTable)ViewBag.Hotel_Facilities;
+}
+<div>
+
+    <h1>@ViewBag.KeySearch</h1>
+    <p>Tìm thấy @Model.Rows.Count Hotel</p>
+    <div class="row SortPrice">
+        <button type="button" class="btn btn-default col-md-3">Giá thấp nhất</button>
+        <button type="button" class="btn btn-default col-md-3">Giá cao nhất</button>
+        <button type="button" class="btn btn-default col-md-3">Ưu đãi(Cao -> Thấp)</button>
+        <button type="button" class="btn btn-default col-md-3">Đánh giá hàng đầu</button>
+    </div>
+
+</div>
+<br />
+@foreach (System.Data.DataRow item in Model.Rows)
+{
+    var discount = 100 - item.ToFloat("Hotel_PriceSale") / item.ToFloat("Hotel_Price") * 100;
+    discount = (int)discount;
+    var tienich = Hotel_Facilities.Select("Hotel_Facilities_ID in (" + item["Hotel_Facilities_ID"] + ")");
+    int Hotel_Qty = item.ToInt("Hotel_Qty");
+
+    <div class="panel panel-default">
+        <div class="panel-body" style="padding:0 0 0 10px;margin:0">
+
+            <div class="row">
+                <div class="col-md-3" style="margin:0;padding:0">
+                    <div class="div-img-Hotel" style="border-radius:0">
+                        <img class="img-Hotel" src="@item["HotelImage"]" />
+                        <span class="time-duration">@item["Hotel_TimeZoneText"]</span>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding:10px">
+                    <h4><b>@item["Hotel_Name"]</b></h4>
+                    @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(float.Parse(@item["Hotel_StarRate"].ToString())))
+                    | <span><a>@item["Hotel_Address"]</a></span>
+                    <br />
+                
+                    <br />
+                    <p>
+                        Nổi bật tại khách sạn:
+
+                    </p>
+                    @foreach (DataRow xrow in tienich)
+                    {
+                        <a class="btn btn-xs btn-default">@xrow["Name"]</a>
+
+                    }
+
+                </div>
+                <div class="col-md-3" style="padding:10px">
+                    <div class="pull-right">
+                        <div class="col-md-8" style="text-align:right">
+                            <p style="margin:0"> <b>Tuyệt hảo</b></p>
+                            <span>24 đánh giá</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="btn  label-default" style="margin-right: 130px;background-color: #eee;font-weight:bold;font-size:16px">@item["Hotel_Score"]</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:100px;text-align:right;margin-right:20px">
+                        @if (Hotel_Qty != 0)
+                        {
+                            <p class="m-0">
+                                <span style="text-decoration:line-through">@item.ToIntCurrency("Hotel_Price") đ</span>
+                                <a class="btn btn-xs btn-black">@discount %</a>
+                            </p>
+                            <p>
+                                <b>@item.ToIntCurrency("Hotel_PriceSale") đ</b>
+                            </p>
+                            <p>
+                                <span class="dot"><b>@item["Hotel_Qty"]</b> <br />gói</span>
+                                <a href="/PHotel/Details/@item["Hotel_ID"]" class="btn btn-black">Xem ngay</a>
+                            </p>
+
+                        }
+                        else
+                        {
+                            <br />
+                            <br />
+                            <br />
+                            <a class="btn btn-default">Đã bán hết</a>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}

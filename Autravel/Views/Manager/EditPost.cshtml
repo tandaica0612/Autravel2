@@ -1,0 +1,210 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model Autravel.Models.Post
+@{
+    if (Model != null)
+    { ViewBag.Title = Model.Post_Title; }
+    else { ViewBag.Title = "Thêm bài viết mới"; }
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<PostCategory> l_Category = new PostCategory().GetAll();    
+    List<Location> l_Location = new Location().GetAll();
+}
+@if (Model != null)
+{@*<h2>@Model.Post_Title</h2>*@
+if (TempData["MessagePost"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
+        @Html.Raw(TempData["MessagePost"])
+
+    </div>
+}
+<div class="wrap">
+    @using (Html.BeginForm("UpdatePost", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" id="Post_id" name="Post_id" value="@Model.Post_id">
+        <input type="hidden" id="Post_Type" name="Post_Type" value="0">
+        <input type="hidden" id="AreaSelectImage" name="AreaSelectImage">
+        <div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-2">
+                <div id="post-body-content" style="position: relative;" class="col-md-9 col-xs-12">
+                    <div id="titlediv">
+                        <div id="titlewrap">
+                            <label class="screen-reader-text" id="title-prompt-text" for="title">Tiêu đề bài viết</label>
+                            <input type="text" name="Post_Tile" size="30" id="Post_Tile" spellcheck="true" autocomplete="off" value="@Model.Post_Title" placeholder="Tiêu đề bài viết">
+                        </div>
+                    </div><!-- /titlediv -->
+                    <div id="postdivrich" class="postarea wp-editor-expand">
+                        <div id="wp-content-editor-tools" class="wp-editor-tools hide-if-no-js">
+                            <div id="wp-content-media-buttons" class="wp-media-buttons">
+                                <button type="button" id="insert-media-button" class="btn add_media selectmedia fa fa-camera" data-editor="content" data-toggle="modal" data-target="#myModal">Add Media</button>
+                            </div>
+                        </div>
+                        <textarea id="editor" name="editor">@Model.Post_Content</textarea>
+                        @*<div id="editor">
+                <div class="col-12">
+
+                </div>
+            </div>*@
+                    </div>
+
+                    <div class="Post_tag" id="ArrPost_tag">
+                        <div class="form-group">
+                            <label for="usr">Tag:</label>
+                            <input type="text" class="form-control" id="Post_tag" name="Post_tag" value="@Model.Post_tag">
+                        </div>
+                    </div>
+                    <div id="Post_Description" class="box box-info box Post_Description col-md-12 collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Mô tả</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <textarea id="editor_Description" name="editor_Description" class="col-md-12" rows="10">@Model.Post_Description</textarea>
+                        </div>
+                    </div>
+                </div><!-- /post-body-content -->
+
+                <div id="postbox-container-1" class="postbox-container col-md-3 col-xs-12">
+                    <div class="box box-info box publish">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Đăng bài viết</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="MessageInsertContractDetail"></div>
+                            <div class="form-group">
+                                <div id="publishing-action">
+                                    <span class="spinner"></span>
+                                    <input name="original_publish" type="hidden" id="original_publish" value="Cập nhật">
+                                    <input type="submit" name="publish" id="publish" class="btn btn-primary mce-btn-large" value="Cập nhật" onclick="updatemark()">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box box-info box Category">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Chuyên mục</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <input type="hidden" name="post_category_arr" value="0">
+                                <ul id="categorychecklist" data-wp-lists="list:category" class="categorychecklist form-no-clear">
+                                    @foreach (var itemCategory in l_Category)
+                                    {
+                                        string status = "";
+                                        if (Funtions.ContainItemInList(Model.Post_CategoryID, itemCategory.PostCategory_ID.ToString()))
+                                        { status = "checked"; }
+                                        <li id="@itemCategory.PostCategory_ID">
+                                            <label class="selectit">
+                                                <input value="@itemCategory.PostCategory_ID" type="checkbox" name="post_category" id="@itemCategory.PostCategory_ID" @status> @itemCategory.PostCategory_Title
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="box box-info box AddCategory collapsed-box">
+                                <div class="box-header with-border">
+                                    <a class="box-title fileter-title fa fa-plus" data-widget="collapse">Thêm chuyên mục</a>
+                                </div>
+                                <div class="box-body">
+                                    <div id="category-all" class="tabs-panel">
+                                        <input type="text" name="post_categorynew" id="post_categorynew" class="form-control">
+                                        <input type="button" name="btnAddCategory" id="btnAddCategory" class="btn btn-default mce-btn-large" value="Thêm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-info box Category Location">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Địa Danh</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <input type="hidden" name="post_category_arr" value="0">
+                                <ul id="Locationchecklist" data-wp-lists="list:Location" class="Locationchecklist form-no-clear">
+                                    @foreach (var itemLocation in l_Location)
+                                    {                                      
+                                        string status = "";
+                                        if (Funtions.ContainItemInList(Model.Post_Location.ToString(), itemLocation.Location_ID.ToString()))
+                                        { status = "checked"; }
+                                        <li id="@itemLocation.Location_ID"><label class="selectit"><input value="@itemLocation.Location_ID" type="radio" name="tour_Location" id="@itemLocation.Location_ID" @status> @itemLocation.Location_Name</label></li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="box box-info box AddLocation collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <a class="box-title fileter-title fa fa-plus">Thêm địa danh</a>
+                                </div>
+                                <div class="box-body">
+                                    <div id="category-all" class="tabs-panel">
+                                        <input type="text" name="post_Locationnew" id="post_Locationnew" class="form-control">
+                                        <input type="button" name="btnAddLocation" id="btnAddLocation" class="btn btn-default mce-btn-large" value="Thêm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-info box postimagediv">
+                        <div class="box-header with-border" data-widget="collapse">
+                            <h3 class="box-title fileter-title">Ảnh tiêu biểu</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <div class="inside">
+                                    <img width="266" height="166" src="@Model.Post_Images" class="attachment-266x266 size-266x266" alt="Chọn ảnh" sizes="(max-width: 266px) 100vw, 266px">
+                                    <p class="hide-if-no-js">
+                                        <a href="#" id="set-post-thumbnail" class="thickbox btn selectmedia col-md-6" data-editor="content" data-toggle="modal" data-target="#myModal">Chọn ảnh tiêu biểu </a>
+                                        <a href="#" id="delete-post-thumbnail" class="thickbox btn removeimage col-md-6">Xóa ảnh tiêu biểu </a>
+                                    </p>
+                                    <input type="hidden" id="_thumbnail_id" name="_thumbnail_id" value="@Model.Post_Images">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /post-body -->
+            <br class="clear">
+        </div><!-- /poststuff -->
+    }
+</div>
+}
+<script type="text/javascript">
+    setTimeout(function () {
+        CKEDITOR.replace('editor', {
+            filebrowserImageUploadUrl: '/Content/Uploads'
+        });
+    }, 100);
+</script>                  
+<script src="~/Content/js/LoadMedia.js"></script>
+<script src="~/Content/js/Post.js"></script>
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:90%;height:90%;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @*@Html.Partial("LoadAllImage")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>

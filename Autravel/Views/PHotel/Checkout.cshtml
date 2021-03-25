@@ -1,0 +1,109 @@
+﻿<div class="container" style="margin-top:70px">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>Thông tin hạng phòng</h2>
+                    <p>Hạng phòng</p>
+                    <input class="col-md-12" />
+                    <p>Thời gian</p>
+                    <input class="col-md-12" />
+                    <p>Số lượng người & phòng</p>
+                    <input class="col-md-12" />
+                   
+                    <a class="btn btn-black" style="margin-top:10px">Thêm hạng phòng khác</a>
+                </div>
+
+
+            </div>
+            <br />
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>Thông tin liên hệ</h2>
+                    <p>Họ và tên</p>
+                    <input class="col-md-12" />
+                    <p>Điện thoại</p>
+                    
+                        <input class=" col-md-2" value="+84" />
+                        <input class="col-md-10" />
+                   
+                    <p>Email</p>
+                    <input class="col-md-12" />
+                    <p>Yêu cầu đặc biệt</p>
+                    <textarea class="col-md-12"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <b>Chi tiết đặt chỗ</b>
+                    <img class="col-12" src="https://source.unsplash.com/random/200x200" />
+                    <b>Spapa charm hotel</b>
+                    <p>
+                        @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(4))
+                        | <span><a>1 đường hoàng liên, Thị trấn Sapa</a></span>
+                    </p>
+
+                    <table>
+                        <tr>
+                            <td>Ngày nhận phòng</td>
+                            <td><b>12-12-2020</b></td>
+                        </tr>
+                        <tr>
+                            <td>Checkout</td>
+                            <td><b>12-12-2020</b></td>
+                        </tr>
+                        <tr>
+                            <td>Số đêm lưu trú</td>
+                            <td><b>3 đêm</b></td>
+                        </tr>
+                        <tr>
+                            <td>Người lớn</td>
+                            <td><b>3</b></td>
+                        </tr>
+                        <tr>
+                            <td>Trẻ em</td>
+                            <td><b>3</b></td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Loại phòng</td>
+                        </tr>
+                        <tr>
+                            <td><b>Dulexe</b></td>
+                            <td>Phòng/đêm<br /><b>+700.000d</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Hạng xe</td>
+                        </tr>
+                        <tr>
+                            <td><b>Tiêu chuẩn</b></td>
+                            <td><b>+700.000d</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Hãng hàng không</td>
+                        </tr>
+                        <tr>
+                            <td><b>Tiêu chuẩn-Bombo</b></td>
+                            <td><b>+700.000d</b></td>
+                        </tr>
+                        <tr>
+                            <td>Tổng cộng</td>
+                            <td>4.000.000 đ</td>
+                        </tr>
+                        <tr>
+                            <td><i>Giá trên chưa bao gồm VAT</i></td>
+                        </tr>
+                    </table>
+                    <a href="/PHotel/CheckoutFinish" class="btn btn-black pull-right">Gửi yêu cầu</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

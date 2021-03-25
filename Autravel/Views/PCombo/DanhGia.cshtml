@@ -1,0 +1,29 @@
+﻿@using System.Data;
+@model DataTable
+ @{ 
+     var max= Model.Select().OrderByDescending(u => u["Score"]).FirstOrDefault();
+ }
+<h3>
+    <span class="btn btn-black text-bold" style="font-size:20px">@max["Score"]</span> <b>@max["Status"]</b> (@Model.Rows.Count đánh giá)</h3>
+<br />
+<div class="row">
+    @foreach (DataRow item in Model.Rows)
+    {
+        <div class="media col-md-6">
+            <div class="media-left">
+                <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width: 45px;border-radius: 50%;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">@item["CreateBy"]</h4>
+                <p>2 tuần trước</p>
+                <div style="margin:10px 0">
+                    @Html.Raw(item["Content"])
+                </div>
+
+                <p><b>@item["Score"] - @item["Status"]</b></p>
+            </div>
+        </div>
+    }
+</div>
+<br />
+<a class="btn btn-default">Hiển thị thêm</a>

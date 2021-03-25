@@ -1,0 +1,62 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model List<Autravel.Models.Tour>
+@{
+    int ord = 0;
+    List<TopicTour> L_topicTour = new TopicTour().GetAll();
+    List<Location> L_location = new Location().GetAll();
+    List<User> L_user = new User().GetAll();
+}
+<div class="box-body">
+    <table class="wp-list-table widefat fixed striped posts">
+        <thead>
+            <tr>
+                <th scope="col" id="cb" class="manage-column column-cb check-column">STT</th>
+                <th scope="col" id="post_thumbs" class="manage-column column-wpex_post_thumbs">Ảnh</th>
+                <th scope="col" id="title" class="manage-column column-title column-primary sortable desc">Tiêu đề</th>
+                <th scope="col" id="location" class="manage-column column-author">Địa danh</th>
+                <th scope="col" id="topic" class="manage-column column-categories">Chủ đề</th>
+                <th scope="col" id="departure" class="manage-column column-tags">Ngày khởi hành</th>
+                <th scope="col" id="author" class="manage-column column-comments num sortable desc">Người đăng</th>
+                <th scope="col" id="date" class="manage-column column-date sortable asc">Ngày đăng</th>
+                <th scope="col" id="activeStatus" class="manage-column column-date sortable asc">Trạng thái</th>
+                <th scope="col" id="action" class="manage-column column-date sortable asc">Tác vụ</th>
+            </tr>
+        </thead>
+
+        <tbody id="the-list">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    ord++;
+                    <tr id="post-@item.Tour_ID" class="iedit type-post status-publish format-standard has-post-thumbnail">
+                        <td scope="row" class="check-column">
+                            @ord
+                        </td>
+                        <td class="wpex_post_thumbs column-wpex_post_thumbs" data-colname="Featured Image">
+                            <img src="@item.Tour_Image" alt="@item.Tour_Name" style="max-width:100%;max-height:50px;">
+                        </td>
+                        <td class="title column-title has-row-actions column-primary page-title" data-colname="Tiêu đề">
+                            <strong><a class="row-title" href="~/Manager/EditTour/@item.Tour_ID" aria-label="“@item.Tour_Name” (Chỉnh sửa)">@item.Tour_Name</a></strong>
+                            <span class="view"><a href="~/Combo-du-lich/@(Funtions.ConvertTitleToURL(item.Tour_Name))_@item.Tour_ID" rel="permalink" aria-label="Xem “@item.Tour_Name”">Xem bài viết</a></span>
+                        </td>
+                        <td class="author column-author" data-colname="Tác giả">@(L_location.Where(x => x.Location_ID == item.Tour_Location).FirstOrDefault().Location_Name)</td>
+                        <td class="categories column-categories" data-colname="Chuyên mục">@Funtions.LoadTopicTour(item.Tour_Topic)</td>
+                        <td class="tags column-tags" data-colname="Thẻ">@item.Tour_DepartureDate.ToString("dd/MM/yyyy")</td>
+                        <td class="date column-date" data-colname="Người đăng">@(L_user.Where(x=>x.User_ID == item.UserCreate).FirstOrDefault().User_Name)</td>
+                        <td class="date column-date" data-colname="Ngày đăng">@item.CreateDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="date column-date" data-colname="Trạng thái">
+                            @{ string StatusTour = "Chưa đăng"; if (item.Tour_Active == true) { StatusTour = "Công khai"; } @StatusTour}
+                        </td>
+                        <td class="date column-date" ></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr> <td colspan="8">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

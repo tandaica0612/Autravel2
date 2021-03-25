@@ -1,0 +1,287 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách đơn đặt Khách sạn";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var status = (DataTable)ViewBag.Status;
+}
+@using Autravel.Models;
+@using System.Data;
+@using Autravel.Extentions;
+@model DataTable
+
+<style>
+    .table-hover > tbody > tr:hover {
+        color: black !important
+    }
+
+    .EmailGiaoDich {
+        margin-left: 5px;
+    }
+
+    .btn-app {
+        height: unset;
+        padding: 3px
+    }
+
+    .dx-toolbar .dx-toolbar-items-container {
+        height: 25px;
+        overflow: visible;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title col-xs-12">
+                        <span class="AppTitle">@ViewBag.Title</span>
+                        @foreach (DataRow item in status.Rows)
+                        {
+                            <a class="btn btn-app" onclick="loadgrid('@item["Booking_StatusID"]')">
+                                <span class="badge bg-green">@item["Qty"]</span>
+                                @item["Booking_Status"]
+                            </a>
+                        }
+
+                        <div class="pull-right">
+                            <select id="BookingHotelstatus">
+                                <option value="0">Tất cả tình trạng</option>
+                                @foreach (DataRow item in Model.Rows)
+                                {
+                                    <option value="@item["Config_id"]">@item["Config_Title"]</option>
+                                }
+                            </select>
+                            <a id="btnReload" class="btn btn-xs btn-success pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-refresh"></i> Làm mới</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="dvDataAllTourdetail">
+                    <div id="gridContainer"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="modalUpdateGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%;max-width:60%;background:#f9fafc">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="modalEmailGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="background:#f9fafc">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="col-md-3">Modal Header</span>
+                    <input type="email" id="txtSenTo" class="form-control col-md-3" placeholder="Địa chỉ người nhận" style="max-width:unset;width:300px" />
+                    <a id="btnSendMail" class="btn btn-primary"><i class="fa  fa-paper-plane"></i> Gửi mail</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $("#gridContainer").dxDataGrid({
+        showBorders: true,
+        paging: {
+            enabled: true
+        },
+
+        showRowLines: true,
+        showColumnLines: true,
+        showBorders: true,
+        showColumnHeaders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        hoverStateEnabled: true,
+        columnAutoWidth: true,
+        noDataText: "Không tìm thấy dữ liệu",
+        allowColumnReordering: true,
+        rowAlternationEnabled: false,
+        wordWrapEnabled: false,
+        columnChooser: { enabled: true },
+        columns: [
+
+            {
+                dataField: "Tác vụ",
+                cellTemplate: function (element, info) {
+                    element.append('<a class="btn btn-xs btn-primary UpdateGiaoDich" data-id="' + info.data.BookingHotel_ID + '" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Giao dịch</a>');
+                    element.append('<a class="btn btn-xs btn-danger EmailGiaoDich" data-id="' + info.data.BookingHotel_ID + '" > <i class="fa fa-envelope-o" aria-hidden="true"></i> Mail</a>');
+                }
+            },
+
+            { dataField: "BookingHotel_ID", caption: "Mã đơn" },
+            {
+                dataField: "Hotel_Name", caption: "Tiêu đề"
+                , cellTemplate: function (element, info) {
+                    element.append('<a target="_blank" href="/HOMe/Details/ID=' + info.data.Tour_ID + '">' + info.data.Hotel_Name + '</a>');
+                }
+            },
+            {
+                dataField: "Booking_CreateDate", caption: "Ngày đặt", dataType: "date", format: 'dd/MM/yyyy'
+            },
+            { dataField: "BookingTour_NumberPassenger", caption: "Số người" },
+            { dataField: "Booking_DepartureDate", caption: "Ngày khởi hành", dataType: "date", format: 'dd/MM/yyyy' },
+            { dataField: "Booking_ArrivalDate", caption: "Ngày tới", dataType: "date", format: 'dd/MM/yyyy' },
+            { dataField: "Booking_Status", caption: "Trạng thái" },
+
+            {
+                dataField: "Booking_Surcharge",
+                caption: "Phụ phí(vnd)",
+                dataType: "number",
+                format: {
+                    editorOptions: {
+                        format: " #,##0.##"
+                    }
+                }
+            },
+            {
+                dataField: "Booking_TotalPrice",
+                caption: "Tổng tiền(vnd)",
+                dataType: "number",
+                format: {
+                    editorOptions: {
+                        format: " #,##0.##"
+                    }
+                }
+            },
+            { dataField: "Booking_UserHandler", caption: "Người xử lý" },
+        ],
+        paging: {
+            enabled: true,
+            pageSize: 20
+        },
+        //  height: window.innerHeight * 0.8,
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [100, 200, 500, 1000],
+            showInfo: true
+        },
+
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        scrolling: {
+            mode: "standard",
+            scrollByContent: true
+        },
+        headerFilter: {
+            visible: true
+        },
+
+        export: {
+            enabled: true,
+            fileName: "Result " + document.title,
+            allowExportSelectedData: true
+        }
+    });
+    loadgrid(0);
+    function loadgrid(ID) {
+        $.ajax({
+            type: "POST",
+            url: "/BookingHotels/GridGiaoDich?Booking_StatusID=" + ID,
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+                var txt = $("#BookingHotelstatus option[value='" + ID + "']").text();
+                document.title = txt;
+                $(".AppTitle").html("Danh sách " + txt);
+
+            }
+        });
+    }
+    $("#BookingHotelstatus").change(function (e) {
+        e.preventDefault();
+        var ID = $(this).val();
+        loadgrid(ID);
+    });
+    $("#btnReload").click(function (e) {
+        e.preventDefault();
+        loadgrid(0);
+    });
+    $(document).on("click", ".UpdateGiaoDich", function () {
+        var ID = $(this).attr("data-id");
+        $('#modalUpdateGiaoDich .modal-title').html("Cập Nhật Giao Dịch " + $('.sidebar .active').text()+"- " + ID);
+        $('#modalUpdateGiaoDich .modal-body').load("/BookingHotels/UpdateGiaoDich?ID=" + ID);
+        $('#modalUpdateGiaoDich').modal();
+    });
+    $(document).on("click", ".EmailGiaoDich", function () {
+        var ID = $(this).attr("data-id");
+        $('#modalEmailGiaoDich .modal-title span').text("Gửi Email giao dịch " + $('.sidebar .active').text() + "- " + ID);
+        $('#modalEmailGiaoDich .modal-body').load("/BookingHotels/EmailGiaoDich?ID=" + ID);
+        $('#modalEmailGiaoDich #btnSendMail').attr("data-id", ID);
+        $('#modalEmailGiaoDich').modal();
+    });
+
+    $(document).on("click", "table   tr", function () {
+        $('table tr').removeClass('active');
+        $(this).addClass('active');
+    });
+    $("#btnSendMail").click(function (e) {
+        var To = $("#txtSenTo").val();
+        var ID = $(this).attr("data-id");
+        if (validateEmail(To) == false) {
+            alert("Định dạng email không chính xác !");
+            return;
+        }
+        console.log(ID);
+        $.ajax({
+            type: "POST",
+            url: "/BookingHotels/SendEmailGiaoDich",
+            data: {
+                ID: ID,
+                To: To
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response == "OK") {
+                    $('#modalEmailGiaoDich').modal("hide");
+                    notify("Đã gửi mail thành công !");
+                } else {
+                    alert(response);
+                }
+            }
+        });
+        e.preventDefault();
+
+    });
+    function validateEmail(email) {
+        var re = /\S+@@\S+\.\S+/;
+        return re.test(email);
+    }
+</script>

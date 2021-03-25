@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.title | Hệ thống quản lý Autravel</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="/Content/image/logo.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/Content/Admin/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/font-awesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/css/StyleAdmin.css" rel="stylesheet" />
+    <link href="~/Content/template/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/template/css/skins/_all-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/Content/plugins/ckeditor2/ckeditor.js"></script>
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Content/plugins/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <link href="~/Content/css/Loading.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/devextreme/css/dx.material.blue.light.compact.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/devextreme/css/CustomSite.css" rel="stylesheet" />
+    <script src="~/Content/plugins/devextreme/jszip/jszip.min.js"></script>
+    <script src="~/Content/plugins/devextreme/js/dx.all.min.js"></script>
+    <script src="~/Content/plugins/jquery-migrate/jquery-migrate.min.js"></script>
+</head>
+<body class="sidebar-mini skin-blue-light fixed" style="background:url('/Content/image/logo.png') no-repeat; background-size:100%;">
+    <div class="loading" id="loading" style="display:none">Loading&#8230;</div>
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="@Url.Action("Index","manager")" class="logo">
+                <span class="logo-mini"><img title="Autravel" src="/Content/image/LogoSmall.png" style="height:35px;" /></span>
+                <span class="logo-lg"><img title="Autravel" src="/Content/image/logo.png" style="height:60px;margin-top: -20px;" /></span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="@Session["User_Image"]" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@Session["User_transactionName"]</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="@Session["User_Image"]" class="img-circle" alt="User Image">
+                                    <p>@Session["User_transactionName"]</p>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="@Url.Action("ManagerAccount","Manager")" class="btn btn-default btn-flat">Quản lý tài khoản</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("Logout", "Login")" class="btn btn-default btn-flat">Đăng xuất</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        @*<li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>*@
+                    </ul>
+                </div>
+                <p class="" style="margin: 0; color: #fff; font-size: 2em; text-align: center;">@ViewBag.title</p>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu tree" data-widget="tree">
+                    <li class="treeview">
+                        <a href="@Url.Action("Post","Manager")"><i class="fa fa-bookmark"></i> <span>Bài viết</span>   </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("AddPost","Manager")"><i class="fa fa-edit"></i> <span>Thêm bài viết mới</span></a></li>
+                            <li><a href="@Url.Action("Post","Manager")"><i class="fa fa-files-o"></i> <span>Danh sách bài viết</span></a></li>
+                            <li><a href="@Url.Action("Category","Manager")"><i class="fa fa-lightbulb-o"></i> <span>Chuyên mục bài viết</span></a></li>
+                        </ul>
+                    </li>
+                     <li class="treeview menu-open" style="height: auto;">
+                        <a href="#">
+                            <i class="fa fa-clipboard"></i>
+                            <span>Đơn hàng</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu" style="display: block;">
+                            <li><a href="@Url.Action("index","BookingTours")"><i class="fa fa-circle-o"></i> Đơn đặt Combo</a></li>
+                            <li><a href="@Url.Action("index","BookingHotels")"><i class="fa fa-circle-o"></i> Đơn đặt Khách sạn</a></li>
+                            <li><a href="@Url.Action("index","BookingVouchers")"><i class="fa fa-circle-o"></i> Đơn Voucher</a></li>
+                          </ul>
+                    </li>
+                    <li class="treeview"><a href="@Url.Action("Index","Tours")"><i class="fa fa-flag"></i> <span>Combo</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("Index","Hotels")"><i class="fa fa-hotel"></i> <span>Hotel</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("Index","Vouchers")"><i class="fa fa-ticket"></i> <span>Voucher</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("ManagerAccount","Manager")"><i class="fa fa-users"></i> <span>Người dùng</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("Index","Locations")"><i class="fa fa-location-arrow"></i> <span>Địa danh</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("Location","Manager")"><i class="fa fa-location-arrow"></i> <span>Phí dịch vụ</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","SetupMailSMTPs")"><i class="fa fa-cog"></i> <span>Setup Mail</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","ContactInfos")"><i class="fa fa-cog"></i> <span>Hỗ trợ online</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","Hotel_Facilities")"><i class="fa fa-cog"></i> <span>Tiện ích phòng\Khách sạn</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","Hotel_Evaluates")"><i class="fa fa-cog"></i> <span>Đánh giá Hotel</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","Tour_Evaluates")"><i class="fa fa-cog"></i> <span>Đánh giá Combo</span></a></li>
+                    <li class="treeview"><a href="@Url.Action("index","Banner")"><i class="fa fa-cog"></i> <span>Banner</span></a></li>
+                 </ul>
+            </section>
+        </aside>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+    <!-- Bootstrap -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    @*<script src="~/Scripts/jquery.slimscroll.min.js"></script>*@
+    <!-- FastClick -->
+    <script src="~/Content/template/js/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/template/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Content/template/js/demo.js"></script>
+    <script src="~/Scripts/jquery.filedrop.js"></script>
+    <link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Content/js/Admin.js"></script>
+</body>
+</html>

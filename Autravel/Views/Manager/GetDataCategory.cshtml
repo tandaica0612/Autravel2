@@ -1,0 +1,74 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model List<Autravel.Models.PostCategory>
+@{int ord = 1;
+    List<Post> List_Post = new Post().GetAll();
+}
+@if (TempData["MessagePost"] != null)
+{
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
+    @Html.Raw(TempData["MessagePost"])
+
+</div>
+}
+<div class="box-body">
+    <table class="wp-list-table widefat fixed striped posts">
+        <thead>
+            <tr>
+                <th scope="col" id="cb" class="manage-column column-cb check-column">STT</th>
+                <th scope="col" id="post_thumbs" class="manage-column column-wpex_post_thumbs">Chuyên mục</th>
+                <th scope="col" id="categories" class="manage-column column-categories">Số lượng bài viết</th>
+                <th scope="col" id="tags" class="manage-column column-tags">Tác vụ</th>
+            </tr>
+        </thead>
+
+        <tbody id="the-list">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr id="post-@item.PostCategory_ID" class="iedit type-post status-publish format-standard has-post-thumbnail">
+                        <td scope="row" class="check-column">
+                            @ord
+                        </td>
+                        <td class="tags column-tags">@item.PostCategory_Title</td>
+                        <td class="tags column-tags">@(List_Post.Where(x => Funtions.ContainItemInList(x.Post_CategoryID, item.PostCategory_ID.ToString())).Count())</td>
+
+                        <td class="tags column-tags">
+                            <a href="" class="fa fa-edit btn editPostCategory" data-toggle="modal" data-target="#myModal" data-categoriesid="@item.PostCategory_ID" data-categoriesname="@item.PostCategory_Title"></a>
+                            <a  class="delPostCategory" data-categoriesid="@item.PostCategory_ID" ><i class="fa fa-trash text-danger"></i></a>
+                        </td>
+                    </tr>
+                    ord++;
+                }
+            }
+            else
+            {
+                <tr> <td colspan="8">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(".delPostCategory").click(function (e) {
+        e.preventDefault();
+        var r = confirm("Bạn có chắc chắn muốn xóa chuyên mục này ???");
+        if (r) {
+            var id = $(this).attr("data-categoriesid");
+            $.ajax({
+                type: "POST",
+                url: "/Manager/DeleteCategory",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        }
+
+    });
+</script>

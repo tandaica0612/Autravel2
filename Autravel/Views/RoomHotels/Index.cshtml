@@ -1,0 +1,135 @@
+﻿ 
+
+<div id="gridContainer"></div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $("#gridContainer").dxDataGrid({
+            showBorders: true,
+            paging: {
+                enabled: false
+            },
+
+            showRowLines: true,
+            showColumnLines: true,
+            showBorders: true,
+            showColumnHeaders: true,
+            showBorders: true,
+            allowColumnResizing: true,
+            hoverStateEnabled: true,
+            columnAutoWidth: true,
+            noDataText: "Không tìm thấy dữ liệu",
+            allowColumnReordering: true,
+            rowAlternationEnabled: false,
+            wordWrapEnabled: false,
+            columnChooser: { enabled: false },
+            columns: [
+                {
+                    dataField: "Tác vụ",
+                    cellTemplate: function (element, info) {
+                        element.append('<a class="btn btn-xs btn-primary"  href="/RoomHotels/Create/?ID=' + info.data.RoomHotel_ID + '&Hotel_ID=' + info.data.Hotel_ID + '" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a>');
+                        element.append('<a class="btn btn-xs btn-danger DelRoomHotel" data-id="' + info.data.RoomHotel_ID + '&Hotel_ID=' + info.data.Hotel_ID + '" > <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a>');
+                    }
+                },
+                { dataField: "Hotel_ID", allowEditing: false },
+                { dataField: "Hotel_Name", caption: "Tên khách sạn"},
+                { dataField: "RoomHotel_Type", caption: "Loại phòng"},
+                { dataField: "RoomHotel_Extensions", caption: "Lợi ích khi đặt phòng"},
+                 { dataField: "RoomHotel_Bed", caption:"Giường"},
+                { dataField: "RoomHotel_Adutls", caption:"Người lớn"},
+                { dataField: "RoomHotel_Infants", caption:"Trẻ em"},
+                { dataField: "RoomHotel_Acreage", caption:"Diện tích"},
+                 { dataField: "RoomHotel_View",caption:"Hướng"},
+             ],
+            paging: {
+                enabled: true,
+                pageSize: 20
+            },
+         //   height: window.innerHeight * 0.8,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [100, 200, 500, 1000],
+                showInfo: true
+            },
+            paging: { pageSize: 50 },
+
+            loadPanel: {
+                enabled: true,
+                height: 90,
+                shading: true,
+                showIndicator: true,
+                showPane: true,
+                text: "Đang load dữ liệu...",
+                width: 200,
+                delay: 0
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            scrolling: {
+                mode: "standard",
+                scrollByContent: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            onContentReady: function (e) {
+
+                e.element.find(".dx-datagrid-header-panel").find(".dx-toolbar-before").html('<div style="    font-size: 24px;color:red" class="textstyle_1"><B>@ViewBag.title</B></div>');
+
+
+            },
+            export: {
+                enabled: true,
+                fileName: "Result " + document.title,
+                allowExportSelectedData: true
+            }
+        });
+
+
+
+    loadgrid();
+    function loadgrid() {
+        $.ajax({
+            type: "POST",
+            url: "/RoomHotels/getdata",
+            dataType: "json",
+            data: {
+                Hotel_ID :"@ViewBag.Hotel_ID"
+            },
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+
+            }
+        });
+
+    }
+
+    $(document).on("click", ".DelRoomHotel", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn xóa phòng này???");
+        if (r) {
+            var RoomHotel_ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/RoomHotels/onRowRemoving",
+                data: {
+                    RoomHotel_ID: RoomHotel_ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid();
+                }
+            });
+        }
+    });
+
+    });
+</script>

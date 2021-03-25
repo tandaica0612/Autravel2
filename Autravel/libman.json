@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "devextreme@20.2.5",
+      "destination": "Content/plugins/devextreme/"
+    },
+    {
+      "library": "jszip@3.5.0",
+      "destination": "Content/plugins/devextreme/jszip/"
+    },
+    {
+      "library": "autonumeric@4.1.0",
+      "destination": "Content/plugins/autonumeric/"
+    },
+    {
+      "library": "limonte-sweetalert2@10.15.5",
+      "destination": "Content/plugins/limonte-sweetalert2/"
+    },
+    {
+      "library": "jquery-migrate@3.3.2",
+      "destination": "Content/plugins/jquery-migrate/"
+    },
+    {
+      "library": "bootstrap-slider@11.0.2",
+      "destination": "Content/plugins/bootstrap-slider/"
+    }
+  ]
+}

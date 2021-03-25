@@ -1,0 +1,55 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model List<Autravel.Models.Hotel>
+@{
+    int ord = 0;
+    List<Location> L_location = new Location().GetAll();
+    List<User> L_user = new User().GetAll();
+}
+<div class="box-body">
+    <table class="wp-list-table widefat fixed striped posts">
+        <thead>
+            <tr>
+                <th scope="col" id="cb" class="manage-column column-cb check-column">STT</th>
+                <th scope="col" id="post_thumbs" class="manage-column column-wpex_post_thumbs">Ảnh</th>
+                <th scope="col" id="title" class="manage-column column-title column-primary sortable desc">Khách sạn</th>
+                <th scope="col" id="location" class="manage-column column-author">Địa danh</th>
+                <th scope="col" id="departure" class="manage-column column-ratestar">Chất lượng</th>
+                <th scope="col" id="author" class="manage-column column-comments num sortable desc">Người đăng</th>
+                <th scope="col" id="date" class="manage-column column-date sortable asc">Ngày đăng</th>
+                <th scope="col" id="action" class="manage-column column-date sortable asc">Tác vụ</th>
+            </tr>
+        </thead>
+
+        <tbody id="the-list">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    ord++;
+                    <tr id="post-@item.Hotel_ID" class="iedit type-post status-publish format-standard has-post-thumbnail">
+                        <td scope="row" class="check-column">
+                            @ord
+                        </td>
+                        <td class="wpex_post_thumbs column-wpex_post_thumbs" data-colname="Featured Image">
+                            <img src="@item.HotelImage" alt="@item.Hotel_Name" style="max-width:100%;max-height:50px;">
+                        </td>
+                        <td class="title column-title has-row-actions column-primary page-title" data-colname="Tiêu đề">
+                            <strong><a class="row-title" href="~/Manager/EditHotel/@item.Hotel_ID" aria-label="“@item.Hotel_Name” (Chỉnh sửa)">@item.Hotel_Name</a></strong>
+                            <span class="view"><a href="~/Dat-phong/@(Funtions.ConvertTitleToURL(item.Hotel_Name))_@item.Hotel_ID" rel="permalink" aria-label="Xem “@item.Hotel_Name”">Xem bài viết</a></span>
+                        </td>
+                        <td class="author column-author" data-colname="Tác giả">@(L_location.Where(x => x.Location_ID == item.Hotel_Location).FirstOrDefault().Location_Name)</td>
+                        <td class="tags column-tags" data-colname="Thẻ">@Html.Raw(Funtions.FillStar(item.Hotel_StarRate))</td>
+                        <td class="date column-date" data-colname="Người đăng">@(L_user.Where(x => x.User_ID == item.UserCreate).FirstOrDefault().User_Name)</td>
+                        <td class="date column-date" data-colname="Ngày đăng">@item.Hotel_CreateDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="date column-date"></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr> <td colspan="8">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

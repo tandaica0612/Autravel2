@@ -1,0 +1,35 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@model  DataTable
+
+<div class="ComboBestSelling">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Các gói combo liên quan khác</h4>
+            <span class="description-heading">Lên đường săn tuyến với combo Sapa của Autravel</span>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in Model.Rows)
+            {
+                <a href="/PCombo/Details/@item["Tour_ID"]">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                            <img class="img-combo" src="@item["Tour_Image"]" />
+                            <span class="time-duration">@item["Tour_TimeZoneText"]</span>
+                        </div>
+                        <div class="titel-combo">
+                            <span class="location-combo-item">SAPA</span>
+                            <span class="titel"><a>Chụp ảnh</a></span>
+                            <div class="rateStar-item">
+                                @Html.Raw(Funtions.FillStarView(item.ToFloat("Tour_StarRate")))
+                            </div>
+                            <span class="extention-combo">Trọn gói: Khách sạn + xe khứ hồi</span>
+                            <div class="price-item">@item.ToIntCurrency("Tour_Price") ₫</div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

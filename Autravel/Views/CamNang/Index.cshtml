@@ -1,0 +1,249 @@
+﻿@using System.Data;
+@using Autravel.Extentions;
+@using Autravel.Models.Function;
+@{
+    ViewBag.Title = "Cẩm nang du lịch";
+    var CamNang = (DataTable)ViewBag.CamNang;
+    var DiaDiem = (DataTable)ViewBag.DiaDiem;
+
+}
+
+<style>
+    .rounded {
+        width: 100%;
+        padding: 10px;
+        border-radius: 30px
+    }
+
+    .PopularPlaces .titel-combo {
+        text-align: center;
+        padding: 12px 10px
+    }
+
+    .PopularPlaces .div-img-combo {
+        border-radius: 0
+    }
+
+    .PopularPlaces .combo-item {
+        border: 1px solid #ccc;
+        border-radius: 5px
+    }
+
+    .PopularPlaces .body-content-Combo .combo-item {
+        padding: 0
+    }
+    .titel-combo
+    {
+        margin-top:10PX
+    }
+    b {
+        color: black;
+    }
+    .titel {
+        color: #555;
+    }
+</style>
+<div style="margin-top:70px">
+    <div class="col-md-5">
+        <div style="        text-align: center;
+        vertical-align: central;
+        margin-top: 30%;
+        margin-left: 20%;
+        width: 60%">
+
+            <div style="margin:0 auto">
+                <h1><b>Cẩm nang du lịch</b></h1>
+                <br />
+                <p>Tìm hiểu các hoạt động độc đáo do những người tổ chức trải nghiệm có một không hai dẵn dắt - trải nghiệm mọi hoạt động mà không cần rời khỏi nhà.</p>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <!-- Gallery -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+
+                <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+            </div>
+
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+            </div>
+
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+
+                <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg"
+                     class="w-100 shadow-1-strong rounded mb-4"
+                     alt="" />
+            </div>
+        </div>
+        <!-- Gallery -->
+    </div>
+</div>
+
+
+<div class="Hanbook">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Bài viết nổi bật</h4>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in CamNang.Rows)
+            {
+                <a href="/CamNang/BaiVietNoiBat?ID=@item["Post_Location"]">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                           <img class="img-combo" src="@item["Post_Images"]" /> 
+                        </div>
+                        <div class="titel-combo">
+                            <p class="titel"> Ẩm thực </p>
+                            <b class="description-combo">@item["Post_Tile"]</b>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="PopularPlaces">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Điểm du lịch</h4>
+            <span class="description-heading">Cùng Autravel khám phá những địa điểm đẹp nhé:</span>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in DiaDiem.Rows)
+            {
+                <a href="/CamNang/DiemDenHapDan?ID=@item["Location_ID"]">
+                    <div class="col-md-2 ">
+                        <div class="combo-item">
+                            <div class="div-img-combo">
+                                <img class="img-combo" src="@item["Location_images"]" />
+                            </div>
+                            <div class="titel-combo">
+                                <span class="titel"> @item["Location_Name"]</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="Hanbook">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Ẩm thực 3 miền</h4>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in CamNang.Rows)
+            {
+                <a href="/CamNang/chitiet?ID=@item["Post_id"]">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                           <img class="img-combo" src="@item["Post_Images"]" /> 
+                        </div>
+                        <div class="titel-combo">
+                            <b class="description-combo">@item["Post_Tile"]</b>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="Hanbook">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Lưu trú</h4>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in CamNang.Rows)
+            {
+                <a href="/CamNang/chitiet?ID=@item["Post_id"]">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                          <img class="img-combo" src="@item["Post_Images"]" /> 
+                        </div>
+                        <div class="titel-combo">
+                            <p class="titel"> Ẩm thực</p>
+                            <b class="description-combo">@item["Post_Tile"]</b>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+
+
+</div>
+<br />
+<br />
+<div class="container">
+
+    <div class="row">
+        
+        <div class="col-md-7">
+            <div class="headingContent">
+                <h4 class="heading">Trải nghiệm</h4>
+            </div>
+            <div class="body-content-Combo">
+                @foreach (DataRow item in CamNang.Rows)
+                {
+                    <a href="/CamNang/chitiet?ID=@item["Post_id"]">
+                        <div class="col-md-6 combo-item">
+                            <div class="div-img-combo">
+                              <img class="img-combo" src="@item["Post_Images"]" /> 
+                            </div>
+                            <div class="titel-combo">
+                                <b class="description-combo">@item["Post_Tile"]</b>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="headingContent">
+                <h4 class="heading">Khuyến mại</h4>
+            </div>  <div class="body-content-Combo">
+    @foreach (DataRow item in CamNang.Rows)
+    {
+        <a href="/CamNang/chitiet?ID=@item["Post_id"]" class="row">
+
+            <div class="col-md-2">
+                <img class="img-combo" style="width:100%" src="@item["Post_Images"]" />
+            </div>
+            <div class="col-md-10">
+                <b class="description-combo">@item["Post_Tile"]</b>
+                <p class="titel">@item.ToDateString("Post_CreateDate")</p>
+            </div>
+        </a>
+    }
+</div>
+        </div>
+        </div>
+
+    </div>

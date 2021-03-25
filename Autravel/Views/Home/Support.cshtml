@@ -1,0 +1,21 @@
+﻿@using System.Data  
+@model DataTable
+<div class="panel panel-default">
+    <div class="panel-body">
+        <b>  Hỗ trợ online</b>
+        <!-- Left-aligned media object -->
+        @foreach (DataRow item in Model.Rows)
+        {
+             <div class="media">
+                <div class="media-left">
+                    <img src="https://www.w3schools.com/bootstrap/img_avatar1.png" class="media-object" style="width: 45px;border-radius: 50%;">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">@item["ContactInfo_Phone"]</h4>
+                    <p>@item["ContactInfo_Name"]</p>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

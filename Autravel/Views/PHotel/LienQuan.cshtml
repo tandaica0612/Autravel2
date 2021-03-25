@@ -1,0 +1,56 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@model  DataTable
+<style>
+    .titel-combo div{
+        padding:2px 0
+    }
+    .titel-combo
+    {
+        margin-top:10px
+    }
+    .price-item{
+        font-size:11px;
+        color:#808080
+    }
+
+    .top-right {
+        FONT-WEIGHT: BOLD;
+        position: absolute;
+        top: 18px;
+        BACKGROUND: WHITE;
+        right: 20px;
+        COLOR: BLACK;
+        PADDING: 4PX;
+         border-radius: 5px;
+        FONT-SIZE: 18PX;
+    }
+</style>
+<div class="ComboBestSelling">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Khách sạn cùng chất lượng</h4>
+         </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in Model.Rows)
+            {
+                <a href="/PHotel/Details/@item["Hotel_ID"]" style="color:white">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                            <img class="img-combo" src="@item["HotelImage"]" />
+                            <span class="top-right">@item["Hotel_Score"]</span>
+                        </div>
+                        <div class="titel-combo">
+                            <b>@item["Hotel_Name"]</b>
+                             <div class="rateStar-item">
+                                @Html.Raw(Funtions.FillStarView(item.ToFloat("Hotel_StarRate")))
+                            </div>
+                             <div class="price-item">Giá từ @item.ToIntCurrency("Hotel_Price") ₫</div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

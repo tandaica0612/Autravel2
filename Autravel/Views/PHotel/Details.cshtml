@@ -1,0 +1,466 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+
+@model DataRow
+@{
+    var listImh = Model["Hotel_ListImage"].ToString().Split(',').Where(z => !string.IsNullOrEmpty(z)).ToList();
+    var RoomHotel_Extensions = (DataTable)ViewBag.RoomHotel_Extensions;
+    var ID = Model["Hotel_ID"];
+}
+<style>
+    body {
+        background-color: #eee;
+    }
+
+    .img-rounded {
+        border-radius: 10px
+    }
+
+    .h1, .h2, .h3, h1, h2, h3 {
+        margin-bottom: 0
+    }
+
+    .KhoiHanh td, .KhoiHanh {
+        border: 0px !important;
+        padding-left: 10px;
+    }
+
+    .KhoiHanh {
+        float: right
+    }
+
+    .media-object {
+        border-radius: 50%
+    }
+
+    .panel-body {
+        padding: 10px;
+    }
+
+    .DATCOMBONGAY {
+        color: #fff;
+        background-color: #000;
+        border-color: #ccc;
+        padding: 10px;
+        margin: 2px;
+        text-align: center;
+        border-radius: 5px
+    }
+
+    p {
+        margin: 0
+    }
+
+    .row {
+        padding: 0;
+        margin: 0
+    }
+
+    .item6 {
+        height: 200px
+    }
+
+    .itemphong {
+        border: 2PX solid;
+        border-radius: 7px;
+        margin: 5px 0;
+        padding: 10px 10PX
+    }
+
+    .item_image_combo {
+        border: 1px solid;
+        border-radius: 5px
+    }
+
+    .RoomHotel_Image {
+        border-radius: 15px
+    }
+    .no-results {
+        padding: 40px;
+        TEXT-ALIGN: CENTER;
+        LINE-HEIGHT: 28PX;
+        background: #eee;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+    }
+</style>
+<style>
+    .div-location, .div-Departure {
+         border: 1px solid #ccc;
+         margin-right:0;
+         width:100%
+     }
+
+    .qtyBtn {
+        display: inline-flex
+    }
+
+        .qtyBtn input {
+            width: 40px;
+            border: 1px solid #999;
+            text-align: center;
+            MARGIN-TOP: 2PX;
+            HEIGHT: 32PX;
+        }
+
+        .qtyBtn .fa-plus {
+            border: 1px solid black;
+        }
+
+    .qty-box label {
+        width: 80px
+    }
+
+    .qty-box {
+        margin: 10px
+    }
+
+    .gty-container .dropdown-btn span {
+        color: black;
+        font-weight: bold
+    }
+
+    .gty-container p {
+        margin: 0
+    }
+
+    .qtyBtn i {
+        margin: 2px 0 2px 0;
+        BORDER: 1PX SOLID #999;
+        padding: 8px;
+    }
+
+    .dropdown-menu {
+        width: 400px
+    }
+</style>
+<div class="container" style="margin-top:70px">
+    <div class="col-md-8">
+        <span class="label label-default">Đang bán chạy</span>
+        <h2>
+            @Model["Hotel_Name"]<i class="fa fa-building" aria-hidden="true"></i> <i class="fa fa-plane" aria-hidden="true"></i>
+        </h2>
+        @Html.Raw(Funtions.FillStarView(Model.ToFloat("Hotel_StarRate")))
+
+        <span class="label label-default">@Model["Hotel_StarRate"]</span>
+        <b>Tuyệt hảo</b>
+        <span>24 đánh giá</span> | <span><a>1 đường hoàng liên, Thị trấn Sapa</a></span>
+
+    </div>
+    <div class="col-md-4">
+        <div class="pull-right" style="text-align:right">
+            <p>Chỉ từ</p>
+            <p><b>5.790.000 đ</b></p>
+            <a href="/PHotel/Checkout" class="btn btn-black">Đặt ngay</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model["HotelImage"]" class="col-md-12 img-rounded">
+        </div>
+        <div class="col-md-6">
+            @foreach (var item in listImh.OrderBy(z => z).Skip(0).Take(4))
+            {
+                <img src="@item" class="col-md-6 img-rounded item6">
+            }
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @Html.Raw(Model["Hotel_Content"])
+                    <h2>Các tiện nghi được ưu chuộng nhất</h2>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-3">
+            @Html.Action("Support", "Home")
+
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <p> <b>Chọn phòng</b></p>
+                <div class="col-md-5">
+                    <div class="div-Departure">
+                        <label class="lbl-Departure">
+                            <span class="titel-lbl-Departure">Nhận phòng  - Trả phòng </span>
+                            <input class="inp-Departure" id="inp-Departure" placeholder="Vui lòng chọn thời gian!" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+
+                    <div class="div-Departure">
+
+                        <div class="input-box lbl-Departure">
+                            <label class="label-text">Số lượng người</label>
+                            <div class="form-group" style="margin-bottom:0">
+                                <div class="dropdown dropdown-contain gty-container">
+                                    <a class="dropdown-toggle dropdown-btn" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="adult" data-text="Người lớn" data-text-multi="Người lớn"></span>
+                                        -
+                                        <span class="children" data-text="Trẻ em" data-text-multi="Trẻ em"></span>
+                                        -
+                                        <span class="infants" data-text="Phòng" data-text-multi="Phòng"></span>
+                                        -     <span class="BABY" data-text="Em bé" data-text-multi="Em bé"></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-wrap " style="padding:20px">
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Phòng</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="infants_number" value="0" class="qty-input">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Người lớn</label>
+                                                    <p>Từ 13 tuổi trở lên</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center  ">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="adult_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Trẻ em</label>
+                                                    <p>Độ tuổi 2-12</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="child_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Em bé</label>
+                                                    <p>Độ tuổi 0-1</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="BABY_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- end dropdown -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <a class="btn btn-lg btn-black" id="KiemTraPhongTrong" style=" font-size: 16px; ">Kiểm tra phòng trống</a>
+                </div>
+            </div>
+           <div id="LoadRoom">
+
+           </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body" id="DanhGia">
+            @Html.Action("DanhGia", "PCombo", new { TourID = ID })
+        </div>
+    </div>
+
+</div>
+@Html.Action("LienQuan", "PHotel", new { Hotel_Score = Model["Hotel_Score"] })
+<script>
+    function numberButtonFunc(t) {
+        var n, a = t.parent().find("input").val();
+        $('input[type="text"]').each(function () {
+            parseInt($(this).val())
+        }), n = t.hasClass("qtyInc") ? parseFloat(a) + 1 : a > 0 ? parseFloat(a) - 1 : 0, t.parent().find("input").val(n).trigger("change")
+    }
+    $(document).on("click", ".qtyDec, .qtyInc", function () {
+        numberButtonFunc($(this))
+    }), $(".gty-container").each(function () {
+        var t = $(this);
+        $('input[name="adult_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+            "number" == typeof n && (a = n < 2 ? n + " " + $(".adult", t).data("text") : n + " " + $(".adult", t).data("text-multi")),
+                $(".adult", t).html(a)
+        }),
+            $('input[name="adult_number"]', t).trigger("change"),
+
+            $('input[name="child_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".children", t).data("text") : n + " " + $(".children", t).data("text-multi")),
+                    $(".children", t).html(a)
+            }),
+            $('input[name="child_number"]', t).trigger("change"),
+            $('input[name="infants_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".infants", t).data("text") : n + " " + $(".infants", t).data("text-multi")),
+                    $(".infants", t).html(a)
+            }),
+            $('input[name="infants_number"]', t).trigger("change"),
+            $('input[name="BABY_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".BABY", t).data("text") : n + " " + $(".BABY", t).data("text-multi")),
+                    $(".BABY", t).html(a)
+            }),
+            $('input[name="BABY_number"]', t).trigger("change")
+    });
+
+
+    $(document).on('click', '.dropdown .dropdown-menu', function (e) {
+        e.stopPropagation();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        function getDaysOfMonth(year, month) {
+
+            var monthStart = new Date(year, month, 1);
+            var monthEnd = new Date(year, month + 1, 1);
+            var monthLength = (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
+            return monthLength;
+
+        }
+        var d = new Date();
+        var AutoDay = d.getDate() + 3;
+        var AutoDayEnd = d.getDate() + 5;
+        var TotalDayOfMonth = getDaysOfMonth(d.getFullYear(), d.getMonth());
+        var AutoMonth = (d.getMonth() + 1);
+        var AutoMonthEnd = (d.getMonth() + 1);
+        var AutoYear = d.getFullYear();
+        var AutoYearEnd = d.getFullYear();
+        if (AutoDay > TotalDayOfMonth) {
+            debugger;
+            AutoDay = AutoDay - TotalDayOfMonth;
+            AutoMonth += 1;
+            if (AutoMonth > 12) {
+                AutoYear += 1;
+                AutoMonth = 1;
+            }
+        }
+        if (AutoDayEnd > TotalDayOfMonth) {
+            AutoDayEnd = AutoDayEnd - TotalDayOfMonth;
+            AutoMonthEnd += 1;
+            if (AutoMonthEnd > 12) {
+                AutoYearEnd += 1;
+                AutoMonthEnd = 1;
+            }
+        }
+        output = [
+
+            ('0' + AutoDay).substr(-2), ('0' + AutoMonth).substr(-2),
+            AutoYear
+        ].join('/');
+        outputend = [
+
+            ('0' + AutoDayEnd).substr(-2), ('0' + AutoMonthEnd).substr(-2),
+            AutoYearEnd
+        ].join('/');
+        $('#inp-Departure').val(output + ' đến ' + outputend);
+    });
+    $('#inp-Departure').dateRangePicker({
+        autoClose: true,
+        format: 'DD/MM/YYYY',
+        separator: ' đến ',
+        language: 'vi',
+        startOfWeek: 'monday',// or monday
+        getValue: function () {
+            return $(this).val();
+        },
+        setValue: function (s) {
+            if (!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val()) {
+                $(this).val(s);
+            }
+        },
+        startDate: new Date(),
+        endDate: false,
+        time: {
+            enabled: false
+        },
+        minDays: 0,
+        maxDays: 0,
+        showShortcuts: false,
+        shortcuts:
+        {
+            //'prev-days': [1,3,5,7],
+            //'next-days': [3,5,7],
+            //'prev' : ['week','month','year'],
+            //'next' : ['week','month','year']
+        },
+        customShortcuts: [],
+        inline: false,
+        container: 'body',
+        alwaysOpen: false,
+        singleDate: false,
+        lookBehind: false,
+        batchMode: false,
+        duration: 200,
+        stickyMonths: false,
+        dayDivAttrs: [],
+        dayTdAttrs: [],
+        applyBtnClass: '',
+        singleMonth: 'auto',
+        hoveringTooltip: function (days, startTime, hoveringTime) {
+            //return days > 1 ? days + ' ' + lang('days') : '';
+        },
+        showTopbar: true,
+        swapTime: false,
+        selectForward: false,
+        selectBackward: false,
+        showWeekNumbers: false,
+        getWeekNumber: function (date) //date will be the first day of a week
+        {
+            return moment(date).format('w');
+        },
+        monthSelect: false,
+        yearSelect: false
+    });
+</script>
+
+<script>
+    $("#KiemTraPhongTrong").click(function (e) {
+        e.preventDefault();
+        $('#LoadRoom').load("/PHotel/LoadRoom/@ID");
+
+    });
+    $("#KiemTraPhongTrong").click();
+</script>

@@ -1,0 +1,30 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách bài viết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="col-sm-6">
+                        <h3 class="box-title">DANH SÁCH BÀI VIẾT</h3>
+                    </div>
+                    <div class="col-sm-6">
+                            @Html.ActionLink("Thêm mới", "AddPost", "Manager", null, new { @class = "btn btn-success pull-right" })
+                        </div>
+                </div>
+                <div id="dvDataAllPostdetail">
+                    @Html.Partial("GetDataAllPost")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

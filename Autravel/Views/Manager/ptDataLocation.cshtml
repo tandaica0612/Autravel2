@@ -1,0 +1,8 @@
+﻿@using Autravel.Models;
+@{
+    List<Location> l_Location = new Location().GetAll();
+}
+@foreach (var itemLocation in l_Location)
+{
+    <li id="@itemLocation.Location_ID"><label class="selectit"><input value="@itemLocation.Location_ID" type="checkbox" name="tour_Location" id="@itemLocation.Location_ID"> @itemLocation.Location_Name</label></li>
+}

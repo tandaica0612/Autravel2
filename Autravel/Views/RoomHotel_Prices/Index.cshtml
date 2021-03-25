@@ -1,0 +1,163 @@
+﻿ 
+
+<div id="gridContainer"></div>
+
+
+<script>
+
+
+    $(function () {
+        $("#gridContainer").dxDataGrid({
+            showBorders: true,
+            paging: {
+                enabled: false
+            },
+            editing: {
+                mode: "popup",
+                allowAdding: true,
+                allowUpdating: true,
+                allowDeleting: true,
+                confirmDelete: true
+            },
+            onRowUpdating: function (e) {
+
+                var old = Object.assign({}, e.oldData);
+                var prop = Object.keys(e.newData);
+                $.each(prop, function (i, item) {
+                    old[item] = e.newData[item];
+                });
+                e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/RoomHotel_Prices/onRowUpdating",
+                    async: false,
+                    data: old,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowRemoving: function (e) {
+                e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/RoomHotel_Prices/onRowRemoving",
+                    async: false,
+                    data: {
+                        ID: e.key.ID
+                     },
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowInserting: function (e) {
+                e.cancel = true;
+                 $.ajax({
+                    type: "POST",
+                    url: "/RoomHotel_Prices/onRowInserting",
+                    async: false,
+                     data: e.data,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                        e.data.ID = response.data;
+                    }
+                });
+            },
+            onInitNewRow(e) {
+                e.data.RoomHotel_ID = $('#RoomHotel_ID').val();
+                e.data.Hotel_Name = $('#Hotel_Name').val();
+                e.data.RoomHotel_Type = $("[name=RoomHotel_Type] option:selected").text();
+             },  
+            showRowLines: true,
+            showColumnLines: true,
+            showBorders: true,
+            showColumnHeaders: true,
+            showBorders: true,
+            allowColumnResizing: true,
+            hoverStateEnabled: true,
+            columnAutoWidth: true,
+            noDataText: "Không tìm thấy dữ liệu",
+            allowColumnReordering: true,
+            rowAlternationEnabled: false,
+            wordWrapEnabled: false,
+            columnChooser: { enabled: false },
+            columns: [
+                { dataField: "ID", allowEditing: false },
+                { dataField: "Hotel_Name", caption: "Khách sạn", allowEditing: false},
+                { dataField: "RoomHotel_Type", caption: "Loại phòng", allowEditing: false},
+                { dataField: "Price1Night", caption: "Giá 1 đêm", format: { editorOptions: { format: " #,##0.##" } }},
+                { dataField: "Price2Night", caption: "Giá 2 đêm", format: { editorOptions: { format: " #,##0.##" } }},
+                { dataField: "Price3Night", caption: "Giá 3 đêm", format: { editorOptions: { format: " #,##0.##" } }},
+                { dataField: "Price4Night", caption: "Giá 4 đêm", format: { editorOptions: { format: " #,##0.##" } }},
+                { dataField: "PriceMoreNight", caption: "5 đêm trở lên", format: { editorOptions: { format: " #,##0.##" } }},
+               
+                { dataField: "FromDate", dataType: "date", caption: "Áp dụng từ ngày" },
+                { dataField: "ToDate", dataType: "date", caption: "Hết hiệu lực ngày"},
+            
+             ],
+            paging: {
+                enabled: true,
+                pageSize: 20
+            },
+         //   height: window.innerHeight * 0.8,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [100, 200, 500, 1000],
+                showInfo: true
+            },
+            paging: { pageSize: 50 },
+
+            loadPanel: {
+                enabled: true,
+                height: 90,
+                shading: true,
+                showIndicator: true,
+                showPane: true,
+                text: "Đang load dữ liệu...",
+                width: 200,
+                delay: 0
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            scrolling: {
+                mode: "standard",
+                scrollByContent: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            onContentReady: function (e) {
+
+                e.element.find(".dx-datagrid-header-panel").find(".dx-toolbar-before").html('<div style="    font-size: 24px;color:red" class="textstyle_1"><B>@ViewBag.title</B></div>');
+
+
+            },
+            export: {
+                enabled: true,
+                fileName: "Result " + document.title,
+                allowExportSelectedData: true
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/RoomHotel_Prices/getdata",
+            data: {
+                ID:'@ViewBag.ID'
+            },
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+
+            }
+        });
+    });
+
+</script>

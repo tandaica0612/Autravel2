@@ -1,0 +1,148 @@
+﻿@{
+     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+ 
+<div id="gridContainer"></div>
+
+<script>
+
+
+    $(function () {
+        $("#gridContainer").dxDataGrid({
+            showBorders: true,
+            paging: {
+                enabled: false
+            },
+            editing: {
+                mode: "form",
+                allowAdding: true,
+                allowUpdating: true,
+                allowDeleting: true,
+                confirmDelete: true
+            },
+            onRowUpdating: function (e) {
+                e.cancel = true;
+                var old = Object.assign({}, e.oldData);
+                var prop = Object.keys(e.newData);
+                $.each(prop, function (i, item) {
+                    old[item] = e.newData[item];
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ContactInfos/onRowUpdating",
+                    async: false,
+                    data: old,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowRemoving: function (e) {
+                e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/ContactInfos/onRowRemoving",
+                    async: false,
+                    data: {
+                        ContactInfo_ID: e.key.ContactInfo_ID
+                     },
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowInserting: function (e) {
+                e.cancel = true;
+
+                 $.ajax({
+                    type: "POST",
+                    url: "/ContactInfos/onRowInserting",
+                    async: false,
+                     data: e.data,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                        e.data.ContactInfo_ID = response.data;
+                    }
+                });
+            },
+            showRowLines: true,
+            showColumnLines: true,
+            showBorders: true,
+            showColumnHeaders: true,
+            showBorders: true,
+            allowColumnResizing: true,
+            hoverStateEnabled: true,
+            columnAutoWidth: true,
+            noDataText: "Không tìm thấy dữ liệu",
+            allowColumnReordering: true,
+            rowAlternationEnabled: false,
+            wordWrapEnabled: false,
+            columnChooser: { enabled: false },
+            columns: [
+                {
+                    caption: "Name",
+                    dataField: "ContactInfo_Name",
+                  }, {
+                    caption: "Address",
+                    dataField: "ContactInfo_Address",
+                }, {
+                    caption: "Email",
+                    dataField: "ContactInfo_Email",
+                },{
+                    caption: "Phone",
+                    dataField: "ContactInfo_Phone",
+                },
+            ],
+            paging: {
+                enabled: true,
+                pageSize: 20
+            },
+            height: window.innerHeight * 0.8,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [100, 200, 500, 1000],
+                showInfo: true
+            },
+            paging: { pageSize: 50 },
+             
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            scrolling: {
+                mode: "standard",
+                scrollByContent: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            onContentReady: function (e) {
+
+                e.element.find(".dx-datagrid-header-panel").find(".dx-toolbar-before").html('<div style="    font-size: 24px;color:red" class="textstyle_1"><B>@ViewBag.title</B></div>');
+
+
+            },
+            export: {
+                enabled: true,
+                fileName: "Result " + document.title,
+                allowExportSelectedData: true
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/ContactInfos/getdata",
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+
+            }
+        });
+    });
+
+</script>

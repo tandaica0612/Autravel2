@@ -1,0 +1,455 @@
+﻿@using System.Data;
+@using Autravel.Extentions;
+@using Autravel.Models.Function;
+@{
+    ViewBag.Title = "PHotel Page";
+    var ChuDe = (DataTable)ViewBag.ChuDe;
+    var BanChay = (DataTable)ViewBag.BanChay;
+    var DiaDiem = (DataTable)ViewBag.DiaDiem;
+    var CamNang = (DataTable)ViewBag.CamNang;
+    var BANNER = (DataTable)ViewBag.BANNER;
+}
+<style>
+    .div-location, .div-Departure {
+         width: 30%;
+        
+    }
+
+    .qtyBtn
+    {
+        display:inline-flex
+    }
+        .qtyBtn input {
+            width: 40px;
+            border: 1px solid #999;
+             text-align: center;
+            MARGIN-TOP: 2PX;
+            HEIGHT: 32PX;
+        }
+     .qtyBtn .fa-plus {
+        border: 1px solid black;
+    }
+    .qty-box label {
+        width: 80px
+    }
+    .qty-box{
+        margin:10px
+    }
+    .gty-container .dropdown-btn span {
+        color: black;
+        font-weight: bold
+    }
+    .gty-container  p {
+      margin:0
+    }
+    .qtyBtn i {
+        margin: 2px 0 2px 0;
+        BORDER: 1PX SOLID #999;
+        padding: 8px;
+     }
+
+    .dropdown-menu{
+        width:400px
+    }
+</style>
+<div class="banner-site">
+    <div class="slider-banner">
+        <div id="SlideBannerCombo" class="carousel slide" data-ride="carousel">
+
+            <div class="carousel-inner">
+                @foreach (DataRow item in BANNER.Rows)
+                {
+                    <div class="item">
+                        <img src="@item["UrlFile"]">
+                    </div>
+                }
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#SlideBannerCombo" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#SlideBannerCombo" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="content-banner">
+        <div class="container">
+            <div class="content">
+                <h3 class="titel-banner">Khách sạn, khu nghỉ dưỡng & hơn thế</h3>
+                <span class="sologan-banner">Nhận giá tốt nhất cho > 2.000.000 chỗ nghỉ tại Việt Nam</span>
+                <div class="searchbox-banner">
+                    <form class="formsearch" action="/s/all" method="get" role="search" style=" max-width: 1083px !important; ">
+                        <div class="div-location">
+                            <label class="titel-lbl-location">Địa điểm </label>
+                            <input class="inp-location" id="inp-location" placeholder="Bạn sắp đi đâu?" />
+                        </div>
+                        <div class="div-Departure">
+                            <label class="lbl-Departure">
+                                <div class="titel-lbl-Departure">Nhận phòng  - Trả phòng </div>
+                                <input class="inp-Departure" id="inp-Departure" placeholder="Vui lòng chọn thời gian!" />
+                            </label>
+                        </div>
+                        <div class="div-Departure">
+                           
+                            <div class="input-box lbl-Departure">
+                                <label class="label-text">Số lượng người</label>
+                                <div class="form-group" style="margin-bottom:0">
+                                    <div class="dropdown dropdown-contain gty-container">
+                                        <a class="dropdown-toggle dropdown-btn" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="adult" data-text="Người lớn" data-text-multi="Người lớn"></span>
+                                            -
+                                            <span class="children" data-text="Trẻ em" data-text-multi="Trẻ em"></span>
+                                            -
+                                            <span class="infants" data-text="Phòng" data-text-multi="Phòng"></span>
+                                            -     <span class="BABY" data-text="Em bé" data-text-multi="Em bé"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-wrap " style="padding:20px">
+                                            <div class="dropdown-item">
+                                                <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                    <div class="col-md-6">
+                                                        <label>Phòng</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="qtyBtn d-flex align-items-center">
+                                                            <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                            <input type="text" name="infants_number" value="0" class="qty-input">
+                                                            <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             <div class="dropdown-item">
+                                                <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                    <div class="col-md-6">
+                                                        <label>Người lớn</label>
+                                                        <p>Từ 13 tuổi trở lên</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="qtyBtn d-flex align-items-center  ">
+                                                            <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                            <input type="text" name="adult_number" value="0">
+                                                            <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-item">
+                                                <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                    <div class="col-md-6">
+                                                        <label>Trẻ em</label>
+                                                        <p>Độ tuổi 2-12</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="qtyBtn d-flex align-items-center">
+                                                            <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                            <input type="text" name="child_number" value="0">
+                                                            <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="dropdown-item">
+                                                <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                    <div class="col-md-6">
+                                                        <label>Em bé</label>
+                                                        <p>Độ tuổi 0-1</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="qtyBtn d-flex align-items-center">
+                                                            <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                            <input type="text" name="BABY_number" value="0">
+                                                            <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div><!-- end dropdown -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="div-btnSearchbox">
+                            <a class="btn btn-primary" id="btnSearchbox">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div  style="display:flex">
+
+    <div class="panel panel-default col-md-7" style="margin:0 auto;margin-top:30px">
+        <div class="panel-body">
+            <p>Uu  đã cho thành viên</p>
+
+            <h2>GIẢM 50%</h2>
+            <a class="btn btn-black">Xem ngay</a>
+        </div>
+    </div>
+</div>
+<div class="ComboForYou">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Địa điểm phổ biến</h4>
+            <span class="description-heading">Lên đường săn tuyết với combo Sapa của Autravel</span>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in DiaDiem.Rows)
+            {
+                <a href="/PHotel/ListHotel">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                            <img class="img-combo" src="@item["Location_images"]" />
+                        </div>
+                        <div class="titel-combo">
+                            <span class="titel"><a href="/">@item["Location_Name"]</a></span>
+                            <span class="total-combo">2 combo</span>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+<div class="ComboBestSelling">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Tìm theo loại chỗ nghỉ</h4>
+            <span class="description-heading">Khám phá những combo đặc biết nhé:</span>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in BanChay.Rows)
+            {
+                <a href="/PHotel/Details/@item["Hotel_ID"]">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                            <img class="img-combo" src="@item["HotelImage"]" />
+                            <span class="time-duration">@item["Hotel_TimeZoneText"]</span>
+                        </div>
+                        <div class="titel-combo">
+                            <span class="location-combo-item">SAPA</span>
+                            <span class="titel"><a>Chụp ảnh</a></span>
+                            <div class="rateStar-item">
+                                @Html.Raw(Funtions.FillStarView(item.ToFloat("Hotel_StarRate")))
+                            </div>
+                            <span class="extention-combo">Trọn gói: Khách sạn + xe khứ hồi</span>
+                            <div class="price-item">@item.ToIntCurrency("Hotel_Price") ₫</div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div> 
+<div class="Hanbook">
+    <div class="container">
+        <div class="headingContent">
+            <h4 class="heading">Cẩm nang du lịch</h4>
+            <span class="description-heading">Chuẩn bị hành trang cùng Autravel</span>
+        </div>
+        <div class="body-content-Combo">
+            @foreach (DataRow item in CamNang.Rows)
+            {
+                <a href="/PHotel/Details">
+                    <div class="col-md-3 combo-item">
+                        <div class="div-img-combo">
+                            <a href="/"> <img class="img-combo" src="@item["Post_Images"]" /></a>
+                        </div>
+                        <div class="titel-combo">
+                            <span class="titel"><a href="/">Ẩm thực</a></span>
+                            <b class="description-combo">@item["Post_Tile"]</b>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //Datepicker
+    $(document).ready(function () {
+        function getDaysOfMonth(year, month) {
+
+            var monthStart = new Date(year, month, 1);
+            var monthEnd = new Date(year, month + 1, 1);
+            var monthLength = (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
+            return monthLength;
+
+        }
+        var d = new Date();
+        var AutoDay = d.getDate() + 3;
+        var AutoDayEnd = d.getDate() + 5;
+        var TotalDayOfMonth = getDaysOfMonth(d.getFullYear(), d.getMonth());
+        var AutoMonth = (d.getMonth() + 1);
+        var AutoMonthEnd = (d.getMonth() + 1);
+        var AutoYear = d.getFullYear();
+        var AutoYearEnd = d.getFullYear();
+        if (AutoDay > TotalDayOfMonth) {
+            debugger;
+            AutoDay = AutoDay - TotalDayOfMonth;
+            AutoMonth += 1;
+            if (AutoMonth > 12) {
+                AutoYear += 1;
+                AutoMonth = 1;
+            }
+        }
+        if (AutoDayEnd > TotalDayOfMonth) {
+            AutoDayEnd = AutoDayEnd - TotalDayOfMonth;
+            AutoMonthEnd += 1;
+            if (AutoMonthEnd > 12) {
+                AutoYearEnd += 1;
+                AutoMonthEnd = 1;
+            }
+        }
+        output = [
+
+            ('0' + AutoDay).substr(-2), ('0' + AutoMonth).substr(-2),
+            AutoYear
+        ].join('/');
+        outputend = [
+
+            ('0' + AutoDayEnd).substr(-2), ('0' + AutoMonthEnd).substr(-2),
+            AutoYearEnd
+        ].join('/');
+        $('#inp-Departure').val(output + ' đến ' + outputend);
+    });
+    $('#inp-Departure').dateRangePicker({
+        autoClose: true,
+        format: 'DD/MM/YYYY',
+        separator: ' đến ',
+        language: 'vi',
+        startOfWeek: 'monday',// or monday
+        getValue: function () {
+            return $(this).val();
+        },
+        setValue: function (s) {
+            if (!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val()) {
+                $(this).val(s);
+            }
+        },
+        startDate: new Date(),
+        endDate: false,
+        time: {
+            enabled: false
+        },
+        minDays: 0,
+        maxDays: 0,
+        showShortcuts: false,
+        shortcuts:
+        {
+            //'prev-days': [1,3,5,7],
+            //'next-days': [3,5,7],
+            //'prev' : ['week','month','year'],
+            //'next' : ['week','month','year']
+        },
+        customShortcuts: [],
+        inline: false,
+        container: 'body',
+        alwaysOpen: false,
+        singleDate: false,
+        lookBehind: false,
+        batchMode: false,
+        duration: 200,
+        stickyMonths: false,
+        dayDivAttrs: [],
+        dayTdAttrs: [],
+        applyBtnClass: '',
+        singleMonth: 'auto',
+        hoveringTooltip: function (days, startTime, hoveringTime) {
+            //return days > 1 ? days + ' ' + lang('days') : '';
+        },
+        showTopbar: true,
+        swapTime: false,
+        selectForward: false,
+        selectBackward: false,
+        showWeekNumbers: false,
+        getWeekNumber: function (date) //date will be the first day of a week
+        {
+            return moment(date).format('w');
+        },
+        monthSelect: false,
+        yearSelect: false
+    });
+    $.ajax({
+        type: "POST",
+        url: "/Pcombo/GetLocation",
+        dataType: "json",
+        success: function (response) {
+            var response = JSON.parse(response);
+            var objectKeys = $.map(response, function (value, key) {
+                return value.Location_Name;
+            });
+            console.log(objectKeys);
+            autocomplete(document.getElementById("inp-location"), objectKeys);
+        }
+    });
+    $("#btnSearchbox").click(function (e) {
+        e.preventDefault();
+        var KeySearch = $("#inp-location").val();
+        var ThoiGian = $("#inp-Departure").val();
+        console.log(KeySearch);
+        console.log(ThoiGian);
+        KeySearch = encodeURI(KeySearch);
+        ThoiGian = encodeURI(ThoiGian);
+        window.location.href = "/PHotel/ListHotel?KeySearch=" + KeySearch + "&ThoiGian=" + ThoiGian;
+    });
+</script>
+<script>
+    function numberButtonFunc(t) {
+        var n, a = t.parent().find("input").val();
+        $('input[type="text"]').each(function () {
+            parseInt($(this).val())
+        }), n = t.hasClass("qtyInc") ? parseFloat(a) + 1 : a > 0 ? parseFloat(a) - 1 : 0, t.parent().find("input").val(n).trigger("change")
+    }
+    $(document).on("click", ".qtyDec, .qtyInc", function () {
+        numberButtonFunc($(this))
+    }), $(".gty-container").each(function () {
+        var t = $(this);
+        $('input[name="adult_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+            "number" == typeof n && (a = n < 2 ? n + " " + $(".adult", t).data("text") : n + " " + $(".adult", t).data("text-multi")),
+                $(".adult", t).html(a)
+        }),
+            $('input[name="adult_number"]', t).trigger("change"),
+
+            $('input[name="child_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".children", t).data("text") : n + " " + $(".children", t).data("text-multi")),
+                    $(".children", t).html(a)
+            }),
+            $('input[name="child_number"]', t).trigger("change"),
+            $('input[name="infants_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".infants", t).data("text") : n + " " + $(".infants", t).data("text-multi")),
+                    $(".infants", t).html(a)
+            }),
+            $('input[name="infants_number"]', t).trigger("change"),
+            $('input[name="BABY_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".BABY", t).data("text") : n + " " + $(".BABY", t).data("text-multi")),
+                    $(".BABY", t).html(a)
+            }),
+            $('input[name="BABY_number"]', t).trigger("change")
+    });
+
+    
+    $(document).on('click', '.dropdown .dropdown-menu', function (e) {
+        e.stopPropagation();
+    });
+</script>
+<script>
+    $("#SlideBannerCombo .carousel-inner .item:eq(0)").addClass("active");
+</script>

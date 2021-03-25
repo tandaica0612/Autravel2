@@ -1,0 +1,247 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .wpex_post_thumbs {
+        width: 200px
+    }
+</style>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title col-xs-12">
+                        <span class="AppTitle">@ViewBag.Title</span>
+
+                        <div class="pull-right">
+                            <a data-toggle="modal" data-target="#myModalBanner" class="btn  btn-success pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-plus"></i> Thêm banner</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="dvDataAllTourdetail">
+                    <div id="gridContainer"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal -->
+<div id="myModalBanner" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add banner</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/action_page.php">
+                    <div class="form-group">
+                        <label for="email">Type:</label>
+                        <select class="form-control" id="TYPE">
+                            <option>COMBO</option>
+                            <option>HOTEL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">STT:</label>
+                        <input type="number" class="form-control" id="STT">
+                    </div>
+                    <div class="box box-info box postimagediv">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Ảnh tiêu biểu</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <div class="inside">
+                                    <img width="266" height="166" class="attachment-266x266 size-266x266" alt="Chọn ảnh" sizes="(max-width: 266px) 100vw, 266px">
+                                    <p class="hide-if-no-js">
+                                        <a href="#" id="set-post-thumbnail" class="thickbox btn selectmedia col-md-6" data-editor="content" data-toggle="modal" data-target="#myModal">Chọn ảnh tiêu biểu </a>
+                                        <a href="#" id="delete-post-thumbnail" class="thickbox btn removeimage col-md-6">Xóa ảnh tiêu biểu </a>
+                                    </p>
+                                    <input type="hidden" id="_thumbnail_id" name="_thumbnail_id">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="UploadBanner" class="btn btn-lg btn-primary">Upload</a>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:90%;height:90%;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/LoadMedia.js"></script>
+
+<input type="hidden" id="AreaSelectImage" name="AreaSelectImage">
+
+<script>
+
+
+    $(function () {
+        $("#gridContainer").dxDataGrid({
+            showBorders: true,
+            paging: {
+                enabled: false
+            },
+            editing: {
+                mode: "form",
+                  allowDeleting: true,
+                confirmDelete: true
+            },
+
+            onRowRemoving: function (e) {
+                e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/Banner/onRowRemoving",
+                    async: false,
+                    data: {
+                        Banner_ID: e.key.Banner_ID
+                     },
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+
+            showRowLines: true,
+            showColumnLines: true,
+            showBorders: true,
+            showColumnHeaders: true,
+            showBorders: true,
+            allowColumnResizing: true,
+            hoverStateEnabled: true,
+            columnAutoWidth: true,
+            noDataText: "Không tìm thấy dữ liệu",
+            allowColumnReordering: true,
+            rowAlternationEnabled: false,
+            wordWrapEnabled: false,
+            columnChooser: { enabled: false },
+            columns: [
+                { dataField: "Banner_ID", allowEditing: false },
+                 {
+                    caption: "Ảnh"
+                    , cellTemplate: function (element, info) {
+                        element.append('<a target="_blank" href="' + info.data.UrlFile + '"><img class="wpex_post_thumbs " src="' + info.data.UrlFile + '" /></a>');
+                    }
+                },
+                   { dataField: "STT", dataType: "number" },
+                { dataField: "TYPE"},
+              ],
+            paging: {
+                enabled: true,
+                pageSize: 20
+            },
+         //   height: window.innerHeight * 0.8,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [100, 200, 500, 1000],
+                showInfo: true
+            },
+            paging: { pageSize: 50 },
+
+            loadPanel: {
+                enabled: true,
+                height: 90,
+                shading: true,
+                showIndicator: true,
+                showPane: true,
+                text: "Đang load dữ liệu...",
+                width: 200,
+                delay: 0
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            scrolling: {
+                mode: "standard",
+                scrollByContent: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            onContentReady: function (e) {
+
+                e.element.find(".dx-datagrid-header-panel").find(".dx-toolbar-before").html('<div style="    font-size: 24px;color:red" class="textstyle_1"><B>@ViewBag.title</B></div>');
+
+
+            },
+            export: {
+                enabled: true,
+                fileName: "Result " + document.title,
+                allowExportSelectedData: true
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/Banner/getdata",
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $("#UploadBanner").click(function (e) {
+        e.preventDefault();
+        var img = $("#_thumbnail_id").val();
+        var TYPE = $("#TYPE").val();
+        var STT = $("#STT").val();
+        if (img == "") {
+            alert("vui lòng chọn ảnh");
+            return;
+        }
+        if (STT == "") {
+            alert("vui lòng nhập STT");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Banner/Add",
+            data: {
+                img: img,
+                TYPE: TYPE,
+                STT: STT,
+            },
+            dataType: "json",
+            success: function (response) {
+                window.location.reload();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,183 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+ 
+<div id="gridContainer"></div>
+
+
+<script>
+    var Tour = [];
+
+    $.ajax({
+        type: "POST",
+        url: "/Tour_Evaluates/getTour",
+        dataType: "json",
+         async:false,
+        success: function (response) {
+            Tour = JSON.parse(response.data);
+        }
+    });
+
+    $(function () {
+        $("#gridContainer").dxDataGrid({
+            showBorders: true,
+            paging: {
+                enabled: false
+            },
+            editing: {
+                mode: "form",
+                allowAdding: true,
+                allowUpdating: true,
+                allowDeleting: true,
+                confirmDelete: true
+            },
+            onEditorPreparing: function (e) {
+                if (e.dataField == "Content")
+                    e.editorName = "dxTextArea";
+             },  
+            onRowUpdating: function (e) {
+
+                var old = Object.assign({}, e.oldData);
+                var prop = Object.keys(e.newData);
+                $.each(prop, function (i, item) {
+                    old[item] = e.newData[item];
+                });
+                old.Created = new Date(old.Created).toISOString().slice(0, 10);
+               e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/Tour_Evaluates/onRowUpdating",
+                    async: false,
+                    data: old,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowRemoving: function (e) {
+                e.cancel = true;
+                $.ajax({
+                    type: "POST",
+                    url: "/Tour_Evaluates/onRowRemoving",
+                    async: false,
+                    data: {
+                        Tour_Evaluate_ID: e.key.Tour_Evaluate_ID
+                     },
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                    }
+                });
+            },
+            onRowInserting: function (e) {
+                 e.data.Created = new Date(e.data.Created).toISOString().slice(0, 10);
+                 e.cancel = true;
+                 $.ajax({
+                    type: "POST",
+                    url: "/Tour_Evaluates/onRowInserting",
+                    async: false,
+                     data: e.data,
+                    dataType: "json",
+                    success: function (response) {
+                        e.cancel = false;
+                        e.data.Tour_Evaluate_ID = response.data;
+                    }
+                });
+            },
+            showRowLines: true,
+            showColumnLines: true,
+            showBorders: true,
+            showColumnHeaders: true,
+            showBorders: true,
+            allowColumnResizing: true,
+            hoverStateEnabled: true,
+            columnAutoWidth: true,
+            noDataText: "Không tìm thấy dữ liệu",
+            allowColumnReordering: true,
+            rowAlternationEnabled: false,
+            wordWrapEnabled: false,
+            columnChooser: { enabled: false },
+            columns: [
+                { dataField: "Tour_Evaluate_ID", allowEditing: false },
+                {
+                    dataField: "Tour_ID", dataType: "number",
+
+                    lookup: {
+                        dataSource: {
+                            store: {
+                                type: 'array',
+                                data: Tour,
+                                key: "Tour_ID"
+                            },
+                            pageSize: 10,
+                            paginate: true
+                        },
+                        valueExpr: 'Tour_ID', // contains the same values as the "statusId" field provides
+                        displayExpr: 'Tour_Name' // provides display values
+                    }
+                },
+                { dataField: "CreateBy"},
+                { dataField: "Created", dataType: "date"},
+                { dataField: "Score", dataType: "number"},
+                { dataField: "Content", dataType: "string" },
+              ],
+            paging: {
+                enabled: true,
+                pageSize: 20
+            },
+         //   height: window.innerHeight * 0.8,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [100, 200, 500, 1000],
+                showInfo: true
+            },
+            paging: { pageSize: 50 },
+           
+            loadPanel: {
+                enabled: true,
+                height: 90,
+                shading: true,
+                showIndicator: true,
+                showPane: true,
+                text: "Đang load dữ liệu...",
+                width: 200,
+                delay: 0
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            scrolling: {
+                mode: "standard",
+                scrollByContent: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            onContentReady: function (e) {
+
+                e.element.find(".dx-datagrid-header-panel").find(".dx-toolbar-before").html('<div style="    font-size: 24px;color:red" class="textstyle_1"><B>@ViewBag.title</B></div>');
+
+
+            },
+            export: {
+                enabled: true,
+                fileName: "Result " + document.title,
+                allowExportSelectedData: true
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/Tour_Evaluates/getdata",
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+
+            }
+        });
+    });
+
+</script>

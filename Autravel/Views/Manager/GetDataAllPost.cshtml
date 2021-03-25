@@ -1,0 +1,57 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model List<Autravel.Models.Post>
+@{
+    int ord = 0;
+}
+<div class="box-body">
+    <table class="wp-list-table widefat fixed striped posts">
+        <thead>
+            <tr>
+                <th scope="col" id="cb" class="manage-column column-cb check-column">STT</th>
+                <th scope="col" id="post_thumbs" class="manage-column column-wpex_post_thumbs">Ảnh</th>
+                <th scope="col" id="title" class="manage-column column-title column-primary sortable desc">Tiêu đề</th>
+                <th scope="col" id="author" class="manage-column column-author">Tác giả</th>
+                <th scope="col" id="categories" class="manage-column column-categories">Chuyên mục</th>
+                <th scope="col" id="tags" class="manage-column column-tags">Thẻ</th>
+                <th scope="col" id="comments" class="manage-column column-comments num sortable desc">Phản hồi</th>
+                <th scope="col" id="date" class="manage-column column-date sortable asc">Ngày</th>
+            </tr>
+        </thead>
+
+        <tbody id="the-list">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    ord++;
+            <tr id="post-@item.Post_id" class="iedit type-post status-publish format-standard has-post-thumbnail">
+                <td scope="row" class="check-column">
+                    @ord
+                </td>
+                <td class="wpex_post_thumbs column-wpex_post_thumbs" data-colname="Featured Image">
+                    <img src="@item.Post_Images" alt="@item.Post_Title" style="max-width:100%;max-height:90px;">
+                </td>
+                <td class="title column-title has-row-actions column-primary page-title" data-colname="Tiêu đề">
+                    <strong><a class="row-title" href="~/Manager/EditPost/@item.Post_id" aria-label="“@item.Post_Title” (Chỉnh sửa)">@item.Post_Title</a></strong>
+                    <span class="view"><a href="~/Post/@(item.Post_Slug)_@item.Post_id" rel="permalink" aria-label="Xem “@item.Post_Title”">Xem bài viết</a></span>
+                </td>
+                <td class="author column-author" data-colname="Tác giả">@(new User().GetByUserID(item.Post_UserID).User_Name)</td>
+                <td class="categories column-categories" data-colname="Chuyên mục">@Funtions.LoadCategory(item.Post_CategoryID)</td>
+                <td class="tags column-tags" data-colname="Thẻ">@item.Post_tag</td>
+                <td class="comments column-comments" data-colname="Phản hồi">
+                    <div class="post-com-count-wrapper">
+                        <span aria-hidden="true"></span><span class="screen-reader-text">Không có phản hồi</span>
+                    </div>
+                </td>
+                <td class="date column-date" data-colname="Ngày">Đã đăng<br><abbr title="@item.Post_CreateDate.ToString("dd/MM/yyyy HH:mm")">@item.Post_CreateDate.ToString("dd/MM/yyyy HH:mm")</abbr></td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr> <td colspan="8">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

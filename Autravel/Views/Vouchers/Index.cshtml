@@ -1,0 +1,309 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách quản lý Voucher";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var status = (DataTable)ViewBag.Status;
+
+ }
+@using Autravel.Models;
+@using System.Data;
+@using Autravel.Extentions;
+ 
+<style>
+    .table-hover > tbody > tr:hover {
+        color: black !important
+    }
+
+    .EmailGiaoDich, .Voucher_Active {
+        margin-left: 5px;
+    }
+
+    .btn-app {
+        height: unset;
+        padding: 3px
+    }
+
+    .dx-toolbar .dx-toolbar-items-container {
+        height: 25px;
+        overflow: visible;
+    }
+    .wpex_post_thumbs {
+        max-width: 100%;
+        max-height: 50px;
+        background-color: #c3c3c3;
+    }
+    .dx-datagrid .active a {
+        color: white !important
+    }
+
+
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title col-xs-12">
+                        <span class="AppTitle">@ViewBag.Title</span>
+                        @foreach (DataRow item in status.Rows)
+                        {
+                        <a class="btn btn-app" onclick="loadgrid('@item["Voucher_Active"]')">
+                            <span class="badge bg-green">@item["Qty"]</span>
+                            @item["StatusVoucher"] @item["Voucher_Active"]
+                        </a>
+                        }
+                    <div class="pull-right">
+                        <select id="VoucherStatus">
+                            <option value="2">Tất cả tình trạng</option>
+                            <option value="0">Chưa đăng</option>
+                            <option value="1">Công khai</option>
+                           
+                        </select>
+                        <a id="btnReload" class="btn btn-xs btn-success pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-refresh"></i> Làm mới</a>
+                        <a href="/Manager/AddVoucher" class="btn btn-xs btn-primary pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-plus"></i> Thêm mới</a>
+                    </div>
+                    </div>
+                </div>
+                <div id="dvDataAllVoucherdetail">
+                    <div id="gridContainer"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="modalUpdateGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%;max-width:60%;background:#f9fafc">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="modalEmailGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="background:#f9fafc">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="col-md-3">Modal Header</span>
+                    <input type="email" id="txtSenTo" class="form-control col-md-3" placeholder="Địa chỉ người nhận" style="max-width:unset;width:300px" />
+                    <a id="btnSendMail" class="btn btn-primary"><i class="fa  fa-paper-plane"></i> Gửi mail</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $("#gridContainer").dxDataGrid({
+        showBorders: true,
+        paging: {
+            enabled: true
+        },
+
+        showRowLines: true,
+        showColumnLines: true,
+        showBorders: true,
+        showColumnHeaders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        hoverStateEnabled: true,
+        columnAutoWidth: true,
+        noDataText: "Không tìm thấy dữ liệu",
+        allowColumnReordering: true,
+        rowAlternationEnabled: false,
+        wordWrapEnabled: false,
+        columnChooser: { enabled: true },
+        columns: [
+
+            {
+                dataField: "Tác vụ",
+                cellTemplate: function (element, info) {
+                    element.append('<a class="btn btn-xs btn-primary"  href="/Manager/EditVoucher/' + info.data.Voucher_ID + '" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a>');
+                    element.append('<a class="btn btn-xs btn-danger DelVoucher" data-id="' + info.data.Voucher_ID + '" > <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a>');
+
+                    if (info.data.Voucher_Active == 1) {
+                        element.append('<a class="btn btn-xs btn-warning Voucher_Active HuyVoucher" data-id="' + info.data.Voucher_ID + '"  > <i class="fa fa-ban" aria-hidden="true"></i> Hủy đăng</a>');
+
+                    } else {
+                        element.append('<a class="btn btn-xs btn-success Voucher_Active DangLaiVoucher"  data-id="' + info.data.Voucher_ID + '"  > <i class="fa fa-upload" aria-hidden="true"></i> Đăng bài</a>');
+                    }
+                }
+            },
+
+            { dataField: "Voucher_ID", caption: "Mã Voucher" },
+            {
+                caption: "Ảnh"
+                , cellTemplate: function (element, info) {
+                    element.append('<img class="wpex_post_thumbs " src="' + info.data.Voucher_Image + '" />');
+                }
+            },
+            {
+                dataField: "Voucher_Name", caption: "Tiêu đề"
+                , cellTemplate: function (element, info) {
+                    element.append('<a   href="/Manager/EditVoucher/' + info.data.Voucher_ID + '"><B>' + info.data.Voucher_Name + '</B></a>');
+                    element.append('<p><a target="_blank" href="/HOMe/Details/ID=' + info.data.Voucher_ID + '">Xem bài viết</a></p>');
+
+                }
+            },
+
+            { dataField: "Location_Name", caption: "Địa danh" },
+            { dataField: "TopicVoucher_Name", caption: "Chủ đề" },
+            { dataField: "Voucher_DepartureDate", caption: "Ngày khởi hành", dataType: "date", format: 'dd/MM/yyyy' },
+            { dataField: "User_Name", caption: "Người đăng" },
+            { dataField: "CreateDate", caption: "Ngày đăng", dataType: "date", format: 'dd/MM/yyyy' },
+            { dataField: "StatusVoucher", caption: "Trạng thái" },
+
+        ],
+        paging: {
+            enabled: true,
+            pageSize: 20
+        },
+        //  height: window.innerHeight * 0.8,
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [100, 200, 500, 1000],
+            showInfo: true
+        },
+
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        scrolling: {
+            mode: "standard",
+            scrollByContent: true
+        },
+        headerFilter: {
+            visible: true
+        },
+
+        export: {
+            enabled: true,
+            fileName: "Result " + document.title,
+            allowExportSelectedData: true
+        }
+    });
+    loadgrid(2);
+    function loadgrid(Voucher_Active) {
+        $.ajax({
+            type: "POST",
+            url: "/Vouchers/GridData",
+            data: {
+                Voucher_Active: Voucher_Active
+            },
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+                var txt = $("#VoucherStatus option[value='" + Voucher_Active + "']").text();
+                document.title = txt;
+                $(".AppTitle").html("Danh sách " + txt);
+
+            }
+        });
+    }
+
+    $("#btnReload").click(function (e) {
+        e.preventDefault();
+        loadgrid(2);
+    });
+    $("#VoucherStatus").change(function (e) {
+        e.preventDefault();
+        var ID = $(this).val();
+        loadgrid(ID);
+    });
+    $(document).on("click", "table   tr", function () {
+        $('table tr').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $(document).on("click", ".HuyVoucher", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn Hủy đăng bài ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Vouchers/HuyVoucher",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+    
+    $(document).on("click", ".DangLaiVoucher", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn Đăng bài ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Vouchers/DangLaiVoucher",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+
+     
+    $(document).on("click", ".DelVoucher", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn xóa bài viết ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Vouchers/DelVoucher",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+
+
+
+</script>

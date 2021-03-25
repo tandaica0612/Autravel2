@@ -1,0 +1,57 @@
+﻿@using System.Data;
+@using Autravel.Extentions;
+@using Autravel.Models.Function;
+@{
+    var CamNang = (DataTable)ViewBag.CamNang;
+}
+
+@model DataRow
+
+
+
+@helper itemPanel(string txt, DataTable source)
+{
+    <div class="container" style="margin-top:70px">
+        <div class="Hanbook">
+            <div class="container">
+                <div class="headingContent">
+                    <h4 class="heading">@txt</h4>
+                </div>
+                <div class="body-content-Combo">
+                    @foreach (DataRow item in source.Rows)
+                    {
+                        <a href="/PCombo/Details">
+                            <div class="col-md-3 combo-item">
+                                <div class="div-img-combo">
+                                    <a href="/"> <img class="img-combo" src="@item["Post_Images"]" /></a>
+                                </div>
+                                <div class="titel-combo">
+                                    <span class="titel"><a href="/">Ẩm thực</a></span>
+                                    <b class="description-combo">@item["Post_Tile"]</b>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+}
+
+
+<div class="container" style="margin-top: 70px;display: grid;">
+    <img src="@Model["Post_Images"]" class="col-md-12" />
+    <br />
+    <br />
+    <div style="margin-left: 10%">
+        <h1><b>@Model["Post_Tile"]</b></h1>
+        <br />
+        <p>@Model["Post_Description"]</p>
+        <p>@Model["Post_Content"]</p>
+    </div>
+</div>
+
+
+@itemPanel("Bài viết liên quan", CamNang)

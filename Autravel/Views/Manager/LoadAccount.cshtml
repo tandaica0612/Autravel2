@@ -1,0 +1,77 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model Autravel.Models.User
+@{
+    List<UserRoles> userRoles = new UserRoles().GetAll();
+}
+
+@using (Html.BeginForm("UpdateAccount", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Thông tin tài khoản</h4>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" name="User_ID" id="User_ID" value="@Model.User_ID" />
+        <div class="col-md-3">
+            <div class="User_Image">
+                <div class="inside">
+                    <img src="@Model.User_Image" class="attachment-266x266 size-266x266" alt="Chọn ảnh">
+                    <input type="hidden" id="User_Image" name="User_Image" value="@Model.User_Image">
+                </div>
+            </div>
+            <div class="checkbox">
+                <label>
+                    @{ string StatusActive = "";
+                        if (Model.User_Active == true) { StatusActive = "checked"; }
+                    }
+                    <input id="User_Active" type="checkbox" name="User_Active" @StatusActive>
+                    Hoạt động
+                </label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="User_Name">Tên đăng nhập</label>
+                    <input name="User_Name" type="text" maxlength="20" id="User_Name" class="form-control tf-require" style="text-transform: lowercase;" value="@Model.User_Name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="User_Pass">
+                        Mật khẩu
+                    </label>
+                    <input name="User_Pass" type="text" maxlength="30" id="User_Pass" class="form-control tf-password">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="User_Role">Quyền hạn </label>
+                    <select name="User_Role" id="User_Role" class="form-control">
+                        @foreach (var itemRole in userRoles)
+                        {
+                            string SelectedRole = "";
+                            if (Model.User_Role == itemRole.UserRoleID) { SelectedRole = "selected"; }
+                            <option value="@itemRole.UserRoleID" title="@itemRole.UserRoleDescription" @SelectedRole>@itemRole.UserRoleName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="User_Email">Email</label>
+                    <input name="User_Email" type="text" maxlength="40" id="User_Email" class="form-control tf-require tf-email" value="@Model.User_Email">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="User_Phone">Điện thoại</label>
+                    <input name="User_Phone" type="text" maxlength="15" id="User_Phone" class="form-control  tf-require" value="@Model.User_Phone">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="User_transactionName">Tên đầy đủ</label>
+                    <input name="User_transactionName" type="text" maxlength="40" id="User_transactionName" class="form-control  tf-require" value="@Model.User_transactionName">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+    </div>
+}

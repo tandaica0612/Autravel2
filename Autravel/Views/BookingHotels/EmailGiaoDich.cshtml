@@ -1,0 +1,341 @@
+﻿@model System.Data.DataRow
+@using Autravel.Extentions;
+
+<style>
+    .invoice, .modal-dialog {
+        background: #EEE;
+        width: 970px !important;
+        margin: 0 auto;
+    }
+
+    #modalEmailGiaoDich .modal-body {
+        padding: 0
+    }
+
+    .invoice .invoice-header {
+        padding: 25px 25px 15px;
+    }
+
+        .invoice .invoice-header h1 {
+            margin: 0;
+        }
+
+        .invoice .invoice-header .media .media-body {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+    .invoice .invoice-body {
+        border-radius: 10px;
+        padding: 25px;
+        background: #FFF;
+    }
+
+    .invoice .invoice-footer {
+        padding: 15px;
+        font-size: 0.9em;
+        text-align: center;
+        color: #999;
+    }
+
+    .invoice .logo {
+        max-height: 70px;
+        border-radius: 10px;
+    }
+
+    .invoice .dl-horizontal {
+        margin: 0;
+    }
+
+        .invoice .dl-horizontal dt {
+            float: left;
+            width: 80px;
+            overflow: hidden;
+            clear: left;
+            text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .invoice .dl-horizontal dd {
+            margin-left: 90px;
+        }
+
+    .invoice .rowamount {
+        padding-top: 15px !important;
+    }
+
+    .invoice .rowtotal {
+        font-size: 1.3em;
+    }
+
+    .invoice .colfix {
+        width: 12%;
+    }
+
+    .invoice .mono {
+        font-family: monospace;
+    }
+</style>
+<div class="container invoice">
+    <div class="invoice-header">
+        <div class="row">
+            <div class="col-xs-8">
+                <h1>@Model["Hotel_Name"]</h1>
+                <h4 class="text-muted">NO: @Model["BookingHotel_ID"] | @Model.ToDateString("Booking_CreateDate")</h4>
+            </div>
+            <div class="col-xs-4">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object logo" src="/Content/image/logo.png" />
+                    </div>
+                    <ul class="media-body list-unstyled">
+                        <li><strong>AUTRAVEL.VN</strong></li>
+                        <li>Số 9A Thanh Liệt, Thanh Trì, Hà Nội</li>
+                        <li>0869 660 371</li>
+                        <li>info@autravel.vn</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="invoice-body">
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Thông tin công ty</h3>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Tên</dt>
+                            <dd><strong>Autravel</strong></dd>
+                            <dt>Địa chỉ</dt>
+                            <dd>Tòa nhà Asuva, số 9A Thanh Liệt, Thanh Trì, Hà Nội</dd>
+                            <dt>Điện thoại</dt>
+                            <dd>0869.660.371</dd>
+                            <dt>Email</dt>
+                            <dd>info@autravel.vn</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Thông tin khách hàng</h3>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Tên</dt>
+                            <dd>................................................</dd>
+                            <dt>Địa chỉ</dt>
+                            <dd>................................................</dd>
+                            <dt>Điện thoại</dt>
+                            <dd>................................................</dd>
+                            <dt>Email</dt>
+                            <dd>................................................</dd>
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Dịch vụ / Sản phẩm</h3>
+            </div>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th class="text-center colfix">Tên</th>
+                        <th class="text-center colfix">Ghi chú</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Lorem Ipsum Dolor
+                            <br>
+                            <small class="text-muted">The best lorem in town, try it now or leave forever</small>
+                        </td>
+                        <td class="text-right">
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <td class="text-center col-xs-1">Total Price</td>
+                        <td class="text-center col-xs-1">Surcharge</td>
+                        <td class="text-center col-xs-1">Final</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="text-center rowtotal mono">@int.Parse(Model["Booking_TotalPrice"].ToString()).ToString("#,###") VND</th>
+                        <th class="text-center rowtotal mono">@(Model["Booking_Surcharge"].ToString() !="0"?int.Parse(Model["Booking_Surcharge"].ToString()).ToString("#,###"):"0") VND</th>
+                        <th class="text-center rowtotal mono">@int.Parse(Model["Booking_FinalPrice"].ToString()).ToString("#,###") VND</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Phương thức thanh toán</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Để thuận tiện cho bạn, bạn có thể gửi thanh toán tại một trong các ngân hàng của chúng tôi</p>
+                        <div>
+                            <div class="middle">
+                                <div style="margin-bottom: 15px;">
+
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><b><span style="color: rgb(238, 59, 59); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">I. THANH TOÁN TẠI VĂN PHÒNG</span></b></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Quý khách thanh toán tại văn phòng vui lòng đến Văn Phòng <a href="http://autravel.vn">Autravel</a>&nbsp;trong giờ hành chính từ thứ 2 – thứ 7 hàng tuần</span></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><b><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">CÔNG TY TNHH AUGROUP VIỆT NAM</span></b></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Tầng 2, Số 160, Nguyễn Xiển, Thanh Xuân, Hà Nội</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Hotline: 1900.888.660&nbsp; &nbsp; Email:</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">&nbsp;</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">info@autravel.vn</span>
+                                            </span>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">&nbsp;</span></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><b><span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">II. THANH TOÁN CHUYỂN KHOẢN</span></b></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><b><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">♦ SỐ TÀI KHOẢN CÁ NHÂN&nbsp;</span></b></span></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">VIETCOMBANK&nbsp;</span><span style="color: rgb(51, 51, 51); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">– Ngân hàng TMCP Ngoại Thương Việt Nam – CN Hà Nội</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">
+                                                    <br>
+                                                    Số TK 0991 00000 9423
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ TK: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">BIDV</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">&nbsp;– Ngân hàng TMCP Đầu Tư và Phát Triển Việt Nam – CN Hai Bà Trưng</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;12110000388327</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">VIETINBANK</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">&nbsp;– Ngân hàng Công Thương Việt Nam – CN Bắc Nghệ An</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản: 103006352793</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">AGRIBANK</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">&nbsp;– Ngân hàng NN &amp; PTNN Việt nam – CN Thị xã Hoàng Mai, Nghệ An</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;3624 2050 71349</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">TECHCOMBANK&nbsp;</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">– Ngân hàng Kĩ Thương Việt Nam – CN Văn Quán</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;1903 1675 749888</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">SACOMBANK</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">&nbsp;– Ngân hàng Sài Gòn Thương Tín – CN Thăng Long</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;0200 5001 8181</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản: Ông&nbsp;<b>TRẦN ĐÌNH THƯỢNG</b></span><br>
+                                            </span>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                            <br>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;"><b><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">♦ SỐ TÀI KHOẢN&nbsp;DOANH NGHIỆP – SỬ DỤNG KHI CÁC DOANH NGHIỆP CHUYỂN KHOẢN XUẤT HÓA ĐƠN VAT</span></b></span></span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">TECHCOMBANK&nbsp;</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">– Ngân hàng Kĩ Thương Việt Nam – Chi nhánh Văn Quán</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;1913 276 4141010</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản:&nbsp;<b>CÔNG TY TNHH AUGROUP VIỆT NAM</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size:14px;">
+                                            <span style="font-family:arial,helvetica,sans-serif;">
+                                                <span style="color: rgb(231, 76, 60); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">VIETCOMBANK&nbsp;&nbsp;</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">–&nbsp;Ngân hàng TMCP Ngoại Thương Việt Nam – Chi nhánh Thanh Xuân</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Số tài khoản:&nbsp;0711 0000 55888</span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt;">
+                                                    <br>
+                                                </span><span style="color: rgb(10, 10, 10); letter-spacing: 0.1pt; border: 1pt none windowtext; padding: 0in;">Chủ tài khoản:&nbsp;<b>CÔNG TY TNHH AUGROUP VIỆT NAM</b></span>
+                                            </span>
+                                        </span><span style="font-size: 9.5pt; font-family: Arial, sans-serif; color: rgb(10, 10, 10); letter-spacing: 0.1pt;"><o:p></o:p></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="invoice-footer">
+        Cảm ơn bạn đã lựa chọn dịch vụ của chúng tôi.
+        <br /> Mong rằng chúng tôi sẽ sớm gặp lại bạn
+        <br />
+        <strong>~AuTravel~</strong>
+    </div>
+</div>

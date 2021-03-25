@@ -1,0 +1,32 @@
+﻿@model System.Data.DataTable
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+<style>
+    #ThongTinKhach td{
+        padding:10px;
+        font-size:30px;
+    }
+    #ThongTinKhach .active a {
+    color:black!important
+    }
+</style>
+<div class="container">
+    <table id="ThongTinKhach" class="  table-hover table-bordered">
+        <tr>
+            <td>Họ tên</td>
+            <td>@Model.FirstOrDefault("HoTen")</td>
+        </tr>
+        <tr>
+            <td>Số điện thoại</td>
+            <td><a>@Model.FirstOrDefault("Phone")</a></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><a>@Model.FirstOrDefault("Email")</a></td>
+        </tr>
+        <tr>
+            <td>Yêu cầu đặc biệt</td>
+            <td>@Model.FirstOrDefault("YeuCauDacBiet")</td>
+        </tr>
+    </table>
+</div>

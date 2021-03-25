@@ -1,0 +1,8 @@
+﻿@using Autravel.Models;
+@{
+    List<PostCategory> l_PostCategory = new PostCategory().GetAll();
+}
+@foreach (var itemPostCategory in l_PostCategory)
+{
+    <li id="@itemPostCategory.PostCategory_ID"><label class="selectit"><input value="@itemPostCategory.PostCategory_ID" type="checkbox" name="tour_Location" id="@itemPostCategory.PostCategory_ID"> @itemPostCategory.PostCategory_Title</label></li>
+}

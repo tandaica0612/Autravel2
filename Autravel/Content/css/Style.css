@@ -1,0 +1,210 @@
+﻿@media (min-width: 768px){
+    .menu_fix_top.navbar-collapse {
+        width: 66.66666667%;
+    }
+    ul.nav.navbar-nav {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .navbar-logo * {
+        width: 100% !important;
+        text-align: center;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .navbar-default .menu_fix_top .navbar-nav > li > a {
+        font-weight: 600;
+    }
+}
+.date-picker-wrapper.no-shortcuts {
+    z-index: 9;
+}
+.banner-site #SlideBannerCombo .item img{
+    width:100%;
+}
+.body-content {
+    margin-top: 70px;
+}
+.content-banner {
+    position: absolute;
+    z-index: 2;
+    top: 150px;
+    width:100%
+ }
+.content-banner .content {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.content-banner .content h3.titel-banner,.content-banner .content span.sologan-banner{
+    color:#fff;
+}
+.searchbox-banner {
+    margin-top: 20px;
+}
+form.formsearch {
+    margin: 0 auto !important;
+    max-width: 750px !important;
+    border: 1px solid #DDDDDD !important;
+    border-radius: 10px;
+    padding: 10px;
+    color: #222222 !important;
+    height: 79px !important;
+    position: relative !important;
+    width: 100% !important;
+    box-shadow: 0px 16px 32px rgb(0 0 0 / 15%), 0px 3px 8px rgb(0 0 0 / 10%) !important;
+    --big-search-form-background: #FFFFFF !important;
+    background-color: #ffffff80 !important;
+}
+.div-location, .div-Departure {
+    display: block;
+    width: 45%;
+    float: left;
+    background-color: #fff;
+    margin-right: 10px;
+    border-radius: 5px;
+    text-align: left;
+    padding: 5px;
+}
+@media (max-width: 768px) {
+    .div-location, .div-Departure {
+        display: block;
+        width: 42%;
+        float: left;
+        background-color: #fff;
+        margin-right: 5px;
+        border-radius: 5px;
+        text-align: left;
+        padding: 5px;
+    }
+    .searchbox-banner {
+        margin-top: 10px;
+    }
+    a.carousel-control {
+        display: none;
+    }
+}
+.div-location input#inp-location, .div-Departure input#inp-Departure{
+    width:100%;
+    outline:none;
+    border:none;
+}
+.div-btnSearchbox {
+    height: 100%;
+    float: left;
+    height: 100%;
+}
+button#btnSearchbox {
+    height: 100%;
+    background: #222222;
+ }
+#btnSearchbox {
+    padding: 18px;
+    background: #222222 !important;
+    border-color: #222222 !important;
+}
+/*Body site*/
+.ComboForYou, .ComboBestSelling, .PopularPlaces, .Hanbook {
+    padding-top: 20px;
+}
+.div-img-combo {
+    overflow: hidden;
+    border-radius: 10px;
+    height: 250px;
+}
+.ComboBestSelling {
+    background: #222222;
+    color: #fff;
+}
+.body-content-Combo {
+    width: 100%;
+    position: relative;
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.headingContent h4.heading {
+    font-weight: 600;
+    font-size: 1.8em;
+}
+.body-content-Combo .combo-item {
+    padding: 0 5px;
+}
+.ComboForYou .body-content-Combo .titel-combo a, .PopularPlaces .body-content-Combo .titel-combo a {
+    color: #222;
+    font-weight: 600;
+}
+.ComboBestSelling .body-content-Combo span.time-duration, .time-duration {
+    background-color: #ea5858;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    position: absolute;
+    padding: 0 5px;
+    top: 220px;
+    left: 10px;
+    color: #FFF;
+}
+.body-content-Combo .titel-combo span {
+    display: block;
+    margin: 2px 0;
+}
+.ComboBestSelling .body-content-Combo .titel-combo span.location-combo-item {
+    color: #9f9e9e;
+    font-size: 0.8em;
+}
+.ComboBestSelling .body-content-Combo .titel-combo span.titel a {
+    color: #fff;
+}
+.body-content-Combo .titel-combo .rateStar-item .fa {
+    color: #f3994b;
+}
+.body-content-Combo .titel-combo .price-item {
+    font-weight: 600;
+}
+.Hanbook .titel-combo span.titel a {
+    color: #ec5858;
+}
+/*Footer*/
+footer.section-footer-site .container {
+    display: flex;
+    justify-content: center;
+}
+.content-footer{
+    padding: 0 5px;
+}
+.content-footer .section-footer {
+    padding: 0 5px;
+}
+footer.section-footer-site .container h4.titel-footer {
+    font-weight: 600;
+}
+footer.section-footer-site .container .content-footer .section-footer ul {
+    list-style: none;
+    padding-left: 0px;
+}
+ footer.section-footer-site .container .content-footer .section-footer ul li a {
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        font-style: inherit !important;
+        font-variant: inherit !important;
+        text-decoration: none !important;
+        color: #222222 !important;
+        font-size: 14px !important;
+        line-height: 18px !important;
+}
+footer.section-footer-site .container .content-footer .section-footer ul li {
+    margin-top: 16px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    color: #222222 !important;
+}
+.btn-black {
+    color: #fff;
+    background-color: #222222;
+    border-color: #ccc;
+}
+.month-wrapper
+{
+    width:unset!important
+}

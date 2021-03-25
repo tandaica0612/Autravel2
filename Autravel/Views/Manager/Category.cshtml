@@ -1,0 +1,58 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Chuyên mục bài viêt";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="col-sm-6">
+                        <h3 class="box-title">DANH SÁCH CHUYÊN MỤC</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="" class="fa fa-edit btn btn-success pull-right editPostCategory" data-categoriesid="0" data-toggle="modal" data-target="#myModal"></a>
+                    </div>
+                </div>
+                <div id="dvDataAlleditPostCategory">
+                    @Html.Partial("GetDataCategory")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:300px;" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("EditCategory", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Tên Chuyên Mục</h4>
+                </div>
+                <div class="modal-body">
+                <input type="hidden" name="CategoryID" class="CategoryID" id="CategoryID" value="0" />
+                <input name="CategoryName" type="text"  id="CategoryName" class="form-control  tf-require CategoryName">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.editPostCategory').click(function(){
+        $('#CategoryID').val($(this).attr('data-categoriesid'));
+        $('#CategoryName').val($(this).attr('data-categoriesname'));
+    })
+</script>

@@ -1,0 +1,45 @@
+﻿@{
+    IEnumerable<string> imagearray = ViewBag.listimage;
+    ViewBag.Title = "Danh sách ảnh";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Drag & Drop file upload </h2>
+<div id="dropArea">
+    Drop your files here
+</div>
+<div class="container-img">
+    <div class="text-center">
+        @foreach (string item in imagearray.Reverse())
+        {
+            <div class="col-md-2 imageitem" data-srcitem="@item.Replace( item.Substring(0,item.IndexOf("Content\\Uploads")),"/")">
+                <button type="button" class="button-link check" tabindex="0"><span class="media-modal-icon fa fa-check"></span></button>
+                <img src="@item.Replace( item.Substring(0,item.IndexOf("Content\\Uploads")),"/")" />
+                <p>@System.IO.Path.GetFileName(item)</p>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+<style>
+    #dropArea {
+        background: #b5b5b5;
+        border: black dashed 1px;
+        height: 50px;
+        text-align: center;
+        color: #fff;
+        padding-top: 12px;
+    }
+
+    .active-drop {
+        background: #77bafa !important;
+        border: solid 2px blue !important;
+        opacity: .5;
+        color: black !important;
+    }
+</style>
+
+<script src="~/Content/js/LoadMedia.js"></script>
+<script src="~/Scripts/jquery.filedrop.js"></script>
+<script src="~/Content/js/DropToUpload.js"></script>

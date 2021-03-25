@@ -1,0 +1,28 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách Combo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title col-sm-12">
+                        @ViewBag.Title
+                        <a class=" btn-sm btn-success pull-right" href="/Manager/AddTour"><i class="fa fa-plus"></i> Thêm mới</a>
+                    </h3>
+                </div>
+                <div id="dvDataAllTourdetail">
+                    @Html.Partial("GetDataAllTour")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

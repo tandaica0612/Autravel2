@@ -1,0 +1,141 @@
+﻿<style>
+    #CheckOut p {
+        margin-top: 10px
+    }
+    #CheckOut table td{
+        padding:5px;
+        border:0!important
+    }
+    #CheckOut table {
+        width: 100%;
+        border: 0 !important;
+        border-top: 1px dashed #ddd!important;
+    }
+    .form-control
+    {
+        width:unset!important;
+        max-width:unset!important;
+    }
+    #formcheckout {
+        display: grid
+    }
+</style>
+@model System.Data.DataRow
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@{ 
+    var Room = (System.Data.DataTable)ViewBag.Room;
+    var AirType = (System.Data.DataTable)ViewBag.AirType;
+    var CarType = (System.Data.DataTable)ViewBag.CarType;
+    int Total = Room.FirstOrDefault().ToInt("Price") + CarType.FirstOrDefault().ToInt("Price") + AirType.FirstOrDefault().ToInt("Price");
+}
+<div class="container" id="CheckOut" style="margin-top:70PX">
+
+    <div class="panel panel-default">
+        <div class="panel-body" style="text-align:center">
+            <a class="btn btn-black">1</a>
+            <span>Điền thông tin</span>
+            <span>- - - - - - - - - - - - - - </span>
+            <a class="btn btn-black" style="background-color: #999"> 2</a>
+            <span>Hoàn thành</span>
+
+        </div>
+    </div>
+    <form action="/PCombo/CheckoutFinish" method="post">
+        <input type="hidden" name="Tour_ID" value="@Model["Tour_ID"]" />
+        <input type="hidden" name="Booking_TotalPrice" value="@Total" />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="formcheckout">
+                        <h3><b>Thông tin liên hệ</b></h3>
+
+                        <p>Họ và tên</p>
+                        <input class="col-md-12 form-control"  name="HoTen"/>
+                        <p>Điện thoại</p>
+                        <div>
+                            <b>
+                                <input class="form-control" style="width:50PX!important;float:left" value="+84" disabled />
+                                <input class="col-md-10 form-control" name="Phone" />
+                            </b>
+                        </div>
+                        <p>Email</p>
+                        <input class="col-md-12 form-control" name="Email"/>
+                        <p>Yêu cầu đặc biệt</p>
+                        <textarea class="col-md-12 form-control" name="YeuCauDacBiet"></textarea>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-lg btn-black pull-right" value="Tiếp tục" />
+           
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <b>Chi tiết đặt chỗ</b>
+                        <img class="col-12" style="width:100%;height:200px" src="@Model["Tour_Image"]" />
+                        <p><b>@Model["Tour_Name"]</b></p>
+                        <p>
+                            @Html.Raw(Funtions.FillStarView(Model.ToFloat("Tour_StarRate")))
+                            | <span><a>@Model["Hotel_Address"]</a></span>
+                        </p>
+
+                        <table>
+                            <tr>
+                                <td>Ngày nhận phòng</td>
+                                <td><b>@Model.ToDateString("Tour_DepartureDate")</b></td>
+                            </tr>
+                            <tr>
+                                <td>Checkout</td>
+                                <td><b>@Model.ToDateString("Tour_DepartureDate")</b></td>
+                            </tr>
+                            <tr>
+                                <td>Số đêm lưu trú</td>
+                                <td><b>@Model["Tour_TimeZone"] đêm</b></td>
+                            </tr>
+                            <tr>
+                                <td>Người lớn</td>
+                                <td><b>3</b></td>
+                            </tr>
+                            <tr>
+                                <td>Trẻ em</td>
+                                <td><b>3</b></td>
+                            </tr>
+                            <tr style=" border-top: 1px dashed #ddd !important; ">
+                                <td colspan="2">Yêu cầu đặc biệt</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Loại phòng</td>
+                            </tr>
+                            <tr>
+                                <td><b>@Room.FirstOrDefault("Name")</b></td>
+                                <td>Phòng/đêm<br /><b>+@Room.FirstOrDefault().ToIntCurrency("Price")d</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Hạng xe</td>
+                            </tr>
+                            <tr>
+                                <td><b>@CarType.FirstOrDefault("CarType")</b></td>
+                                <td><b>+@CarType.FirstOrDefault().ToIntCurrency("Price")đ</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Hãng hàng không</td>
+                            </tr>
+                            <tr>
+                                <td><b>@AirType.FirstOrDefault("AirType")</b></td>
+                                <td><b>+@AirType.FirstOrDefault().ToIntCurrency("Price")đ</b></td>
+                            </tr>
+                            <tr style=" border-top: 1px dashed #ddd !important">
+                                <td style=" font-size: 20px;font-weight:bold">Tổng cộng</td>
+                                <td style="font-size: 20px;font-weight: bold">@Total.ToString("#,####") đ</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><i class="pull-right">Giá trên chưa bao gồm VAT</i></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+        </div>

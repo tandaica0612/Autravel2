@@ -1,0 +1,116 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@model System.Data.DataTable
+@{
+    var Hotel_Facilities = (DataTable)ViewBag.Hotel_Facilities;
+}
+<div>
+
+    <h1>@ViewBag.KeySearch</h1>
+    <p>Tìm thấy @Model.Rows.Count combo</p>
+    <div class="row SortPrice">
+        <button type="button" class="btn btn-default col-md-3">Giá thấp nhất</button>
+        <button type="button" class="btn btn-default col-md-3">Giá cao nhất</button>
+        <button type="button" class="btn btn-default col-md-3">Ưu đãi(Cao -> Thấp)</button>
+        <button type="button" class="btn btn-default col-md-3">Đánh giá hàng đầu</button>
+    </div>
+
+</div>
+<br />
+@foreach (System.Data.DataRow item in Model.Rows)
+{
+    var discount = 100 - item.ToFloat("Tour_PriceSale") / item.ToFloat("Tour_Price") * 100;
+    discount = (int)discount;
+    var tienich = Hotel_Facilities.Select("Hotel_Facilities_ID in (" + item["Hotel_Facilities_ID"] + ")");
+    int Tour_Qty = item.ToInt("Tour_Qty");
+
+    <div class="panel panel-default">
+        <div class="panel-body" style="padding:0 0 0 10px;margin:0">
+
+            <div class="row">
+                <div class="col-md-3" style="margin:0;padding:0">
+                    <div class="div-img-combo" style="border-radius:0">
+                        <img class="img-combo" src="@item["Tour_Image"]" />
+                        <span class="time-duration">@item["Tour_TimeZoneText"]</span>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding:10px">
+                    <h4><b>@item["Tour_Name"]</b></h4>
+                    @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(float.Parse(@item["Tour_StarRate"].ToString())))
+                    | <span><a>@item["Hotel_Address"]</a></span>
+                    <br />
+                    <table border="0" class="KhoiHanh">
+
+                        <tr>
+                            <td>Combo</td>
+                            <td>Khách sạn  </td>
+                            <td>+</td>
+                            <td>Vé mát bay</td>
+                        </tr>
+
+                        <tr>
+                            <td>Khởi hàng</td>
+                            <td>Hà nội</td>
+                            <td>=></td>
+                            <td>HCM</td>
+                        </tr>
+                        <tr>
+                            <td>Áp dụng</td>
+                            <td>@item.ToDateString("Tour_DepartureDate")</td>
+                            <td>-</td>
+                            <td>@item.ToDate("Tour_DepartureDate").AddDays(item.ToFloat("Tour_TimeZone")).ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    </table>
+                    <br />
+                    @foreach (DataRow xrow in tienich)
+                    {
+                        <a class="btn btn-xs btn-default">@xrow["Name"]</a>
+
+                    }
+
+                </div>
+                <div class="col-md-3" style="padding:10px">
+                    <div class="pull-right">
+                        <div class="col-md-8" style="text-align:right">
+                            <p style="margin:0"> <b>Tuyệt hảo</b></p>
+                            <span>24 đánh giá</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="btn  label-default" style="margin-right: 130px;background-color: #eee;font-weight:bold;font-size:16px">@item["Tour_Score"]</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:100px;text-align:right;margin-right:20px">
+                        @if (Tour_Qty != 0)
+                        {
+                            <p class="m-0">
+                                <span style="text-decoration:line-through">@item.ToIntCurrency("Tour_Price") đ</span>
+                                <a class="btn btn-xs btn-black">@discount %</a>
+                            </p>
+                            <p>
+                                <b>@item.ToIntCurrency("Tour_PriceSale") đ</b>
+                            </p>
+                            <p>
+                                <span class="dot"><b>@item["Tour_Qty"]</b> <br />gói</span>
+                                <a href="/PCombo/Details/@item["Tour_ID"]" class="btn btn-black">Xem ngay</a>
+                            </p>
+
+                        }
+                        else
+                        {
+                            <br />
+                            <br />
+                            <br />
+                            <a class="btn btn-default">Đã bán hết</a>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}

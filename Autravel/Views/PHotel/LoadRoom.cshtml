@@ -1,0 +1,86 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+
+@model   DataTable
+@{ 
+    var RoomHotel_Extensions = (DataTable)ViewBag.RoomHotel_Extensions;
+}
+
+@if (Model.Rows.Count == 0)
+{
+    <div class="no-results">
+        <h3><b>Giai đoạn không có giá!</b></h3>
+        <p>Rất tiếc chúng tôi không có giá trong thời gian này.</p>
+        <p>Xin vui lòng chọn thời gian khác hoặc <b>liên hệ 1900 2045</b> để được hỗ trợ</p>
+    </div>
+}
+
+@foreach (DataRow item in Model.Rows)
+{
+    <div class="col-md-12 itemphong">
+        <p>Phòng</p>
+        <h1>@item["RoomHotel_Type"]</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="@item["RoomHotel_Image"].ToString().Trim()" class="col-md-12 RoomHotel_Image">
+                @if (!string.IsNullOrEmpty(item["RoomHotel_Image"].ToString()))
+                {
+                    var itemImage = item["RoomHotel_Image"].ToString().Split(',');
+                    foreach (var itemInList in itemImage)
+                    {
+                        if (itemInList != "")
+                        {
+                            <div class="col-md-2 item_image">
+                                <img src="@itemInList.Trim()"
+                                     class="item_image_combo" style="width:70px;height:70px">
+                            </div>}
+                    }
+                }
+            </div>
+            <div class="col-md-3">
+                <p><i class="fa fa-user"></i> @item["RoomHotel_Adutls"] người lớn & @item["RoomHotel_Infants"] trẻ em</p>
+                <br />
+                <p>
+                    <i class="fa fa-bed" aria-hidden="true"></i> @item["RoomHotel_Bed"]
+                </p>
+                <br />
+                <p>
+                    <i class="fa fa-arrows-h" aria-hidden="true"></i> @item["RoomHotel_Acreage"] m2
+                </p>
+                <br />
+                <p>
+                    <i class="fa fa-eye" aria-hidden="true"></i> @item["RoomHotel_View"]
+                </p>
+
+            </div>
+            <div class="col-md-3" style="border-left: 1PX dashed;height: 100%;padding-left: 25px;">
+                <b>Lợi ích khi đặt phòng</b>
+                @foreach (DataRow it in RoomHotel_Extensions.Select("Type='LOIICH'"))
+                {
+                    <p>@Html.Raw(it["icon"]) @it["Name"]</p>
+                }
+
+                <hr />
+                <b><i class="fa fa-check-circle"></i> Các ưu đãi/điều kiện khác:</b>
+                @foreach (DataRow it in RoomHotel_Extensions.Select("Type='OTHER'"))
+                {
+                    <p>@Html.Raw(it["icon"]) @it["Name"]</p>
+                }
+            </div>
+            <div class="col-md-3" style="        border-left: 1PX dashed;height: 100%;text-align: right;">
+                <b>Tổng giá</b>
+
+                <p>4 đêm</p>
+                <p>2 người lớn & 1 trẻ em</p>
+                <br />
+                <div>
+                    <p><span style="text-decoration:line-through">3.100.000 đ</span><a class="btn btn-xs btn-black">24%</a></p>
+                    <p><b>2.000.000 đ</b></p>
+                    <p>   <i>Đã bao gồm thuế phí</i></p>
+                    <a href="/PHotel/Checkout" class="btn btn-black">Yêu cầu đặt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

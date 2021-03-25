@@ -1,0 +1,27 @@
+﻿@using System.Data;
+@using Autravel.Models.Function;
+@using Autravel.Extentions;
+@model  DataTable
+
+@{
+    DataRow item = Model.Rows[0];
+}
+<h2>Thông tin khách sạn</h2>
+<div>
+    @Html.Raw(item["Hotel_Content"])
+  
+    <br />
+    @foreach (var it in Autravel.Models.Tags.ConvertIDtoText(item["Tag_ID"].ToString()))
+    {
+        <a class="btn btn-default">@it</a>
+    }
+</div>
+<hr />
+<div id="Hotel_Facilities_ID">
+    <h2>Các tiện nghi được ưa chượng nhất</h2>
+    <br />
+    @foreach (var it in Autravel.Models.Hotel_Facilities.ConvertIDtoText(item["Hotel_Facilities_ID"].ToString()))
+    {
+        <a class="btn btn-default">@it</a>
+    }
+</div>

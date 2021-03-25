@@ -1,0 +1,291 @@
+﻿@using Autravel.Models;
+@{
+    ViewBag.Title = "Danh sách quản lý Khách sạn";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+ 
+}
+@using Autravel.Models;
+@using System.Data;
+@using Autravel.Extentions;
+
+<style>
+    .table-hover > tbody > tr:hover {
+        color: black !important
+    }
+
+    .EmailGiaoDich, .Hotel_Active {
+        margin-left: 5px;
+    }
+
+    .btn-app {
+        height: unset;
+        padding: 3px
+    }
+
+    .dx-toolbar .dx-toolbar-items-container {
+        height: 25px;
+        overflow: visible;
+    }
+
+    .wpex_post_thumbs {
+        max-width: 100%;
+        max-height: 50px;
+        background-color: #c3c3c3;
+    }
+
+    .dx-datagrid .active a {
+        color: white !important
+    }
+    .DelHotel, .EditHotel
+    {
+        margin-left:4px
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#PageSize").val(@Constants.PAGESIZE);
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title col-xs-12">
+                        <span class="AppTitle">@ViewBag.Title</span>
+                        
+                        <div class="pull-right">
+                           
+                            <a id="btnReload" class="btn btn-xs btn-success pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-refresh"></i> Làm mới</a>
+                            <a href="/Manager/AddHotel" class="btn btn-xs btn-primary pull-right" style=" padding: 3px 5px;margin-left:5px"><i class="fa fa-plus"></i> Thêm mới</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="dvDataAllHoteldetail">
+                    <div id="gridContainer"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="modalUpdateGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%;max-width:60%;background:#f9fafc">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalEmailGiaoDich" class="modal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="background:#f9fafc">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="col-md-3">Modal Header</span>
+                    <input type="email" id="txtSenTo" class="form-control col-md-3" placeholder="Địa chỉ người nhận" style="max-width:unset;width:300px" />
+                    <a id="btnSendMail" class="btn btn-primary"><i class="fa  fa-paper-plane"></i> Gửi mail</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $("#gridContainer").dxDataGrid({
+        showBorders: true,
+        paging: {
+            enabled: true
+        },
+
+        showRowLines: true,
+        showColumnLines: true,
+        showBorders: true,
+        showColumnHeaders: true,
+        showBorders: true,
+        allowColumnResizing: true,
+        hoverStateEnabled: true,
+        columnAutoWidth: true,
+        noDataText: "Không tìm thấy dữ liệu",
+        allowColumnReordering: true,
+        rowAlternationEnabled: false,
+        wordWrapEnabled: false,
+        columnChooser: { enabled: true },
+        columns: [
+
+            {
+                dataField: "Tác vụ",
+                cellTemplate: function (element, info) {
+                    element.append('<a class="btn btn-xs btn-primary EditHotel"  href="/Manager/EditHotel/' + info.data.Hotel_ID + '" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a>');
+                    element.append('<a class="btn btn-xs btn-danger DelHotel" data-id="' + info.data.Hotel_ID + '" > <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a>');
+                }
+            },
+
+            { dataField: "Hotel_ID", caption: "Mã Combo" },
+            {
+                caption: "Ảnh"
+                , cellTemplate: function (element, info) {
+                    element.append('<img class="wpex_post_thumbs " src="' + info.data.HotelImage + '" />');
+                }
+            },
+            {
+                dataField: "Hotel_Name", caption: "Khách sạn"
+                , cellTemplate: function (element, info) {
+                    element.append('<a   href="/Manager/EditHotel/' + info.data.Hotel_ID + '"><B>' + info.data.Hotel_Name + '</B></a>');
+                    element.append('<p><a target="_blank" href="/HOMe/Details/ID=' + info.data.Hotel_ID + '">Xem bài viết</a></p>');
+
+                }
+            },
+
+            { dataField: "Location_Name", caption: "Địa danh" },
+            {
+                dataField: "Chất lượng",
+                cellTemplate: function (element, info) {
+                    element.append(info.data.Hotel_StarRateHTML);
+                }
+            },
+              { dataField: "User_Name", caption: "Người đăng" },
+            { dataField: "Hotel_CreateDate", caption: "Ngày đăng", dataType: "date", format: 'dd/MM/yyyy' },
+ 
+        ],
+        paging: {
+            enabled: true,
+            pageSize: 20
+        },
+        //  height: window.innerHeight * 0.8,
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [100, 200, 500, 1000],
+            showInfo: true
+        },
+
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        scrolling: {
+            mode: "standard",
+            scrollByContent: true
+        },
+        headerFilter: {
+            visible: true
+        },
+
+        export: {
+            enabled: true,
+            fileName: "Result " + document.title,
+            allowExportSelectedData: true
+        }
+    });
+    loadgrid(2);
+    function loadgrid(Hotel_Active) {
+        $.ajax({
+            type: "POST",
+            url: "/Hotels/GridData",
+            data: {
+                Hotel_Active: Hotel_Active
+            },
+            dataType: "json",
+            success: function (response) {
+                var data = response.data;
+                data = JSON.parse(data);
+                $("#gridContainer").dxDataGrid("instance").option("dataSource", data);
+            }
+        });
+    }
+
+    $("#btnReload").click(function (e) {
+        e.preventDefault();
+        loadgrid(2);
+    });
+    $("#HotelStatus").change(function (e) {
+        e.preventDefault();
+        var ID = $(this).val();
+        loadgrid(ID);
+    });
+    $(document).on("click", "table   tr", function () {
+        $('table tr').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $(document).on("click", ".HuyHotel", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn Hủy đăng bài ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Hotels/HuyHotel",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+
+    $(document).on("click", ".DangLaiHotel", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn Đăng bài ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Hotels/DangLaiHotel",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+
+
+    $(document).on("click", ".DelHotel", function () {
+
+        var r = confirm("Bạn có chắc chắn muốn xóa bài viết ???");
+        if (r) {
+            var ID = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "/Hotels/DelHotel",
+                data: {
+                    ID: ID
+                },
+                dataType: "json",
+                success: function (response) {
+                    loadgrid(2);
+                }
+            });
+        }
+    });
+
+
+
+</script>

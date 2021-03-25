@@ -1,0 +1,57 @@
+﻿@using Autravel.Models;
+@using System.Data;
+@using Autravel.Extentions;
+@model DataTable
+
+
+<div class="box-body">
+    <table class="wp-list-table widefat fixed striped posts table-hover">
+        <thead>
+            <tr>
+                <th>Tác vụ</th>
+                <th>Mã đơn</th>
+                <th>Tiêu đề</th>
+                <th>Ngày đặt</th>
+                <th>Số người</th>
+                <th>Ngày khởi hành</th>
+                <th>Ngày tới</th>
+                <th>Trạng thái</th>
+                <th>Phụ phí(vnd)</th>
+                <th>Tổn tiền(vnd)</th>
+                <th>Người xử lý</th>
+                <th>Note</th>
+
+        </thead>
+
+        <tbody id="the-list">
+            @if (Model.Rows.Count != 0)
+            {
+                foreach (DataRow item in Model.Rows)
+                {
+            <tr data-id="@item["BookingTour_ID"]">
+                <td>
+                    <a class="btn btn-xs btn-primary UpdateGiaoDich"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Giao dịch</a>
+                    <a class="btn btn-xs btn-danger EmailGiaoDich"><i class="fa fa-envelope-o" aria-hidden="true"></i> Mail</a>
+
+                </td>
+                <td>@item["BookingTour_ID"]</td>
+                <td><a target="_blank" href="/HOMe/Details/ID=@item["Tour_ID"]">@item["Tour_Name"]</a></td>
+                <td>@item.ToDateString("Booking_CreateDate")</td>
+                <td>@item["BookingTour_NumberPassenger"]</td>
+                <td>@item.ToDateString("Booking_DepartureDate")</td>
+                <td>@item.ToDateString("Booking_ArrivalDate")</td>
+                <td class="Booking_Status">@item["Booking_Status"]</td>
+                 <td>@item.ToIntCurrency("Booking_Surcharge")</td>
+                <td>@item.ToIntCurrency("Booking_TotalPrice")</td>
+                <td>@item["Booking_UserHandler"]</td>
+                <td></td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr> <td colspan="12" style="text-align:center">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/Content/css/Style.css" rel="stylesheet" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Content/plugins/jQuery/jquery.min.js"></script>
+    <script src="~/Content/plugins/jQuery/moment.min.js"></script>
+    <script src="~/Content/plugins/jQuery/jquery.daterangepicker.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/Loading.css" rel="stylesheet" />
+    <script src="~/Content/js/public.js"></script>
+
+
+</head>
+<body>
+    <div class="loading" id="loading"  style="display:none">Loading&#8230;</div>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header col-md-2">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu_fix_top">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Autravel</a>
+            </div>
+            <div class="col-sm-8 col-md-8 menu_fix_top collapse navbar-collapse" aria-expanded="false">
+                <nav class="bg-light navbar-expand-sm justify-content-center">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Combo trọn gói", "Index", "Pcombo")</li>
+                        <li>@Html.ActionLink("Khách sạn", "Index", "PHotel")</li>
+                        <li>@Html.ActionLink("Tour", "index", "Home")</li>
+                        <li>@Html.ActionLink("Vé máy bay", "index", "Home")</li>
+                        <li>@Html.ActionLink("Ưu đãi", "index", "Home")</li>
+                        <li>@Html.ActionLink("Cẩm nang", "index", "CamNang")</li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="navbar-logo col-md-2 col-sm-2 hidden-xs">
+                <span>Hotline:</span>
+                <label>0869.660.438</label>
+            </div>
+        </div>
+    </div>
+    <div class="body-content-site">
+        <div class="body-content-site">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer class="section-footer-site">
+            <div class="container">
+                <div class="col-md-12 content-footer">
+                    <section class="col-md-2 section-footer">
+                        <h4 class="titel-footer">GIỚI THIỆU</h4>
+                        <ul class="ul-footer-item">
+                            <li class="li-footer-item"><a href="/">Về Autravel</a></li>
+                            <li class="li-footer-item"><a href="/">Khách hàng</a></li>
+                            <li class="li-footer-item"><a href="/">Thanh toán</a></li>
+                            <li class="li-footer-item"><a href="/">Chính sách phục vụ</a></li>
+                            <li class="li-footer-item"><a href="/">Đăng ký đại lý</a></li>
+                        </ul>
+                    </section>
+                    <section class="col-md-3 section-footer">
+                        <h4 class="titel-footer">SẢN PHẨM</h4>
+                        <ul class="ul-footer-item">
+                            <li class="li-footer-item"><a href="/">Combo du lịch</a></li>
+                            <li class="li-footer-item"><a href="/">Khách sạn</a></li>
+                            <li class="li-footer-item"><a href="/">Tour du lịch</a></li>
+                            <li class="li-footer-item"><a href="/">Đặt vé máy bay</a></li>
+                            <li class="li-footer-item"><a href="/">Cẩm nang du lịch</a></li>
+                        </ul>
+                    </section>
+                    <section class="col-md-3 section-footer">
+                        <h4 class="titel-footer">LIÊN HỆ</h4>
+                        <ul class="ul-footer-item">
+                            <li class="li-footer-item">Số 9A, Thanh Liệt, Thanh Trì, Hà Nội</li>
+                            <li class="li-footer-item"><a href="tel:0869660438">0869.660.438</a></li>
+                            <li class="li-footer-item"><a href="mailto:info@autravel.vn">info@autravel.vn</a></li>
+                        </ul>
+                    </section>
+                    <section class="col-md-4 section-footer">
+                        <h4 class="titel-footer">FANPAGE</h4>
+                        <div id="fb-root"></div>
+                        @*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0&appId=485376178641148&autoLogAppEvents=1" nonce="oJ87R483"></script>*@
+                        <div class="fb-page" data-href="https://www.facebook.com/autravelvn" data-tabs="" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/autravelvn" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/autravelvn">Autravel.vn - Toàn Combo</a></blockquote></div>
+                    </section>
+                </div>
+            </div>
+                <hr />
+                <div class="container">
+                    <p class="col-md-12">&copy; @DateTime.Now.Year  Autravel, Inc. All Rights Reserved</p>
+                </div>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+    <script src="~/Content/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link href="~/Content/plugins/jQuery/daterangepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/jQuery/daterangepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/font-awesome/font-awesome.min.css" rel="stylesheet" />
+</body>
+</html>

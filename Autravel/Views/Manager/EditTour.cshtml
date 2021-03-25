@@ -1,0 +1,365 @@
+﻿@using Autravel.Models;
+@using Autravel.Models.Function;
+@model Autravel.Models.Tour
+@{
+    ViewBag.Title = "Cập nhật Combo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Location> l_Location = new Location().GetAll();
+    List<TopicTour> l_topicTours = new TopicTour().GetAll();
+    TourDetailPrice tourDetailPrice = new TourDetailPrice().GetByTourID(Model.Tour_ID);
+}
+<h2>@Model.Tour_Name</h2>
+@if (TempData["MessagePost"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
+        @Html.Raw(TempData["MessagePost"])
+
+    </div>
+}
+<div class="wrap">
+    @using (Html.BeginForm("UpdateTour", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" id="Post_id" name="Post_id" value="@Model.Tour_ID">
+        <input type="hidden" id="Post_Type" name="Post_Type" value="0">
+        <input type="hidden" id="AreaSelectImage" name="AreaSelectImage">
+        <div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-2">
+                <div id="post-body-content" style="position: relative;" class="col-md-9 col-xs-12">
+                    <div id="titlediv">
+                        <div id="titlewrap">
+                            @*<label class="screen-reader-text" id="title-prompt-text" for="title">Tiêu đề bài viết</label>*@
+                            <input type="text" name="Post_Tile" size="30" id="Post_Tile" spellcheck="true" autocomplete="off" placeholder="Tiêu đề bài viết" value="@Model.Tour_Name">
+                        </div>
+                    </div><!-- /titlediv -->
+                    <div class="Post_tag col-md-12" id="ArrPost_tag">
+                        <div class="form-group input-group">
+                            <label for="usr" class="input-group-addon">Đơn vị tổ chức:</label>
+                            <input type="text" class="form-control" id="Tour_OrganizationalUnit" name="Tour_OrganizationalUnit" value="@Model.Tour_OrganizationalUnit">
+                        </div>
+                    </div>
+                    <div id="postdivrich" class="postarea wp-editor-expand">
+                        <div id="wp-content-editor-tools" class="wp-editor-tools hide-if-no-js">
+                            <div id="wp-content-media-buttons" class="wp-media-buttons">
+                                <button type="button" id="insert-media-button" class="btn add_media selectmedia fa fa-camera" data-editor="content" data-toggle="modal" data-target="#myModal">Add Media</button>
+                            </div>
+                        </div>
+                        <textarea id="editor" name="editor">@Model.Tour_Content</textarea>
+                        @*<div id="editor">
+                                <div class="col-12">
+
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="Select_multi_Media col-md-12" id="Select_multi_Media">
+                        <div class="form-group">
+                            <label for="usr">Ảnh Combo:</label>
+                            <a id="selectmultimedia" class="fa fa-plus button thickbox btn selectmultimedia selectmedia" data-toggle="modal" data-target="#myModal">Thêm ảnh</a>
+                            <input type="hidden" class="form-control" id="List_Images_Combo" name="List_Images_Combo" value="@Model.Tour_ListImage">
+                        </div>
+                        <div class="form-group div_List_Images col-md-12">
+                            @if (Model.Tour_ListImage != "")
+                            {
+                                var itemImage = Model.Tour_ListImage.Split(',');
+                                foreach (var itemInList in itemImage)
+                                {
+                                    if (itemInList != "")
+                                    {<div class="form-group col-md-2 item_image"><img src="@itemInList" class="item_image_combo"></div>}
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="box box-info box Tour_Itinerary col-md-12 collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Lịch trình</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <textarea id="editor_Tour_Itinerary" name="editor_Tour_Itinerary">@Model.Tour_Itinerary</textarea>
+                        </div>
+                    </div>
+                    <div class="box box-info box Tour_Schedule col-md-12 collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Hành trình</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <textarea id="editor_Tour_Schedule" name="editor_Tour_Schedule">@Model.Tour_Schedule</textarea>
+                        </div>
+                    </div>
+                    <div class="box box-info box Tour_Rules col-md-12 collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Điều khoản và quy định</h3>
+                            <div class="box-tools pull-right">
+                                <p class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <textarea id="editor_Tour_Rules" name="editor_Tour_Rules">@Model.Tour_Rules</textarea>
+                        </div>
+                    </div>
+                </div><!-- /post-body-content -->
+
+                <div id="postbox-container-1" class="postbox-container col-md-3 col-xs-12">
+                    <div class="box box-info box publish">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Đăng Combo</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class='input-group date' id="lbl_Tour_DepartureDate">
+                                    <span class="input-group-addon label_input"> Ngày khởi hành </span>
+                                    <input type='text' class="form-control Tour_DepartureDate" id="Tour_DepartureDate" name="Tour_DepartureDate" value="@(Model.Tour_DepartureDate.ToString("dd/MM/yyyy"))" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class='input-group date' id="lbl_Tour_TimeZone">
+                                    <span class="input-group-addon label_input"> Số đêm </span>
+                                    <input type='text' class="form-control Tour_TimeZone" id="Tour_TimeZone" name="Tour_TimeZone" value="@Model.Tour_TimeZone" />
+                                </div>
+                            </div>
+                            @{ string check = ""; string styleUnFix = "style=display:none;"; string styleFix = "style=\"display:none;\""; if (Model.Tour_Fixed == true) { check = "checked"; styleFix = ""; } else { styleUnFix = ""; } }
+                            <label class="Tour_Fixed"><input value="1" type="checkbox" name="Tour_Fixed" id="Tour_Fixed" onclick="Tour_FixedonClickHandler(this)" @check> Combo cố định</label>
+                            <div class="col-md-12 form-group Price_Tour">
+                                <div class="row Price_Tour_UnFixed form-inline" @styleUnFix>
+                                    <div class="form-group">
+                                        <div class='input-group' id="lbl_Tour_Price">
+                                            <span for="Tour_Price"  class="input-group-addon label_input">Giá Phòng:</span>
+                                            <input type="text" class="form-control Tour_Price" id="Tour_PriceRoom" name="Tour_PriceRoom" value="@Model.Tour_PriceRoom" oninput="FunctionCaculatorCombo(this)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class='input-group' id="lbl_Tour_PriceTicket">
+                                            <span for="Tour_Price" class="input-group-addon label_input">Giá Vé:</span>
+                                            <input type="text" class="form-control Tour_PriceTicket" id="Tour_PriceTicket" name="Tour_PriceTicket" value="@Model.Tour_PriceTicket" oninput="FunctionCaculatorCombo(this)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">         
+                                        <div class='input-group' id="lbl_Tour_PriceTicket">
+                                            <span for="Tour_Price"  class="input-group-addon label_input">Phí dịch vụ:</span>
+                                            <input type="text" class="form-control Tour_Price" id="Tour_PriceFee" name="Tour_PriceFee" value="@Model.Tour_PriceFee" oninput="FunctionCaculatorCombo(this)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">            
+                                        <div class='input-group' id="lbl_Tour_Price">
+                                            <span for="Tour_Price"  class="input-group-addon label_input">Giá chỉ từ:</span>
+                                            <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" value="@Model.Tour_Price" oninput="FunctionTextChange(this)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row Price_Tour_Fixed " style=" display: inline; " @styleFix>
+                                    <div class="row form-group">
+                                        <div class="col-md-8"> <label>Mức giá</label></div>
+                                        <div class="col-md-4"> <label>Số lượng</label></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price1 txt_Price" id="TourDetailPrice_Price1" name="TourDetailPrice_Price1" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price1)" oninput="FunctionTextChange(this)"></div>
+                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice1" id="TourDetailPrice_NumberPrice1" name="TourDetailPrice_NumberPrice1" value="@tourDetailPrice.TourDetailPrice_NumberPrice1"></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price2 txt_Price" id="TourDetailPrice_Price2" name="TourDetailPrice_Price2" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price2)" oninput="FunctionTextChange(this)"></div>
+                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice2" id="TourDetailPrice_NumberPrice2" name="TourDetailPrice_NumberPrice2" value="@tourDetailPrice.TourDetailPrice_NumberPrice2"></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price3 txt_Price" id="TourDetailPrice_Price3" name="TourDetailPrice_Price3" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price3)" oninput="FunctionTextChange(this)"></div>
+                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice3" id="TourDetailPrice_NumberPrice3" name="TourDetailPrice_NumberPrice3" value="@tourDetailPrice.TourDetailPrice_NumberPrice3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="publishing-action">
+                                    <span class="spinner"></span>
+                                    <input name="original_publish" type="hidden" id="original_publish" value="Đăng bài viết">
+                                    <input type="submit" name="publish" id="publish" class="btn btn-primary mce-btn-large" value="Đăng bài viết" onclick="updatemark()">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box box-info box Category Location">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Địa Danh</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <input type="hidden" name="post_category_arr" value="0">
+                                <ul id="Locationchecklist" data-wp-lists="list:Location" class="Locationchecklist form-no-clear">
+                                    @foreach (var itemLocation in l_Location)
+                                    {
+                                        string status = "";
+                                        if (Funtions.ContainItemInList(Model.Tour_Location.ToString(), itemLocation.Location_ID.ToString()))
+                                        { status = "checked"; }
+                                        <li id="@itemLocation.Location_ID">
+                                            <label class="selectit">
+                                                <input value="@itemLocation.Location_ID" type="radio" name="tour_Location" id="@itemLocation.Location_ID" @status> @itemLocation.Location_Name
+                                            </label>
+                                        </li>
+                                        @*<li id="@itemLocation.Location_ID"><label class="selectit"><input value="@itemLocation.Location_ID" type="radio" name="tour_Location" id="@itemLocation.Location_ID"> @itemLocation.Location_Name</label></li>*@
+                                    }
+                                </ul>
+                            </div>
+                            <div class="box box-info box AddLocation collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <a class="box-title fileter-title fa fa-plus">Thêm địa danh</a>
+                                </div>
+                                <div class="box-body">
+                                    <div id="category-all" class="tabs-panel">
+                                        <input type="text" name="post_Locationnew" id="post_Locationnew" class="form-control">
+                                        <input type="button" name="btnAddLocation" id="btnAddLocation" class="btn btn-default mce-btn-large" value="Thêm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-info box TopicTour Category">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Chủ đề</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <ul id="TopicTourchecklist" data-wp-lists="list:Topic" class="TopicTourchecklist form-no-clear">
+                                    @foreach (var itemTopicTours in l_topicTours)
+                                    {
+                                        string status = "";
+                                        if (Funtions.ContainItemInList(Model.Tour_Topic.ToString(), itemTopicTours.TopicTour_ID.ToString()))
+                                        { status = "checked"; }
+                                        <li id="@itemTopicTours.TopicTour_ID">
+                                            <label class="selectit">
+                                                <input value="@itemTopicTours.TopicTour_ID" type="checkbox" name="tour_Topic" id="@itemTopicTours.TopicTour_ID" @status title="@itemTopicTours.TopicTour_Description"> @itemTopicTours.TopicTour_Name
+                                            </label>
+                                        </li>
+                                        @*<li id="@itemTopicTours.TopicTour_Name"><label class="selectit"><input value="@itemTopicTours.TopicTour_ID" type="checkbox" name="tour_Topic" id="@itemTopicTours.TopicTour_ID"> @itemTopicTours.TopicTour_Name</label></li>*@
+                                    }
+                                </ul>
+                            </div>
+                            <div class="box box-info box AddTopic collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <a class="box-title fileter-title fa fa-plus">Thêm chủ đề</a>
+                                </div>
+                                <div class="box-body">
+                                    <div id="category-all" class="tabs-panel">
+                                        <input type="text" name="post_Topicnew" id="post_Topicnew" class="form-control">
+                                        <input type="button" name="btnAddTopic" id="btnAddTopic" class="btn btn-default mce-btn-large" value="Thêm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-info box postimagediv">
+                        <div class="box-header with-border">
+                            <h3 class="box-title fileter-title" data-widget="collapse">Ảnh tiêu biểu</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="category-all" class="tabs-panel">
+                                <div class="inside">
+                                    <img width="266" height="166" src="@Model.Tour_Image" class="attachment-266x266 size-266x266" alt="Chọn ảnh" sizes="(max-width: 266px) 100vw, 266px">
+                                    <p class="hide-if-no-js">
+                                        <a href="#" id="set-post-thumbnail" class="thickbox btn selectmedia col-md-6" data-editor="content" data-toggle="modal" data-target="#myModal">Chọn ảnh tiêu biểu </a>
+                                        <a href="#" id="delete-post-thumbnail" class="thickbox btn removeimage col-md-6">Xóa ảnh tiêu biểu </a>
+                                    </p>
+                                    <input type="hidden" id="_thumbnail_id" name="_thumbnail_id" value="@Model.Tour_Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /post-body -->
+            <br class="clear">
+        </div><!-- /poststuff -->
+    }
+</div>
+
+<script type="text/javascript">
+    setTimeout(function () {
+        CKEDITOR.replace('editor', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        });
+        CKEDITOR.replace('editor_Tour_Itinerary', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        });
+        CKEDITOR.replace('editor_Tour_Schedule', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        });
+        CKEDITOR.replace('editor_Tour_Rules', {
+            filebrowserImageUploadUrl: '/Manager/UploadFiles',
+            filebrowserUploadUrl: '/Manager/UploadFiles'
+        });
+    }, 100);
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        var date = new Date();
+        date.setDate(date.getDate());
+        $('.Tour_DepartureDate').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '0',
+            autoclose: true,
+            Default: false
+        });
+    });
+</script>
+<script>
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+    function FunctionTextChange(ev) {
+        var Price = ev.value;
+        Price = Price.replace(",", "");
+        $(ev).val(formatNumber(Price));
+    }
+    function FunctionCaculatorCombo(ev) {
+        var Price = ev.value;
+        Price = Price.replace(",", "");
+        var PriceRoom = $('#Tour_PriceRoom').val();
+        PriceRoom = PriceRoom.replace(",", "");
+        var PriceTicket = $('#Tour_PriceTicket').val();
+        PriceTicket = PriceTicket.replace(",", "");
+        var PriceFee = $('#Tour_PriceFee').val();
+        PriceFee = PriceFee.replace(",", "");
+        var total = parseFloat(PriceRoom / 2) + parseFloat(PriceTicket) + parseFloat(PriceFee);
+          $('#Tour_Price').val(formatNumber(total.toString()));
+        $(ev).val(formatNumber(Price));
+    }
+</script>
+
+<script src="~/Content/js/LoadMedia.js"></script>
+<script src="~/Content/js/Combo.js"></script>
+
+<div class="modal fade media-frame-toolbar" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:90%;height:90%;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @*@Html.Partial("LoadAllImage")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="submitselectimage" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>

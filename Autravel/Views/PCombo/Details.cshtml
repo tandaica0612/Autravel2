@@ -429,6 +429,7 @@
                     <span class="pull-right">
                         <span class="label label-default">9.7</span><span> (24)</span>
                     </span>
+                    
                     <div class="div-Departure">
                         <label class="lbl-Departure">
                             <span class="titel-lbl-Departure">Nhận phòng  - Trả phòng </span>
@@ -506,6 +507,16 @@
                         <div class="panel-body ">
 
                             <p>Yêu cầu đặc biệt</p>
+                            <div class="row GiaPhong">
+                                <div class="col-md-6">
+                                    <b class="Name"> Giá Combo</b>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div>
+                                        <b class="pull-right Price">@Model.ToIntCurrency("Tour_PriceSale")đ</b>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row YeuCauPhong">
                                 <div class="col-md-6">
                                     <b class="Name">  Phòng Deluxe</b>
@@ -517,6 +528,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row YeuCauXe">
                                 <div class="col-md-6">
                                     <b class="Name">  Hạng xe</b>
@@ -582,16 +594,21 @@
         $(".AirType .Name").html(AirTypeName);
         var A = CarTypePrice.replace("đ", "").trim();
         var B = RoomPrice.replace("đ", "").trim();
-        A = A.replace(",", "");
-        B = B.replace(",", "");
+        var C = $(".GiaPhong .Price").text().trim().replace("đ", "").trim();
+        A = A.replace(/,/g, "");
+        B = B.replace(/,/g, "");
+        C = C.replace(/,/g, "");
         if (isNaN(B) || B == "") {
             B = "0";
         }
         if (isNaN(A) || A == "") {
             A = "0";
         }
+        if (isNaN(C) || C == "") {
+            C = "0";
+        }
 
-        var TotalPrice = parseInt(A) + parseInt(B);
+        var TotalPrice = parseInt(A) + parseInt(B) + parseInt(C);
         var TotalPrice = TotalPrice.toLocaleString("en-GB", { minimumFractionDigits: 0 });
         $(".TotalPrice").html(TotalPrice + " đ");
 

@@ -2,7 +2,7 @@
 @using Autravel.Extentions;
 @using Autravel.Models.Function;
 @{
-    ViewBag.Title = "PCombo Page";
+    ViewBag.Title = "Combo trọn gói";
     var ChuDe = (DataTable)ViewBag.ChuDe;
     var BanChay = (DataTable)ViewBag.BanChay;
     var DiaDiem = (DataTable)ViewBag.DiaDiem;
@@ -105,7 +105,7 @@
                         </div>
                         <div class="titel-combo">
                             <span class="location-combo-item">SAPA</span>
-                            <span class="titel"><a>Chụp ảnh</a></span>
+                            @*<span class="titel"><a>Chụp ảnh</a></span>*@
                             <div class="rateStar-item">
                                 @Html.Raw(Funtions.FillStarView(item.ToFloat("Tour_StarRate")))
                             </div>

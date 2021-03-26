@@ -2,7 +2,7 @@
 @using Autravel.Extentions;
 @using Autravel.Models.Function;
 @{
-    ViewBag.Title = "PHotel Page";
+    ViewBag.Title = "Khách sạn";
     var ChuDe = (DataTable)ViewBag.ChuDe;
     var BanChay = (DataTable)ViewBag.BanChay;
     var DiaDiem = (DataTable)ViewBag.DiaDiem;
@@ -79,8 +79,8 @@
     <div class="content-banner">
         <div class="container">
             <div class="content">
-                <h3 class="titel-banner">Khách sạn, khu nghỉ dưỡng & hơn thế</h3>
-                <span class="sologan-banner">Nhận giá tốt nhất cho > 2.000.000 chỗ nghỉ tại Việt Nam</span>
+                <h3 class="titel-banner">@Text.Show("Hotel_Intro")</h3>
+                <span class="sologan-banner">@Text.Show("Hotel_Intro_sub")</span>
                 <div class="searchbox-banner">
                     <form class="formsearch" action="/s/all" method="get" role="search" style=" max-width: 1083px !important; ">
                         <div class="div-location">
@@ -94,7 +94,7 @@
                             </label>
                         </div>
                         <div class="div-Departure">
-                           
+
                             <div class="input-box lbl-Departure">
                                 <label class="label-text">Số lượng người</label>
                                 <div class="form-group" style="margin-bottom:0">
@@ -122,7 +122,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                             <div class="dropdown-item">
+                                            <div class="dropdown-item">
                                                 <div class="qty-box d-flex align-items-center justify-content-between row">
                                                     <div class="col-md-6">
                                                         <label>Người lớn</label>
@@ -151,7 +151,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="dropdown-item">
                                                 <div class="qty-box d-flex align-items-center justify-content-between row">
                                                     <div class="col-md-6">
@@ -237,7 +237,7 @@
                         </div>
                         <div class="titel-combo">
                             <span class="location-combo-item">SAPA</span>
-                            <span class="titel"><a>Chụp ảnh</a></span>
+                            @*<span class="titel"><a>Chụp ảnh</a></span>*@
                             <div class="rateStar-item">
                                 @Html.Raw(Funtions.FillStarView(item.ToFloat("Hotel_StarRate")))
                             </div>

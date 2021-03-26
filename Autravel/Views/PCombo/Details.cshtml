@@ -12,10 +12,10 @@
 
 }
 <style>
-    .DATCOMBONGAY{
-        cursor:pointer
+    .DATCOMBONGAY {
+        cursor: pointer
     }
-       
+
     body {
         background-color: #eee;
     }
@@ -98,12 +98,12 @@
 
     #navbar {
         overflow: hidden;
-        color:black;
+        color: black;
         background-color: white;
         z-index: 99999;
-        display:none;
-        margin-top:60px;
-     }
+        display: none;
+        margin-top: 60px;
+    }
 
         #navbar a {
             float: left;
@@ -128,9 +128,11 @@
     .content {
         padding: 16px;
     }
-    #navbar a{
-        font-weight:bold
+
+    #navbar a {
+        font-weight: bold
     }
+
     .sticky {
         position: fixed;
         top: 0;
@@ -140,9 +142,64 @@
         .sticky + .content {
             padding-top: 60px;
         }
+
+
+    .div-location, .div-Departure {
+        border: 1px solid #ccc;
+        margin-right: 0;
+        width: 100%
+    }
+
+    .qtyBtn {
+        display: inline-flex
+    }
+
+        .qtyBtn input {
+            width: 40px;
+            border: 1px solid #999;
+            text-align: center;
+            MARGIN-TOP: 2PX;
+            HEIGHT: 32PX;
+        }
+
+        .qtyBtn .fa-plus {
+            border: 1px solid black;
+        }
+
+    .qty-box label {
+        width: 80px
+    }
+
+    .qty-box {
+        margin: 10px
+    }
+
+    .gty-container .dropdown-btn span {
+        color: black;
+        font-weight: bold
+    }
+
+    .gty-container p {
+        margin: 0
+    }
+
+    .qtyBtn i {
+        margin: 2px 0 2px 0;
+        BORDER: 1PX SOLID #999;
+        padding: 8px;
+    }
+
+    .div-Departure .dropdown-menu {
+        width: 400px
+    }
+
+
+    .div-Departure {
+        margin-top: 10px
+    }
 </style>
 <div id="navbar">
-    <a   href="#Tour_Content" >Tại sao bạn lưa chọn combo này</a>
+    <a href="#Tour_Content">Tại sao bạn lưa chọn combo này</a>
     <a href="#Tour_Content">Combo bao gồm</a>
     <a href="#HotelInfo">Thông tin khách sạn</a>
     <a href="#Hotel_Facilities_ID">Tiện nghi</a>
@@ -155,13 +212,13 @@
             <p><h3><b class="TotalPrice"></b></h3></p>
         </div>
         <div class="col-md-8">
-            <a   class="DATCOMBONGAY col-md-12" style="color:white">Đặt COMBO ngay</a>
+            <a class="DATCOMBONGAY col-md-12" style="color:white">Đặt COMBO ngay</a>
         </div>
     </div>
 </div>
 <div class="container" style=" margin-top: 70px; ">
 
-    
+
 
     <span class="label label-default">Đang bán chạy</span>
     <h2>
@@ -362,14 +419,92 @@
             @Html.Action("Support", "Home")
 
 
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div  style=" background: white;
+        padding: 10px;
+        border-radius: 5PX;
+        display: inline-block;
+">
+                
                     <b>  Thông tin   </b>
                     <span class="pull-right">
                         <span class="label label-default">9.7</span><span> (24)</span>
                     </span>
-                    <div class="panel panel-default ">
+                    <div class="div-Departure">
+                        <label class="lbl-Departure">
+                            <span class="titel-lbl-Departure">Nhận phòng  - Trả phòng </span>
+                            <input class="inp-Departure" id="inp-Departure" placeholder="Vui lòng chọn thời gian!" />
+                        </label>
+                    </div>
+
+                    <div class="div-Departure">
+
+                        <div class="input-box lbl-Departure">
+                            <label class="label-text">Số lượng người</label>
+                            <div class="form-group" style="margin-bottom:0">
+                                <div class="dropdown dropdown-contain gty-container">
+                                    <a class="dropdown-toggle dropdown-btn" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="adult" data-text="Người lớn" data-text-multi="Người lớn"></span>
+                                        -
+                                        <span class="children" data-text="Trẻ em" data-text-multi="Trẻ em"></span>
+
+                                        -     <span class="BABY" data-text="Em bé" data-text-multi="Em bé"></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-wrap " style="padding:20px">
+
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Người lớn</label>
+                                                    <p>Từ 13 tuổi trở lên</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center  ">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="adult_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Trẻ em</label>
+                                                    <p>Độ tuổi 2-12</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="child_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="qty-box d-flex align-items-center justify-content-between row">
+                                                <div class="col-md-6">
+                                                    <label>Em bé</label>
+                                                    <p>Độ tuổi 0-1</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="qtyBtn d-flex align-items-center">
+                                                        <div class="qtyDec"><i class="fa fa-minus"></i></div>
+                                                        <input type="text" name="BABY_number" value="0">
+                                                        <div class="qtyInc"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- end dropdown -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default " style=" display: inline-flex;margin-top:10px ">
                         <div class="panel-body ">
+
                             <p>Yêu cầu đặc biệt</p>
                             <div class="row YeuCauPhong">
                                 <div class="col-md-6">
@@ -377,8 +512,8 @@
                                 </div>
                                 <div class="col-md-6 ">
                                     <div>
-                                        <b class="pull-right Price">+ 300.000 ₫</b>
-                                        <small class="pull-right Type">Phòng/đêm</small>
+                                        <b class="pull-right Price"></b>
+                                        <small class="pull-right Type"></small>
                                     </div>
                                 </div>
                             </div>
@@ -388,8 +523,8 @@
                                 </div>
                                 <div class="col-md-6 ">
                                     <div>
-                                        <b class="pull-right Price">+ 100.000 ₫</b>
-                                        <small class="pull-right Type">Khách/Khứ hồi</small>
+                                        <b class="pull-right Price"></b>
+                                        <small class="pull-right Type"></small>
                                     </div>
                                 </div>
                             </div>
@@ -406,8 +541,7 @@
                     <H3>  <b class="pull-right TotalPrice">790.000 ₫</b></H3>
                     <a class="DATCOMBONGAY col-md-12">Đặt COMBO ngay</a>
                 </div>
-            </div>
-        </div>
+         </div>
     </div>
 
     @Html.Action("LienQuan", "PCombo", new { Tour_Location = Model["Tour_Location"] })
@@ -491,5 +625,152 @@
         var AirType = $('[name=AirType]:checked').val();
         var CarType = $('[name=CarType]:checked').val();
         window.location.href = "/PCombo/Checkout?ID=@Model["Tour_ID"]&Room_ID=" + Room_ID + "&AirType=" + AirType + "&CarType=" + CarType;
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        function getDaysOfMonth(year, month) {
+
+            var monthStart = new Date(year, month, 1);
+            var monthEnd = new Date(year, month + 1, 1);
+            var monthLength = (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
+            return monthLength;
+
+        }
+        var d = new Date();
+        var AutoDay = d.getDate() + 3;
+        var AutoDayEnd = d.getDate() + 5;
+        var TotalDayOfMonth = getDaysOfMonth(d.getFullYear(), d.getMonth());
+        var AutoMonth = (d.getMonth() + 1);
+        var AutoMonthEnd = (d.getMonth() + 1);
+        var AutoYear = d.getFullYear();
+        var AutoYearEnd = d.getFullYear();
+        if (AutoDay > TotalDayOfMonth) {
+            debugger;
+            AutoDay = AutoDay - TotalDayOfMonth;
+            AutoMonth += 1;
+            if (AutoMonth > 12) {
+                AutoYear += 1;
+                AutoMonth = 1;
+            }
+        }
+        if (AutoDayEnd > TotalDayOfMonth) {
+            AutoDayEnd = AutoDayEnd - TotalDayOfMonth;
+            AutoMonthEnd += 1;
+            if (AutoMonthEnd > 12) {
+                AutoYearEnd += 1;
+                AutoMonthEnd = 1;
+            }
+        }
+        output = [
+
+            ('0' + AutoDay).substr(-2), ('0' + AutoMonth).substr(-2),
+            AutoYear
+        ].join('/');
+        outputend = [
+
+            ('0' + AutoDayEnd).substr(-2), ('0' + AutoMonthEnd).substr(-2),
+            AutoYearEnd
+        ].join('/');
+        $('#inp-Departure').val(output + ' đến ' + outputend);
+    });
+    $('#inp-Departure').dateRangePicker({
+        autoClose: true,
+        format: 'DD/MM/YYYY',
+        separator: ' đến ',
+        language: 'vi',
+        startOfWeek: 'monday',// or monday
+        getValue: function () {
+            return $(this).val();
+        },
+        setValue: function (s) {
+            if (!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val()) {
+                $(this).val(s);
+            }
+        },
+        startDate: new Date(),
+        endDate: false,
+        time: {
+            enabled: false
+        },
+        minDays: 0,
+        maxDays: 0,
+        showShortcuts: false,
+        shortcuts:
+        {
+            //'prev-days': [1,3,5,7],
+            //'next-days': [3,5,7],
+            //'prev' : ['week','month','year'],
+            //'next' : ['week','month','year']
+        },
+        customShortcuts: [],
+        inline: false,
+        container: 'body',
+        alwaysOpen: false,
+        singleDate: false,
+        lookBehind: false,
+        batchMode: false,
+        duration: 200,
+        stickyMonths: false,
+        dayDivAttrs: [],
+        dayTdAttrs: [],
+        applyBtnClass: '',
+        singleMonth: 'auto',
+        hoveringTooltip: function (days, startTime, hoveringTime) {
+            //return days > 1 ? days + ' ' + lang('days') : '';
+        },
+        showTopbar: true,
+        swapTime: false,
+        selectForward: false,
+        selectBackward: false,
+        showWeekNumbers: false,
+        getWeekNumber: function (date) //date will be the first day of a week
+        {
+            return moment(date).format('w');
+        },
+        monthSelect: false,
+        yearSelect: false
+    });
+</script>
+
+<script>
+    function numberButtonFunc(t) {
+        var n, a = t.parent().find("input").val();
+        $('input[type="text"]').each(function () {
+            parseInt($(this).val())
+        }), n = t.hasClass("qtyInc") ? parseFloat(a) + 1 : a > 0 ? parseFloat(a) - 1 : 0, t.parent().find("input").val(n).trigger("change")
+    }
+    $(document).on("click", ".qtyDec, .qtyInc", function () {
+        numberButtonFunc($(this))
+    }), $(".gty-container").each(function () {
+        var t = $(this);
+        $('input[name="adult_number"]', t).change(function () {
+            var n = parseInt($(this).val()),
+                a = n;
+            "number" == typeof n && (a = n < 2 ? n + " " + $(".adult", t).data("text") : n + " " + $(".adult", t).data("text-multi")),
+                $(".adult", t).html(a)
+        }),
+            $('input[name="adult_number"]', t).trigger("change"),
+
+            $('input[name="child_number"]', t).change(function () {
+                var n = parseInt($(this).val()),
+                    a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".children", t).data("text") : n + " " + $(".children", t).data("text-multi")),
+                    $(".children", t).html(a)
+            }),
+            $('input[name="child_number"]', t).trigger("change"),
+         
+            $('input[name="BABY_number"]', t).change(function () {
+                var n = parseInt($(this).val()),
+                    a = n;
+                "number" == typeof n && (a = n < 2 ? n + " " + $(".BABY", t).data("text") : n + " " + $(".BABY", t).data("text-multi")),
+                    $(".BABY", t).html(a)
+            }),
+            $('input[name="BABY_number"]', t).trigger("change")
+    });
+
+
+    $(document).on('click', '.dropdown .dropdown-menu', function (e) {
+        e.stopPropagation();
     });
 </script>

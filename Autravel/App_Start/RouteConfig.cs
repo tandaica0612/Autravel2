@@ -21,7 +21,7 @@ namespace Autravel
             routes.MapRoute(
                 name: "Hotels",
                 url: "Dat-phong/{text}_{id}",
-                defaults: new { controller = "Products", action = "Hotel", id = UrlParameter.Optional }
+                defaults: new { controller = "PHotel", action = "Hotel", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "Post",
@@ -36,7 +36,7 @@ namespace Autravel
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Pcombo", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

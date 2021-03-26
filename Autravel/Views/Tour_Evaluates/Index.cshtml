@@ -1,7 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
- 
+ <style>
+     .dx-texteditor-input-container textarea  {
+         height: 300px
+     }
+ </style>
 <div id="gridContainer"></div>
 
 
@@ -25,7 +29,7 @@
                 enabled: false
             },
             editing: {
-                mode: "form",
+                mode: "popup",
                 allowAdding: true,
                 allowUpdating: true,
                 allowDeleting: true,
@@ -120,7 +124,7 @@
                 { dataField: "CreateBy"},
                 { dataField: "Created", dataType: "date"},
                 { dataField: "Score", dataType: "number"},
-                { dataField: "Content", dataType: "string" },
+                { dataField: "Content", dataType: "string", width:300 },
               ],
             paging: {
                 enabled: true,

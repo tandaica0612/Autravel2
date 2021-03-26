@@ -114,6 +114,25 @@
                             </div>
                         </div>
                         <div class="box-body">
+                            <label class="lbl_Rating">Đánh giá sao</label>
+                            <input class="Star_Rating hidden" name="Star_Rating" id="Star_Rating" value="@Model.Tour_StarRate" />
+                            <ol class="form-group RatingStar">
+                                @for (int x = 1; x <= 5; x++)
+                                {
+                                    if (x <= Model.Tour_StarRate)
+                                    {
+                                        <li id="@("Star"+x)" class="fa fa-star checked" value="@x"></li>
+                                    }
+                                    else if (x > Model.Tour_StarRate && (x - 1) < Model.Tour_StarRate)
+                                    {
+                                        <li id="@("Star"+x)" class="fa fa-star-o fa-star-half-full checked" value="@x"></li>
+                                    }
+                                    else
+                                    {
+                                        <li id="@("Star"+x)" class="fa fa-star-o" value="@(x)"></li>
+                                    }
+                                }
+                            </ol>
                             <div class="form-group">
                                 <div class='input-group date' id="lbl_Tour_DepartureDate">
                                     <span class="input-group-addon label_input"> Ngày khởi hành </span>
@@ -135,7 +154,7 @@
                                 <div class="row Price_Tour_UnFixed form-inline" @styleUnFix>
                                     <div class="form-group">
                                         <div class='input-group' id="lbl_Tour_Price">
-                                            <span for="Tour_Price"  class="input-group-addon label_input">Giá Phòng:</span>
+                                            <span for="Tour_Price" class="input-group-addon label_input">Giá Phòng:</span>
                                             <input type="text" class="form-control Tour_Price" id="Tour_PriceRoom" name="Tour_PriceRoom" value="@Model.Tour_PriceRoom" oninput="FunctionCaculatorCombo(this)">
                                         </div>
                                     </div>
@@ -145,15 +164,15 @@
                                             <input type="text" class="form-control Tour_PriceTicket" id="Tour_PriceTicket" name="Tour_PriceTicket" value="@Model.Tour_PriceTicket" oninput="FunctionCaculatorCombo(this)">
                                         </div>
                                     </div>
-                                    <div class="form-group">         
+                                    <div class="form-group">
                                         <div class='input-group' id="lbl_Tour_PriceTicket">
-                                            <span for="Tour_Price"  class="input-group-addon label_input">Phí dịch vụ:</span>
+                                            <span for="Tour_Price" class="input-group-addon label_input">Phí dịch vụ:</span>
                                             <input type="text" class="form-control Tour_Price" id="Tour_PriceFee" name="Tour_PriceFee" value="@Model.Tour_PriceFee" oninput="FunctionCaculatorCombo(this)">
                                         </div>
                                     </div>
-                                    <div class="form-group">            
+                                    <div class="form-group">
                                         <div class='input-group' id="lbl_Tour_Price">
-                                            <span for="Tour_Price"  class="input-group-addon label_input">Giá chỉ từ:</span>
+                                            <span for="Tour_Price" class="input-group-addon label_input">Giá chỉ từ:</span>
                                             <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" value="@Model.Tour_Price" oninput="FunctionTextChange(this)">
                                         </div>
                                     </div>

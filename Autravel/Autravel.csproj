@@ -157,6 +157,7 @@
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Extentions\DataTableExtentions.cs" />
+    <Compile Include="Extentions\FormCollectionExtentions.cs" />
     <Compile Include="Extentions\SendMailExtentions.cs" />
     <Compile Include="Extentions\Text.cs" />
     <Compile Include="Global.asax.cs">
@@ -1916,7 +1917,11 @@
     <Content Include="Content\plugins\jquery-migrate\jquery-migrate.min.js" />
     <Content Include="Content\plugins\jQueryUI\jquery-ui.js" />
     <Content Include="Content\plugins\jQueryUI\jquery-ui.min.js" />
+    <Content Include="Content\plugins\jQuery\daterangepicker.min.css" />
     <Content Include="Content\plugins\jQuery\jquery-2.2.3.min.js" />
+    <Content Include="Content\plugins\jQuery\jquery.daterangepicker.js" />
+    <Content Include="Content\plugins\jQuery\jquery.min.js" />
+    <Content Include="Content\plugins\jQuery\moment.min.js" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-1.2.2.css" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-usa-en.js" />

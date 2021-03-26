@@ -48,7 +48,7 @@ namespace Autravel.Controllers
                     else
                     {
                         TempData["Message"] = "Sai tên đăng nhập hoặc mật khẩu!";
-                        return RedirectToAction("Login", "Manager");
+                        return View("index");
                     }
                 }
 
@@ -56,7 +56,7 @@ namespace Autravel.Controllers
             catch (Exception)
             {
                 TempData["Message"] = "Đã có lỗi xảy ra trong quá trình đăng nhập!";
-                return RedirectToAction("Login", "Manager");
+                return View("index");
             }
         }
         public ActionResult Logout()

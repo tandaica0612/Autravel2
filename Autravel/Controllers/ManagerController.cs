@@ -10,6 +10,7 @@ using Autravel.Controllers.Huy;
 using Autravel.Controllers.Huy.Models;
 using Autravel.Models;
 using Autravel.Models.Function;
+using Autravel.Extentions;
 
 namespace Autravel.Controllers
 {
@@ -336,7 +337,7 @@ namespace Autravel.Controllers
                     TourOld.Product_ID = 1;
                     TourOld.UserCreate = Convert.ToInt32(Session["User_ID"]);
                     TourOld.Tour_Fixed = Convert.ToBoolean(Convert.ToInt32(fc["Tour_Fixed"].Trim()));
-                    TourOld.Tour_StarRate =  Convert.ToDouble(fc["Star_Rating"].Trim());
+                    TourOld.Tour_StarRate = fc.ToDouble("Star_Rating");
                     TourOld.Update();
                     if (Convert.ToBoolean(Convert.ToInt32(fc["Tour_Fixed"].Trim())) == true)
                     {
@@ -386,8 +387,8 @@ namespace Autravel.Controllers
                     TourOld.UserCreate = Convert.ToInt32(Session["User_ID"]);
                     TourOld.CreateDate = DateTime.Now;
                     TourOld.Tour_Fixed = Convert.ToBoolean(Convert.ToInt32(fc["Tour_Fixed"].Trim()));
-                    TourOld.Tour_StarRate =  Convert.ToDouble(fc["Star_Rating"].Trim());
-                       int TourID = TourOld.Insert();
+                     TourOld.Tour_StarRate = fc.ToDouble("Star_Rating");
+                    int TourID = TourOld.Insert();
                     if (Convert.ToBoolean(Convert.ToInt32(fc["Tour_Fixed"].Trim())) == true)
                     {
                         TourDetailPrice tourDetailPrice = new TourDetailPrice();

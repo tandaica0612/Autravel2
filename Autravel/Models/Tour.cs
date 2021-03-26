@@ -36,7 +36,10 @@ namespace Autravel.Models
         public Int64 Tour_PriceRoom { get; set; }
         public Int64 Tour_PriceTicket { get; set; }
         public Int64 Tour_PriceFee { get; set; }
-        public Int64 Tour_Price { get; set; }
+        public int Tour_Price { get; set; }
+        public int Tour_PriceSale { get; set; }
+        public int Tour_Qty { get; set; }
+        public float Tour_Score { get; set; }
         public string Tour_Description { get; set; }
         public string Tour_Content { get; set; }
         public string Tour_Itinerary { get; set; }
@@ -45,6 +48,7 @@ namespace Autravel.Models
         public string Tour_ListImage { get; set; }
         public string Tour_Image { get; set; }
         public int Product_ID { get; set; }
+        public int Hotel_ID { get; set; }
         public bool Tour_Fixed { get; set; }
         public int UserCreate { get; set; }
         public DateTime CreateDate { get; set; }
@@ -72,8 +76,11 @@ namespace Autravel.Models
                     m_Tour.Tour_OrganizationalUnit = smartReader.GetString("Tour_OrganizationalUnit");
                     m_Tour.Tour_DepartureDate = smartReader.GetDateTime("Tour_DepartureDate");
                     m_Tour.Tour_TimeZone = smartReader.GetInt32("Tour_TimeZone");
-                    m_Tour.Tour_Price = smartReader.GetInt64("Tour_Price");
-                    m_Tour.Tour_Description = smartReader.GetString("Tour_Description");
+                    m_Tour.Tour_Price = smartReader.GetInt32("Tour_Price");
+                    m_Tour.Tour_PriceSale = smartReader.GetInt32("Tour_PriceSale");
+                    m_Tour.Tour_Qty = smartReader.GetInt32("Tour_Qty");
+                    m_Tour.Tour_Score = smartReader.GetFloat("Tour_Score");
+                     m_Tour.Tour_Description = smartReader.GetString("Tour_Description");
                     m_Tour.Tour_Content = smartReader.GetString("Tour_Content");
                     m_Tour.Tour_Itinerary = smartReader.GetString("Tour_Itinerary");
                     m_Tour.Tour_Schedule = smartReader.GetString("Tour_Schedule");
@@ -86,6 +93,7 @@ namespace Autravel.Models
                     m_Tour.CreateDate = smartReader.GetDateTime("CreateDate");
                     m_Tour.Tour_Active = smartReader.GetBoolean("Tour_Active");
                     m_Tour.Tour_StarRate = smartReader.GetFloat("Tour_StarRate");
+                    m_Tour.Hotel_ID = smartReader.GetInt32("Hotel_ID");
                     l_Tour.Add(m_Tour);
                 }
                 smartReader.disposeReader(reader);
@@ -107,6 +115,7 @@ namespace Autravel.Models
             {
                 SqlCommand cmd = new SqlCommand("TourInsert");
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@Hotel_ID", this.Hotel_ID));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Name", this.Tour_Name));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Location", this.Tour_Location));
                 cmd.Parameters.Add(new SqlParameter("@Tour_OrganizationalUnit", this.Tour_OrganizationalUnit));
@@ -127,6 +136,9 @@ namespace Autravel.Models
                 cmd.Parameters.Add(new SqlParameter("@Tour_Active", this.Tour_Active));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Topic", this.Tour_Topic));
                 cmd.Parameters.Add(new SqlParameter("@Tour_StarRate", this.Tour_StarRate));
+                cmd.Parameters.Add(new SqlParameter("@Tour_Qty", this.Tour_Qty));
+                cmd.Parameters.Add(new SqlParameter("@Tour_Score", this.Tour_Score));
+                 cmd.Parameters.Add(new SqlParameter("@Tour_PriceSale", this.Tour_PriceSale));
                 cmd.Parameters.Add("@Tour_ID", SqlDbType.Int).Direction = ParameterDirection.Output;
                 db.ExecuteSQL(cmd);
                 this.Tour_ID = (cmd.Parameters["@Tour_ID"].Value == null) ? 0 : Convert.ToInt32(cmd.Parameters["@Tour_ID"].Value);
@@ -145,6 +157,7 @@ namespace Autravel.Models
                 SqlCommand cmd = new SqlCommand("TourUpdate");
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@Tour_ID", this.Tour_ID));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_ID", this.Hotel_ID));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Name", this.Tour_Name));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Location", this.Tour_Location));
                 cmd.Parameters.Add(new SqlParameter("@Tour_OrganizationalUnit", this.Tour_OrganizationalUnit));
@@ -164,6 +177,9 @@ namespace Autravel.Models
                 cmd.Parameters.Add(new SqlParameter("@Tour_Active", this.Tour_Active));
                 cmd.Parameters.Add(new SqlParameter("@Tour_Topic", this.Tour_Topic));
                 cmd.Parameters.Add(new SqlParameter("@Tour_StarRate", this.Tour_StarRate));
+                cmd.Parameters.Add(new SqlParameter("@Tour_Qty", this.Tour_Qty));
+                cmd.Parameters.Add(new SqlParameter("@Tour_Score", this.Tour_Score));
+                 cmd.Parameters.Add(new SqlParameter("@Tour_PriceSale", this.Tour_PriceSale));
                 db.ExecuteSQL(cmd);
 
             }

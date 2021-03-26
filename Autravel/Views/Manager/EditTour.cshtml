@@ -1,13 +1,21 @@
 ﻿@using Autravel.Models;
 @using Autravel.Models.Function;
+@using System.Data
+
 @model Autravel.Models.Tour
 @{
     ViewBag.Title = "Cập nhật Combo";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     List<Location> l_Location = new Location().GetAll();
     List<TopicTour> l_topicTours = new TopicTour().GetAll();
-    TourDetailPrice tourDetailPrice = new TourDetailPrice().GetByTourID(Model.Tour_ID);
+    var Hotel = (DataTable)ViewBag.Hotel;
+
 }
+
+
+<link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+<script src="~/Content/plugins/select2/select2.min.js"></script>
+
 <h2>@Model.Tour_Name</h2>
 @if (TempData["MessagePost"] != null)
 {
@@ -37,6 +45,17 @@
                         <div class="form-group input-group">
                             <label for="usr" class="input-group-addon">Đơn vị tổ chức:</label>
                             <input type="text" class="form-control" id="Tour_OrganizationalUnit" name="Tour_OrganizationalUnit" value="@Model.Tour_OrganizationalUnit">
+                        </div>
+                    </div>
+                    <div class="  col-md-12">
+                        <div class="form-group input-group">
+                            <span for="usr" class="input-group-addon">Khách sạn:</span>
+                            <select class="form-control" id="Hotel_ID" name="Hotel_ID">
+                                @foreach (DataRow item in Hotel.Rows)
+                                {
+                                    <option value="@item["Hotel_ID"]" @(item["Hotel_ID"].ToString()==Model.Hotel_ID.ToString()? "selected": "") >@item["Hotel_Name"]</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div id="postdivrich" class="postarea wp-editor-expand">
@@ -148,53 +167,30 @@
                                     <input type='text' class="form-control Tour_TimeZone" id="Tour_TimeZone" name="Tour_TimeZone" value="@Model.Tour_TimeZone" />
                                 </div>
                             </div>
-                            @{ string check = ""; string styleUnFix = "style=display:none;"; string styleFix = "style=\"display:none;\""; if (Model.Tour_Fixed == true) { check = "checked"; styleFix = ""; } else { styleUnFix = ""; } }
-                            <label class="Tour_Fixed"><input value="1" type="checkbox" name="Tour_Fixed" id="Tour_Fixed" onclick="Tour_FixedonClickHandler(this)" @check> Combo cố định</label>
                             <div class="col-md-12 form-group Price_Tour">
-                                <div class="row Price_Tour_UnFixed form-inline" @styleUnFix>
+                                <div class="  Price_Tour_UnFixed form-inline">
                                     <div class="form-group">
-                                        <div class='input-group' id="lbl_Tour_Price">
-                                            <span for="Tour_Price" class="input-group-addon label_input">Giá Phòng:</span>
-                                            <input type="text" class="form-control Tour_Price" id="Tour_PriceRoom" name="Tour_PriceRoom" value="@Model.Tour_PriceRoom" oninput="FunctionCaculatorCombo(this)">
-                                        </div>
+                                        <label for="Tour_Price">Giá gốc:</label>
+                                        <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" value="@Model.Tour_Price">
+                                        <b> đ</b>
                                     </div>
                                     <div class="form-group">
-                                        <div class='input-group' id="lbl_Tour_PriceTicket">
-                                            <span for="Tour_Price" class="input-group-addon label_input">Giá Vé:</span>
-                                            <input type="text" class="form-control Tour_PriceTicket" id="Tour_PriceTicket" name="Tour_PriceTicket" value="@Model.Tour_PriceTicket" oninput="FunctionCaculatorCombo(this)">
-                                        </div>
+                                        <label for="Tour_Price">Giá ưu đãi:</label>
+                                        <input type="text" class="form-control Tour_PriceSale" id="Tour_PriceSale" name="Tour_PriceSale" value="@Model.Tour_PriceSale">
+                                        <b> đ</b>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Tour_Price">Số lượng:</label>
+                                        <input type="text" class="form-control Tour_Qty" id="Tour_Qty" name="Tour_Qty" value="@Model.Tour_Qty">
                                     </div>
                                     <div class="form-group">
-                                        <div class='input-group' id="lbl_Tour_PriceTicket">
-                                            <span for="Tour_Price" class="input-group-addon label_input">Phí dịch vụ:</span>
-                                            <input type="text" class="form-control Tour_Price" id="Tour_PriceFee" name="Tour_PriceFee" value="@Model.Tour_PriceFee" oninput="FunctionCaculatorCombo(this)">
-                                        </div>
+                                        <label for="Tour_Price">Đánh giá:</label>
+                                        <input type="text" class="form-control Tour_Score" id="Tour_Score" name="Tour_Score" value="@Model.Tour_Score">
                                     </div>
-                                    <div class="form-group">
-                                        <div class='input-group' id="lbl_Tour_Price">
-                                            <span for="Tour_Price" class="input-group-addon label_input">Giá chỉ từ:</span>
-                                            <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" value="@Model.Tour_Price" oninput="FunctionTextChange(this)">
-                                        </div>
-                                    </div>
+
                                 </div>
-                                <div class="row Price_Tour_Fixed " style=" display: inline; " @styleFix>
-                                    <div class="row form-group">
-                                        <div class="col-md-8"> <label>Mức giá</label></div>
-                                        <div class="col-md-4"> <label>Số lượng</label></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price1 txt_Price" id="TourDetailPrice_Price1" name="TourDetailPrice_Price1" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price1)" oninput="FunctionTextChange(this)"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice1" id="TourDetailPrice_NumberPrice1" name="TourDetailPrice_NumberPrice1" value="@tourDetailPrice.TourDetailPrice_NumberPrice1"></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price2 txt_Price" id="TourDetailPrice_Price2" name="TourDetailPrice_Price2" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price2)" oninput="FunctionTextChange(this)"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice2" id="TourDetailPrice_NumberPrice2" name="TourDetailPrice_NumberPrice2" value="@tourDetailPrice.TourDetailPrice_NumberPrice2"></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price3 txt_Price" id="TourDetailPrice_Price3" name="TourDetailPrice_Price3" value="@Funtions.Money(tourDetailPrice.TourDetailPrice_Price3)" oninput="FunctionTextChange(this)"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice3" id="TourDetailPrice_NumberPrice3" name="TourDetailPrice_NumberPrice3" value="@tourDetailPrice.TourDetailPrice_NumberPrice3"></div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="form-group">
                                 <div id="publishing-action">
@@ -327,6 +323,7 @@
             filebrowserUploadUrl: '/Manager/UploadFiles'
         });
     }, 100);
+    $('select').select2();
 
 </script>
 <script type="text/javascript">
@@ -361,7 +358,7 @@
         var PriceFee = $('#Tour_PriceFee').val();
         PriceFee = PriceFee.replace(",", "");
         var total = parseFloat(PriceRoom / 2) + parseFloat(PriceTicket) + parseFloat(PriceFee);
-          $('#Tour_Price').val(formatNumber(total.toString()));
+        $('#Tour_Price').val(formatNumber(total.toString()));
         $(ev).val(formatNumber(Price));
     }
 </script>

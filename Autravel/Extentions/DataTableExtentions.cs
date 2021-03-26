@@ -59,6 +59,12 @@ namespace Autravel.Extentions
             int.TryParse(val, out int result);
              
             return result ;
+        }   
+        public static string ToString(this DataRow input, string col)
+        {
+            var result = input[col].ToString().Trim();
+            
+            return result ;
         }  
         public static float ToFloat(this DataRow input, string col)
         {

@@ -1,10 +1,16 @@
-﻿@using Autravel.Models;
+﻿@using Autravel.Models
+@using System.Data
 @{
     ViewBag.Title = "Thêm Combo mới";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     List<Location> l_Location = new Location().GetAll();
     List<TopicTour> l_topicTours = new TopicTour().GetAll();
+    var Hotel = (DataTable)ViewBag.Hotel;
 }
+@model  Autravel.Models.Tour
+
+<link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+<script src="~/Content/plugins/select2/select2.min.js"></script>
 <h2>Thêm Combo mới</h2>
 @if (TempData["MessagePost"] != null)
 {
@@ -34,6 +40,17 @@
                         <div class="form-group input-group">
                             <span for="usr" class="input-group-addon">Đơn vị tổ chức:</span>
                             <input type="text" class="form-control" id="Tour_OrganizationalUnit" name="Tour_OrganizationalUnit">
+                        </div>
+                    </div>
+                    <div class="  col-md-12">
+                        <div class="form-group input-group">
+                            <span for="usr" class="input-group-addon">Khách sạn:</span>
+                            <select class="form-control" id="Hotel_ID" name="Hotel_ID">
+                                @foreach (DataRow item in Hotel.Rows)
+                                {
+                                    <option value="@item["Hotel_ID"]">@item["Hotel_Name"]</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div id="postdivrich" class="postarea wp-editor-expand">
@@ -129,44 +146,30 @@
                                     <input type='text' class="form-control Tour_TimeZone" id="Tour_TimeZone" name="Tour_TimeZone" />
                                 </div>
                             </div>
-                            <label class="Tour_Fixed"><input value="1" type="checkbox" name="Tour_Fixed" id="Tour_Fixed" onclick="Tour_FixedonClickHandler(this)"> Combo cố định</label>
                             <div class="col-md-12 form-group Price_Tour">
-                                <div class="row Price_Tour_UnFixed form-inline">
+                                <div class="  Price_Tour_UnFixed form-inline">
                                     <div class="form-group">
-                                        <label for="Tour_Price">Giá Phòng:</label>
-                                        <input type="text" class="form-control Tour_Price" id="Tour_PriceRoom" name="Tour_PriceRoom" value="@Model.Tour_PriceRoom" oninput="FunctionCaculatorCombo(this)">
+                                        <label for="Tour_Price">Giá gốc:</label>
+                                        <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" value="@Model.Tour_Price">
+                                        <b> đ</b>
                                     </div>
                                     <div class="form-group">
-                                        <label for="Tour_Price">Giá Vé:</label>
-                                        <input type="text" class="form-control Tour_Price" id="Tour_PriceTicket" name="Tour_PriceTicket" value="@Model.Tour_PriceTicket" oninput="FunctionCaculatorCombo(this)">
+                                        <label for="Tour_Price">Giá ưu đãi:</label>
+                                        <input type="text" class="form-control Tour_PriceSale" id="Tour_PriceSale" name="Tour_PriceSale" value="@Model.Tour_PriceSale">
+                                        <b> đ</b>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Tour_Price">Số lượng:</label>
+                                        <input type="text" class="form-control Tour_Qty" id="Tour_Qty" name="Tour_Qty" value="@Model.Tour_Qty">
                                     </div>
                                     <div class="form-group">
-                                        <label for="Tour_Price">Phí dịch vụ:</label>
-                                        <input type="text" class="form-control Tour_Price" id="Tour_PriceFee" name="Tour_PriceFee" value="@Model.Tour_PriceFee" oninput="FunctionCaculatorCombo(this)">
+                                        <label for="Tour_Price">Đánh giá:</label>
+                                        <input type="text" class="form-control Tour_Score" id="Tour_Score" name="Tour_Score" value="@Model.Tour_Score">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="Tour_Price">Giá chỉ từ:</label>
-                                        <input type="text" class="form-control Tour_Price" id="Tour_Price" name="Tour_Price" oninput="FunctionTextChange(this)">
-                                    </div>
+
                                 </div>
-                                <div class="row Price_Tour_Fixed" style="display: none;">
-                                    <div class="row form-group">
-                                        <div class="col-md-8"> <label>Mức giá</label></div>
-                                        <div class="col-md-4"> <label>Số lượng</label></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price1" id="TourDetailPrice_Price1" name="TourDetailPrice_Price1"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice1" id="TourDetailPrice_NumberPrice1" name="TourDetailPrice_NumberPrice1"></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price2" id="TourDetailPrice_Price2" name="TourDetailPrice_Price2"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice2" id="TourDetailPrice_NumberPrice2" name="TourDetailPrice_NumberPrice2"></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-8">  <input type="text" class="form-control TourDetailPrice_Price3" id="TourDetailPrice_Price3" name="TourDetailPrice_Price3"></div>
-                                        <div class="col-md-4">  <input type="number" class="form-control TourDetailPrice_NumberPrice3" id="TourDetailPrice_NumberPrice3" name="TourDetailPrice_NumberPrice3"></div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="form-group">
                                 <div id="publishing-action">
@@ -302,24 +305,8 @@
         // format number 1000000 to 1,234,567
         return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
-    function FunctionTextChange(ev) {
-        var Price = ev.value;
-        Price = Price.replace(",", "");
-        $(ev).val(formatNumber(Price));
-    }     
-    function FunctionCaculatorCombo(ev) {
-        var Price = ev.value;
-        Price = Price.replace(",", "");
-        var PriceRoom = $('#Tour_PriceRoom').val();
-        PriceRoom = PriceRoom.replace(",", "");
-        var PriceTicket = $('#Tour_PriceTicket').val();
-        PriceTicket = PriceTicket.replace(",", "");
-        var PriceFee = $('#Tour_PriceFee').val();
-        PriceFee = PriceFee.replace(",", "");
-        var total = parseFloat(PriceRoom / 2) + parseFloat(PriceTicket) + parseFloat(PriceFee);
-          $('#Tour_Price').val(formatNumber(total.toString()));
-        $(ev).val(formatNumber(Price));
-    }
+    $('select').select2();
+    
 </script>
 
 <script src="~/Content/js/LoadMedia.js"></script>

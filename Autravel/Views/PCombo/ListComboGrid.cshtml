@@ -22,7 +22,9 @@
 {
     var discount = 100 - item.ToFloat("Tour_PriceSale") / item.ToFloat("Tour_Price") * 100;
     discount = (int)discount;
-    var tienich = Hotel_Facilities.Select("Hotel_Facilities_ID in (" + item["Hotel_Facilities_ID"] + ")");
+    var Hotel_Facilities_ID = item.ToString("Hotel_Facilities_ID");
+    Hotel_Facilities_ID = string.IsNullOrEmpty(Hotel_Facilities_ID) ? "0" : Hotel_Facilities_ID;
+    var tienich = Hotel_Facilities.Select("Hotel_Facilities_ID in (" + Hotel_Facilities_ID + ")");
     int Tour_Qty = item.ToInt("Tour_Qty");
 
     <div class="panel panel-default">

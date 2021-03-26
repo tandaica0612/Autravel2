@@ -196,11 +196,15 @@ body {
 .sidebar-menu > li > a {
     padding: 5px 5px 5px 15px!important;
  }
-.body-content-Combo a
-{
-    color:white!important
 
-}
 .navbar-brand{
     font-weight:bold
+}
+
+.titel, .titel-combo {
+    color: #333;
+    margin-top: 10px
+}
+.ComboBestSelling span, .ComboBestSelling .price-item {
+    color: white !important
 }

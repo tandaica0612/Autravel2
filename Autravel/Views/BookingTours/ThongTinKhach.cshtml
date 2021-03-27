@@ -11,22 +11,44 @@
     }
 </style>
 <div class="container">
+    <h1>@Model.FirstOrDefault("Tour_Name")</h1>
     <table id="ThongTinKhach" class="  table-hover table-bordered">
         <tr>
             <td>Họ tên</td>
             <td>@Model.FirstOrDefault("HoTen")</td>
+            <td>Người lớn</td>
+            <td>@Model.FirstOrDefault("adult_number")</td>
         </tr>
         <tr>
             <td>Số điện thoại</td>
             <td><a>@Model.FirstOrDefault("Phone")</a></td>
+            <td>Trẻ em</td>
+            <td>@Model.FirstOrDefault("child_number")</td>
         </tr>
         <tr>
             <td>Email</td>
             <td><a>@Model.FirstOrDefault("Email")</a></td>
+            <td>Em bé</td>
+            <td>@Model.FirstOrDefault("BABY_number")</td>
         </tr>
         <tr>
             <td>Yêu cầu đặc biệt</td>
             <td>@Model.FirstOrDefault("YeuCauDacBiet")</td>
+            <td>Hạng phòng</td>
+            <td>@Model.FirstOrDefault("Room_ID")</td>
+        </tr>
+     
+        <tr>
+            <td>Ngày khởi hành</td>
+            <td>@Model.FirstOrDefault().ToDateString("Booking_DepartureDate")</td>
+            <td>Hạng xe</td>
+            <td>@Model.FirstOrDefault("CarType")</td>
+        </tr> 
+        <tr>
+            <td>Ngày kết thúc</td>
+            <td>@Model.FirstOrDefault().ToDateString("Booking_ArrivalDate")</td>
+             <td>Hãng bay</td>
+            <td>@Model.FirstOrDefault("AirType")</td>
         </tr>
     </table>
 </div>

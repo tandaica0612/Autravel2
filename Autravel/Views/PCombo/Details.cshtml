@@ -550,7 +550,7 @@
                         </div>
                     </div>
 
-                    <H3>  <b class="pull-right TotalPrice">790.000 ₫</b></H3>
+                    <H3>  <b class="pull-right TotalPrice"></b></H3>
                     <a class="DATCOMBONGAY col-md-12">Đặt COMBO ngay</a>
                 </div>
          </div>
@@ -641,7 +641,18 @@
         var Room_ID = $('[name=Room_ID]:checked').val();
         var AirType = $('[name=AirType]:checked').val();
         var CarType = $('[name=CarType]:checked').val();
-        window.location.href = "/PCombo/Checkout?ID=@Model["Tour_ID"]&Room_ID=" + Room_ID + "&AirType=" + AirType + "&CarType=" + CarType;
+        var adult_number = $('[name=adult_number]').val();
+        var child_number = $('[name=child_number]').val();
+        var BABY_number = $('[name=BABY_number]').val();
+        var From = $('#inp-Departure').attr("From");
+        var To = $('#inp-Departure').attr("To");
+        window.location.href = "/PCombo/Checkout?ID=@Model["Tour_ID"]&Room_ID=" + Room_ID
+            + "&AirType=" + AirType
+            + "&CarType=" + CarType
+            + "&adult_number=" + adult_number
+            + "&child_number=" + child_number
+            + "&From=" + From
+            + "&To=" + To;
     });
 </script>
 <script>
@@ -690,6 +701,9 @@
             AutoYearEnd
         ].join('/');
         $('#inp-Departure').val(output + ' đến ' + outputend);
+        $('#inp-Departure').attr("From", output); 
+        $('#inp-Departure').attr("To", outputend); 
+
     });
     $('#inp-Departure').dateRangePicker({
         autoClose: true,

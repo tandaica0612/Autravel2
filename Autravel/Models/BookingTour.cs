@@ -43,6 +43,12 @@ namespace Autravel.Models
         public string Phone  { get; set; }
         public string Email { get; set; }
         public string YeuCauDacBiet { get; set; }
+        public int adult_number { get; set; }
+        public int child_number { get; set; }
+        public int BABY_number { get; set; }
+        public string CarType { get; set; }
+        public string AirType { get; set; }
+        public string Room_ID { get; set; }
 
         public void Insert()
         {
@@ -57,19 +63,33 @@ namespace Autravel.Models
             ,[HoTen]
            ,[Phone]
            ,[Email]
-           ,[YeuCauDacBiet])
+           ,[YeuCauDacBiet]
+           ,[adult_number]
+           ,[child_number]
+           ,[BABY_number]
+           ,[CarType]
+           ,[AirType]
+           ,[Room_ID]
+)
      VALUES
            (N'#Tour_ID#'
            , N'#BookingTour_NumberPassenger#'
            , GETDATE()
-           , GETDATE()
-           , GETDATE()
+           ,  '#Booking_DepartureDate#'
+           , '#Booking_ArrivalDate#'
            , N'#Booking_Status#'
            , N'#Booking_TotalPrice#'
            , N'#HoTen#'
            , N'#Phone#'
            , N'#Email#'
-           , N'#YeuCauDacBiet#')";
+           , N'#YeuCauDacBiet#'
+           , #adult_number#
+           , #child_number#
+           , #BABY_number#
+           , N'#CarType#'
+           , N'#AirType#'
+           , N'#Room_ID#'
+)";
             sql = sql.Replace("#Tour_ID#", this.Tour_ID.ToString());
             sql = sql.Replace("#BookingTour_NumberPassenger#", this.BookingTour_NumberPassenger.ToString());
             var status = SqlModule.GetDataTable("SELECT top 1 Config_id  FROM [ConfigInfomation] WHERE [Config_Field]='BookingTourStatus' order by Config_Value").FirstOrDefault("Config_id");
@@ -79,6 +99,14 @@ namespace Autravel.Models
             sql = sql.Replace("#HoTen#", this.HoTen);
             sql = sql.Replace("#Email#", this.Email);
             sql = sql.Replace("#YeuCauDacBiet#", this.YeuCauDacBiet);
+            sql = sql.Replace("#adult_number#", this.adult_number.ToString());
+            sql = sql.Replace("#child_number#", this.child_number.ToString());
+            sql = sql.Replace("#BABY_number#", this.BABY_number.ToString());
+            sql = sql.Replace("#CarType#", this.CarType);
+            sql = sql.Replace("#AirType#", this.AirType);
+            sql = sql.Replace("#Room_ID#", this.Room_ID);
+            sql = sql.Replace("#Booking_DepartureDate#", this.Booking_DepartureDate.ToString("yyyy-MM-dd"));
+            sql = sql.Replace("#Booking_ArrivalDate#", this.Booking_ArrivalDate.ToString("yyyy-MM-dd"));
             SqlModule.ExcuteCommand(sql);
         }
 

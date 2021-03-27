@@ -60,7 +60,7 @@ namespace Autravel.Controllers
             ViewBag.KeySearch = KeySearch == "*" ? "Danh sách Combo" : KeySearch;
             return PartialView(data);
         }
-        public ActionResult Checkout(int ID=0,int Room_ID=0, string CarType="",string AirType="")
+        public ActionResult Checkout(int ID=0,int Room_ID=0, string CarType="", string AirType = "", int adult_number = 0, int child_number = 0, int BABY_number = 0,string From = null, string To =null)
         {
             var data = SqlModule.GetDataTable($@"SELECT  t1.*,t2.[Tour_Description]
                                                   , t2.[Tour_Content]
@@ -77,7 +77,16 @@ namespace Autravel.Controllers
             ViewBag.Room = SqlModule.GetDataTable(" SELECT  *  FROM [Room] where Room_ID="+ Room_ID);
             ViewBag.AirType = SqlModule.GetDataTable($@"SELECT [Config_Title] as AirType,Config_Value as Price  FROM  [ConfigInfomation] where [Config_Field]='AirType' and Config_Title=N'{AirType}'");
              ViewBag.CarType = SqlModule.GetDataTable($@"SELECT [Config_Title] as CarType,Config_Value as Price  FROM  [ConfigInfomation] where [Config_Field]='CarType' and Config_Title=N'{CarType}'");
-
+            ViewBag.adult_number = adult_number;
+            ViewBag.child_number = child_number;
+            ViewBag.BABY_number = BABY_number;
+            ViewBag.From = From;
+            ViewBag.To = To;
+            DateTime.TryParseExact(From, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime Start);
+            DateTime.TryParseExact(To, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime End);
+            ViewBag.Night = (End - Start).TotalDays;
+            ViewBag.Booking_DepartureDate = Start.ToString("yyyy-MM-dd");
+            ViewBag.Booking_ArrivalDate = End.ToString("yyyy-MM-dd");
             return View(data.Rows[0]);
          }
         [HttpPost]

@@ -27,7 +27,7 @@
     var Room = (System.Data.DataTable)ViewBag.Room;
     var AirType = (System.Data.DataTable)ViewBag.AirType;
     var CarType = (System.Data.DataTable)ViewBag.CarType;
-    int Total = Room.FirstOrDefault().ToInt("Price") + CarType.FirstOrDefault().ToInt("Price") + AirType.FirstOrDefault().ToInt("Price");
+    int Total = Room.FirstOrDefault().ToInt("Price") + CarType.FirstOrDefault().ToInt("Price") + AirType.FirstOrDefault().ToInt("Price") +  Model.ToInt("Tour_PriceSale");
 }
 <div class="container" id="CheckOut" style="margin-top:70PX">
 
@@ -42,6 +42,15 @@
         </div>
     </div>
     <form action="/PCombo/CheckoutFinish" method="post">
+        <input type="hidden" name="Booking_TotalPrice" value="@Total" />
+        <input type="hidden" name="Booking_DepartureDate" value="@ViewBag.Booking_DepartureDate" />
+        <input type="hidden" name="Booking_ArrivalDate" value="@ViewBag.Booking_ArrivalDate" />
+        <input type="hidden" name="BABY_number" value="@ViewBag.BABY_number" />
+        <input type="hidden" name="child_number" value="@ViewBag.child_number" />
+        <input type="hidden" name="adult_number" value="@ViewBag.adult_number" />
+        <input type="hidden" name="CarType" value="@CarType.FirstOrDefault("CarType")" />
+        <input type="hidden" name="AirType" value="@AirType.FirstOrDefault("AirType")" />
+        <input type="hidden" name="Room_ID" value="@Room.FirstOrDefault("Name")" />
         <input type="hidden" name="Tour_ID" value="@Model["Tour_ID"]" />
         <input type="hidden" name="Booking_TotalPrice" value="@Total" />
         <div class="row">
@@ -78,27 +87,31 @@
                             @Html.Raw(Funtions.FillStarView(Model.ToFloat("Tour_StarRate")))
                             | <span><a>@Model["Hotel_Address"]</a></span>
                         </p>
-
+                        <p> <span>Giá combo :</span>   <b style="font-size:20px">@Model.ToIntCurrency("Tour_PriceSale")đ</b> </p>
                         <table>
                             <tr>
                                 <td>Ngày nhận phòng</td>
-                                <td><b>@Model.ToDateString("Tour_DepartureDate")</b></td>
+                                <td><b>@ViewBag.From</b></td>
                             </tr>
                             <tr>
                                 <td>Checkout</td>
-                                <td><b>@Model.ToDateString("Tour_DepartureDate")</b></td>
+                                <td><b>@ViewBag.To</b></td>
                             </tr>
                             <tr>
                                 <td>Số đêm lưu trú</td>
-                                <td><b>@Model["Tour_TimeZone"] đêm</b></td>
+                                <td><b>@ViewBag.Night đêm</b></td>
                             </tr>
                             <tr>
                                 <td>Người lớn</td>
-                                <td><b>3</b></td>
+                                <td><b>@ViewBag.adult_number</b></td>
                             </tr>
                             <tr>
                                 <td>Trẻ em</td>
-                                <td><b>3</b></td>
+                                <td><b>@ViewBag.child_number</b></td>
+                            </tr>
+                            <tr>
+                                <td>Em bé</td>
+                                <td><b>@ViewBag.BABY_number</b></td>
                             </tr>
                             <tr style=" border-top: 1px dashed #ddd !important; ">
                                 <td colspan="2">Yêu cầu đặc biệt</td>

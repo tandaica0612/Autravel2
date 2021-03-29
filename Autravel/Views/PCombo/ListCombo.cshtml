@@ -1,7 +1,11 @@
 ﻿@using Autravel.Models.Function;
 <style>
 
-
+    .div-Departure {
+        border: 1px solid #ccc;
+        margin-right: 0;
+        width: 100%
+    }
     .KhoiHanh {
         margin-top: 20px;
         border: 0 !important
@@ -42,6 +46,16 @@
                 <input class="form-control" style="border-left:0" id="KeySearch" placeholder="Tìm thêm combo tại Sapa" value="@ViewBag.KeySearch" />
             </div>
             <br />
+
+            <div class="div-Departure">
+                <label class="lbl-Departure">
+                    <span class="titel-lbl-Departure">Nhận phòng  - Trả phòng </span>
+                    <input class="inp-Departure" id="inp-Departure" placeholder="Vui lòng chọn thời gian!" />
+                </label>
+            </div>
+
+            <br />
+           <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">Lọc kết quả <a id="ResetSearch" class="pull-right btn" style="padding:0">Đặt lại</a></div>
                 <div class="panel-body">
@@ -120,5 +134,118 @@
         if (e.which == 13) {
             $('#btnKeySearch').click();
         }
+    });
+    $("#inp-Departure").change(function (e) {
+        e.preventDefault();
+        loadgrid();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        function getDaysOfMonth(year, month) {
+
+            var monthStart = new Date(year, month, 1);
+            var monthEnd = new Date(year, month + 1, 1);
+            var monthLength = (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
+            return monthLength;
+
+        }
+        var d = new Date();
+        var AutoDay = d.getDate() + 3;
+        var AutoDayEnd = d.getDate() + 5;
+        var TotalDayOfMonth = getDaysOfMonth(d.getFullYear(), d.getMonth());
+        var AutoMonth = (d.getMonth() + 1);
+        var AutoMonthEnd = (d.getMonth() + 1);
+        var AutoYear = d.getFullYear();
+        var AutoYearEnd = d.getFullYear();
+        if (AutoDay > TotalDayOfMonth) {
+           
+            AutoDay = AutoDay - TotalDayOfMonth;
+            AutoMonth += 1;
+            if (AutoMonth > 12) {
+                AutoYear += 1;
+                AutoMonth = 1;
+            }
+        }
+        if (AutoDayEnd > TotalDayOfMonth) {
+            AutoDayEnd = AutoDayEnd - TotalDayOfMonth;
+            AutoMonthEnd += 1;
+            if (AutoMonthEnd > 12) {
+                AutoYearEnd += 1;
+                AutoMonthEnd = 1;
+            }
+        }
+        output = [
+
+            ('0' + AutoDay).substr(-2), ('0' + AutoMonth).substr(-2),
+            AutoYear
+        ].join('/');
+        outputend = [
+
+            ('0' + AutoDayEnd).substr(-2), ('0' + AutoMonthEnd).substr(-2),
+            AutoYearEnd
+        ].join('/');
+        $('#inp-Departure').val(output + ' đến ' + outputend);
+        $('#inp-Departure').attr("From", output);
+        $('#inp-Departure').attr("To", outputend);
+
+    });
+    $('#inp-Departure').dateRangePicker({
+        autoClose: true,
+        format: 'DD/MM/YYYY',
+        separator: ' đến ',
+        language: 'vi',
+        startOfWeek: 'monday',// or monday
+        //getValue: function () {
+        //    return $(this).val();
+        //},
+        //setValue: function (s) {
+        //    if (!$(this).attr('readonly') && !$(this).is(':disabled') && s != $(this).val()) {
+        //        $(this).val(s);
+        //    }
+        //},
+        startDate: new Date(),
+        endDate: false,
+        time: {
+            enabled: false
+        },
+        minDays: 0,
+        maxDays: 0,
+        showShortcuts: false,
+        shortcuts:
+        {
+            //'prev-days': [1,3,5,7],
+            //'next-days': [3,5,7],
+            //'prev' : ['week','month','year'],
+            //'next' : ['week','month','year']
+        },
+        customShortcuts: [],
+        inline: false,
+        container: 'body',
+        alwaysOpen: false,
+        singleDate: false,
+        lookBehind: false,
+        batchMode: false,
+        duration: 200,
+        stickyMonths: false,
+        dayDivAttrs: [],
+        dayTdAttrs: [],
+        applyBtnClass: '',
+        singleMonth: 'auto',
+        hoveringTooltip: function (days, startTime, hoveringTime) {
+            //return days > 1 ? days + ' ' + lang('days') : '';
+        },
+        showTopbar: true,
+        swapTime: false,
+        selectForward: false,
+        selectBackward: false,
+        showWeekNumbers: false,
+        getWeekNumber: function (date) //date will be the first day of a week
+        {
+            return moment(date).format('w');
+        },
+        monthSelect: false,
+        yearSelect: false
+       
     });
 </script>

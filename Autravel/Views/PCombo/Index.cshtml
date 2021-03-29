@@ -186,8 +186,7 @@
         var AutoYear = d.getFullYear();
         var AutoYearEnd = d.getFullYear();
         if (AutoDay > TotalDayOfMonth) {
-            debugger;
-            AutoDay = AutoDay - TotalDayOfMonth;
+             AutoDay = AutoDay - TotalDayOfMonth;
             AutoMonth += 1;
             if (AutoMonth > 12) {
                 AutoYear += 1;
@@ -213,6 +212,8 @@
             AutoYearEnd
         ].join('/');
         $('#inp-Departure').val(output + ' đến ' + outputend);
+        $('#inp-Departure').attr("From", output);
+        $('#inp-Departure').attr("To", outputend);
     });
     $('#inp-Departure').dateRangePicker({
         autoClose: true,
@@ -270,7 +271,12 @@
         },
         monthSelect: false,
         yearSelect: false
-    });
+    }).bind('datepicker-change', function (event, obj) {
+        console.log(obj);
+        $('#inp-Departure').attr("From", moment(obj.date1).format('YYYY-MM-DD'));
+        $('#inp-Departure').attr("To", moment(obj.date2).format('YYYY-MM-DD'));
+         
+    });;
 
  
      $.ajax({
@@ -289,12 +295,10 @@
     $("#btnSearchbox").click(function (e) {
         e.preventDefault();
         var KeySearch = $("#inp-location").val();
-        var ThoiGian = $("#inp-Departure").val();
-         console.log(KeySearch);
-        console.log(ThoiGian);
-        KeySearch = encodeURI(KeySearch);
-        ThoiGian = encodeURI(ThoiGian);
-        window.location.href = "/PCombo/ListCombo?KeySearch=" + KeySearch + "&ThoiGian=" + ThoiGian;
+         var From = $('#inp-Departure').attr("From");
+        var To = $('#inp-Departure').attr("To");
+          KeySearch = encodeURI(KeySearch);
+        window.location.href = "/PCombo/ListCombo?KeySearch=" + KeySearch + "&From=" + From + "&To=" + To;
     });
 </script>
 <script>

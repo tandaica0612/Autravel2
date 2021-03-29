@@ -28,26 +28,20 @@ namespace Autravel.Controllers
         {
             return PartialView();
         }
-        public ActionResult ListCombo(string KeySearch, string ThoiGian = "")
+        public ActionResult ListCombo(string KeySearch, string From = "", string To = "")
         {
             ViewBag.KeySearch = KeySearch;
-            ViewBag.ThoiGian = ThoiGian;
+            ViewBag.From = From;
+            ViewBag.To = To;
             return View();
         }
 
-        public ActionResult ListComboGrid(string filter = "", string KeySearch = "", string ThoiGian = "")
+        public ActionResult ListComboGrid(string filter = "", string KeySearch = "", string From = "", string To = "")
         {
-            DateTime From = DateTime.Now;
-            DateTime To = DateTime.Now.AddMonths(6);
-            if (string.IsNullOrEmpty(filter)) filter = "*";
+           
+             if (string.IsNullOrEmpty(filter)) filter = "*";
             if (string.IsNullOrEmpty(KeySearch)) KeySearch = "*";
-            if (!string.IsNullOrEmpty(ThoiGian))
-            {
-                var startDate = ThoiGian.Split(' ').FirstOrDefault();
-                var endDate = ThoiGian.Split(' ').LastOrDefault();
-                DateTime.TryParseExact(startDate,"dd/MM/yyyy",CultureInfo.InvariantCulture,DateTimeStyles.None,out From);
-                DateTime.TryParseExact(endDate, "dd/MM/yyyy",CultureInfo.InvariantCulture,DateTimeStyles.None,out To);
-               }
+            
 
             string sql = $@"SELECT * FROM VTour where Tour_ID in (SELECT Tour_ID  FROM [VTour_FILTER] 
     CROSS APPLY STRING_SPLIT(filter, ',')   where value in (select value from string_split('#filter#',',')) )  
@@ -80,12 +74,13 @@ namespace Autravel.Controllers
             ViewBag.adult_number = adult_number;
             ViewBag.child_number = child_number;
             ViewBag.BABY_number = BABY_number;
-            ViewBag.From = From;
-            ViewBag.To = To;
-            DateTime.TryParseExact(From, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime Start);
-            DateTime.TryParseExact(To, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime End);
-            ViewBag.Night = (End - Start).TotalDays;
-            ViewBag.Booking_DepartureDate = Start.ToString("yyyy-MM-dd");
+        
+            var Start = DateTime.Parse(From);
+            var End = DateTime.Parse(To);
+              ViewBag.Night = (End - Start).TotalDays;
+            ViewBag.From = Start.ToString("dd/MM/yyyy");
+            ViewBag.To = End.ToString("dd/MM/yyyy");
+             ViewBag.Booking_DepartureDate = Start.ToString("yyyy-MM-dd");
             ViewBag.Booking_ArrivalDate = End.ToString("yyyy-MM-dd");
             return View(data.Rows[0]);
          }

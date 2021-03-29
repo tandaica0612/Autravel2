@@ -118,10 +118,10 @@
             return this.value;
         }).get().join(",");
         var KeySearch = $('#KeySearch').val();
-        var ThoiGian = encodeURI("@ViewBag.ThoiGian");
-        KeySearch = encodeURI(KeySearch);
-
-        $('#gridsearchResult').load("/PCombo/ListCombogrid?filter=" + filter + "&KeySearch=" + KeySearch + "&ThoiGian="+ThoiGian);
+         KeySearch = encodeURI(KeySearch);
+        var From = $('#inp-Departure').attr("From");
+        var To = $('#inp-Departure').attr("To");
+        $('#gridsearchResult').load("/PCombo/ListCombogrid?filter=" + filter + "&KeySearch=" + KeySearch + "&From=" + From + "&To=" + To);
 
     }
     $(".checkbox input").click(function (e) {
@@ -142,50 +142,9 @@
 </script>
 <script>
     $(document).ready(function () {
-        function getDaysOfMonth(year, month) {
-
-            var monthStart = new Date(year, month, 1);
-            var monthEnd = new Date(year, month + 1, 1);
-            var monthLength = (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
-            return monthLength;
-
-        }
-        var d = new Date();
-        var AutoDay = d.getDate() + 3;
-        var AutoDayEnd = d.getDate() + 5;
-        var TotalDayOfMonth = getDaysOfMonth(d.getFullYear(), d.getMonth());
-        var AutoMonth = (d.getMonth() + 1);
-        var AutoMonthEnd = (d.getMonth() + 1);
-        var AutoYear = d.getFullYear();
-        var AutoYearEnd = d.getFullYear();
-        if (AutoDay > TotalDayOfMonth) {
-           
-            AutoDay = AutoDay - TotalDayOfMonth;
-            AutoMonth += 1;
-            if (AutoMonth > 12) {
-                AutoYear += 1;
-                AutoMonth = 1;
-            }
-        }
-        if (AutoDayEnd > TotalDayOfMonth) {
-            AutoDayEnd = AutoDayEnd - TotalDayOfMonth;
-            AutoMonthEnd += 1;
-            if (AutoMonthEnd > 12) {
-                AutoYearEnd += 1;
-                AutoMonthEnd = 1;
-            }
-        }
-        output = [
-
-            ('0' + AutoDay).substr(-2), ('0' + AutoMonth).substr(-2),
-            AutoYear
-        ].join('/');
-        outputend = [
-
-            ('0' + AutoDayEnd).substr(-2), ('0' + AutoMonthEnd).substr(-2),
-            AutoYearEnd
-        ].join('/');
-        $('#inp-Departure').val(output + ' đến ' + outputend);
+        var output = moment(new Date("@ViewBag.From")).format('DD/MM/YYYY');
+        var outputend = moment(new Date("@ViewBag.To")).format('DD/MM/YYYY');
+          $('#inp-Departure').val(output + ' đến ' + outputend);
         $('#inp-Departure').attr("From", output);
         $('#inp-Departure').attr("To", outputend);
 
@@ -244,8 +203,20 @@
         {
             return moment(date).format('w');
         },
-        monthSelect: false,
+         monthSelect: false,
         yearSelect: false
-       
+
+    }).bind('datepicker-change', function (event, obj) {
+        console.log(obj);
+        $('#inp-Departure').attr("From", moment(obj.date1).format('YYYY-MM-DD'));
+        $('#inp-Departure').attr("To", moment(obj.date2).format('YYYY-MM-DD'));
+        loadgrid();
+
+        // obj sẽ giống như thế này:
+        // {
+        // date1: (Đối tượng ngày của ngày trước đó),
+        // date2: (Đối tượng ngày của ngày sau đó),
+        // giá trị: "2013-06-05 đến 2013-06-07"
+        //}
     });
 </script>

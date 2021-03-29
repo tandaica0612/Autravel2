@@ -13,7 +13,7 @@ namespace Autravel.Controllers
         public ActionResult Index()
         {
             ViewBag.BANNER = SqlModule.GetDataTable(" SELECT * FROM  [BANNER] where type ='HOTEL' order by ISNULL(stt,9999)");
-            ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage,Hotel_TimeZoneText,Hotel_StarRate FROM [VHotel] ");
+            ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage,Hotel_TimeZoneText,Hotel_StarRate FROM [VHotel_Price] ");
             ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
             ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
             return View();
@@ -30,7 +30,7 @@ namespace Autravel.Controllers
             if (string.IsNullOrEmpty(filter)) filter = "*";
             if (string.IsNullOrEmpty(KeySearch)) KeySearch = "*";
 
-            string sql = $@"SELECT TOP 10 * FROM VHotel where Hotel_ID in (SELECT Hotel_ID  FROM [VHotel_FILTER] 
+            string sql = $@"SELECT TOP 10 * FROM VHotel_Price where Hotel_ID in (SELECT Hotel_ID  FROM [VHotel_FILTER] 
                CROSS APPLY STRING_SPLIT(filter, ',')   where value in (select value from string_split('#filter#',',')) )  
              AND CHARINDEX(dbo.fChuyenCoDauThanhKhongDau(N'#KeySearch#'),dbo.fChuyenCoDauThanhKhongDau(Hotel_Name+'*'))  !=0";
             sql = sql.Replace("#filter#", filter);
@@ -52,7 +52,7 @@ namespace Autravel.Controllers
         public ActionResult Details(int ID)
         {
             var data = SqlModule.GetDataTable($@"SELECT  t1.* , t2.[Hotel_Content], t2.[Hotel_ListImage] 
-                                        FROM VHotel t1
+                                        FROM VHotel_Price t1
                                     left join[Hotel] t2  on t1.Hotel_ID = t2.Hotel_ID where t1.Hotel_ID = {ID}");
  
             if (data.Rows.Count == 0)
@@ -74,7 +74,7 @@ namespace Autravel.Controllers
         }
         public ActionResult LienQuan(float Hotel_Score)
         {
-            var data = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage ,Hotel_Score,Hotel_StarRate FROM [VHotel] WHERE Hotel_Score=" + Hotel_Score);
+            var data = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage ,Hotel_Score,Hotel_StarRate FROM [VHotel_Price] WHERE Hotel_Score=" + Hotel_Score);
              return PartialView(data);
         }
     }

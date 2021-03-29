@@ -211,7 +211,7 @@
                             <img class="img-combo" src="@item["Location_images"]" />
                         </div>
                         <div class="titel-combo">
-                            <span class="titel"><a href="/">@item["Location_Name"]</a></span>
+                            <span class="titel">@item["Location_Name"]</span>
                             <span class="total-combo">2 combo</span>
                         </div>
                     </div>
@@ -294,7 +294,7 @@
         var AutoYear = d.getFullYear();
         var AutoYearEnd = d.getFullYear();
         if (AutoDay > TotalDayOfMonth) {
-            debugger;
+             
             AutoDay = AutoDay - TotalDayOfMonth;
             AutoMonth += 1;
             if (AutoMonth > 12) {

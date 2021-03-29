@@ -205,6 +205,9 @@ body {
     color: #333;
     margin-top: 10px
 }
-.ComboBestSelling span, .ComboBestSelling .price-item {
+.ComboBestSelling span, .ComboBestSelling .price-item, .ComboBestSelling .titel-combo {
     color: white !important
+}
+.ComboBestSelling .top-right {
+    color: black !important
 }

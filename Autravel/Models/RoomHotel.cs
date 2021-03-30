@@ -42,7 +42,11 @@ namespace Autravel.Models
         public Int64 RoomHotel_TotalPrice { get; set; }
         public DateTime RoomHotel_DateStart { get; set; }
         public DateTime RoomHotel_DateEndArray { get; set; }
-        public List<RoomHotel> init(SqlCommand cmd)
+        public int Hotel_TimeZone { get; set; }
+        public int Hotel_Price { get; set; }
+        public int Hotel_PriceSale { get; set; }
+        public int Hotel_Qty { get; set; }
+         public List<RoomHotel> init(SqlCommand cmd)
         {
             SqlConnection con = db.getConnection();
             cmd.Connection = con;
@@ -71,6 +75,11 @@ namespace Autravel.Models
                     m_RoomHotel.RoomHotel_TotalPrice = smartReader.GetInt64("RoomHotel_TotalPrice");
                     m_RoomHotel.RoomHotel_DateStart = smartReader.GetDateTime("RoomHotel_DateStart");
                     m_RoomHotel.RoomHotel_DateEndArray = smartReader.GetDateTime("RoomHotel_DateEndArray");
+                    m_RoomHotel.Hotel_TimeZone = smartReader.GetInt32("Hotel_TimeZone");
+                    m_RoomHotel.Hotel_Price = smartReader.GetInt32("Hotel_Price");
+                    m_RoomHotel.Hotel_PriceSale = smartReader.GetInt32("Hotel_PriceSale");
+                    m_RoomHotel.Hotel_Qty = smartReader.GetInt32("Hotel_Qty");
+            
                     l_RoomHotel.Add(m_RoomHotel);
                 }
                 smartReader.disposeReader(reader);
@@ -95,18 +104,18 @@ namespace Autravel.Models
                 //cmd.Parameters.Add(new SqlParameter("@RoomHotel_Title", this.RoomHotel_Title));
                 cmd.Parameters.Add(new SqlParameter("@Hotel_ID", this.Hotel_ID));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Type", this.RoomHotel_Type));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_Content", this.RoomHotel_Content));
-                cmd.Parameters.Add(new SqlParameter("@RoomHotel_Image", this.RoomHotel_Image));
+                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Image", this.RoomHotel_Image));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Extensions", this.RoomHotel_Extensions));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_View", this.RoomHotel_View));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Bed", this.RoomHotel_Bed));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Acreage", this.RoomHotel_Acreage));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Adutls", this.RoomHotel_Adutls));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Infants", this.RoomHotel_Infants));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_TotalPrice", this.RoomHotel_TotalPrice));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_DateStart", this.RoomHotel_DateStart));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_DateEndArray", this.RoomHotel_DateEndArray));
-                cmd.Parameters.Add("@RoomHotel_ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(new SqlParameter("@Hotel_TimeZone", this.Hotel_TimeZone));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_Price", this.Hotel_Price));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_PriceSale", this.Hotel_PriceSale));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_Qty", this.Hotel_Qty));
+                     cmd.Parameters.Add("@RoomHotel_ID", SqlDbType.Int).Direction = ParameterDirection.Output;
                 db.ExecuteSQL(cmd);
                 this.RoomHotel_ID = (cmd.Parameters["@RoomHotel_ID"].Value == null) ? 0 : Convert.ToInt32(cmd.Parameters["@RoomHotel_ID"].Value);
                 return this.Hotel_ID;
@@ -136,10 +145,11 @@ namespace Autravel.Models
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Acreage", this.RoomHotel_Acreage));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Adutls", this.RoomHotel_Adutls));
                 cmd.Parameters.Add(new SqlParameter("@RoomHotel_Infants", this.RoomHotel_Infants));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_TotalPrice", this.RoomHotel_TotalPrice));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_DateStart", this.RoomHotel_DateStart));
-                //cmd.Parameters.Add(new SqlParameter("@RoomHotel_DateEndArray", this.RoomHotel_DateEndArray));
-                db.ExecuteSQL(cmd);
+                cmd.Parameters.Add(new SqlParameter("@Hotel_TimeZone", this.Hotel_TimeZone));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_Price", this.Hotel_Price));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_PriceSale", this.Hotel_PriceSale));
+                cmd.Parameters.Add(new SqlParameter("@Hotel_Qty", this.Hotel_Qty));
+                 db.ExecuteSQL(cmd);
             }
             catch (Exception ex)
             {

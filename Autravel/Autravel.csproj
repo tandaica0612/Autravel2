@@ -145,7 +145,6 @@
     <Compile Include="Controllers\Huy\Models\LoginAuth.cs" />
     <Compile Include="Controllers\Huy\Models\SqlModule.cs" />
     <Compile Include="Controllers\Huy\RoomHotelsController.cs" />
-    <Compile Include="Controllers\Huy\RoomHotel_PricesController.cs" />
     <Compile Include="Controllers\Huy\SetupMailSMTPsController.cs" />
     <Compile Include="Controllers\Huy\ToursController.cs" />
     <Compile Include="Controllers\Huy\Tour_EvaluatesController.cs" />
@@ -176,7 +175,6 @@
     <Compile Include="Models\Function\DBAccess.cs" />
     <Compile Include="Models\Function\Funtions.cs" />
     <Compile Include="Models\Hotel.cs" />
-    <Compile Include="Models\RoomHotel_Price.cs" />
     <Compile Include="Models\Tags.cs" />
     <Compile Include="Models\Tour_Evaluate.cs" />
     <Compile Include="Models\Hotel_Facilities.cs" />
@@ -3276,7 +3274,6 @@
     <Content Include="Views\BookingTours\ThongTinKhach.cshtml" />
     <Content Include="Views\PHotel\LienQuan.cshtml" />
     <Content Include="Views\PHotel\LoadRoom.cshtml" />
-    <Content Include="Views\RoomHotel_Prices\Index.cshtml" />
     <Content Include="Views\Banner\Index.cshtml" />
     <Content Include="Views\ConfigInfomations\Index.cshtml" />
   </ItemGroup>

@@ -50,27 +50,27 @@
                 <div class="panel-heading">Lọc kết quả <a id="ResetSearch" class="pull-right btn" style="padding:0">Đặt lại</a></div>
                 <div class="panel-body">
                     <b>Thời gian nghỉ</b>
-                    <label class="checkbox"><input type="checkbox" value="NIGHT1" /> 2 ngày 1 đêm</label>
-                    <label class="checkbox"><input type="checkbox" value="NIGHT2" /> 3 ngày 2 đêm</label>
-                    <label class="checkbox"><input type="checkbox" value="NIGHT3" /> 4 ngày 3 đêm</label>
-                    <label class="checkbox"><input type="checkbox" value="NIGHT4" /> 5 ngày 4 đêm</label>
-                    <label class="checkbox"><input type="checkbox" value="DAYMORE" /> >5 ngày đêm</label>
+                    <label class="checkbox night"><input type="checkbox" value="NIGHT1" /> 2 ngày 1 đêm</label>
+                    <label class="checkbox night"><input type="checkbox" value="NIGHT2" /> 3 ngày 2 đêm</label>
+                    <label class="checkbox night"><input type="checkbox" value="NIGHT3" /> 4 ngày 3 đêm</label>
+                    <label class="checkbox night"><input type="checkbox" value="NIGHT4" /> 5 ngày 4 đêm</label>
+                    <label class="checkbox night"><input type="checkbox" value="DAYMORE" /> >5 ngày đêm</label>
                     <hr />
                     <b>Khoảng giá</b>
-                    <label class="checkbox"><input type="checkbox" value="PRICE500" /> Dưới 500.000 đ</label>
-                    <label class="checkbox"><input type="checkbox" value="PRICE1000" /> 500.000 đ - 1.000.000 đ</label>
-                    <label class="checkbox"><input type="checkbox" value="PRICE2000" /> 1.000.000 đ - 2.000.000 đ</label>
-                    <label class="checkbox"><input type="checkbox" value="PRICE5000" /> 3.000.000 đ - 5.000.000 đ</label>
-                    <label class="checkbox"><input type="checkbox" value="PRICEMORE" /> Trên 5.000.000 đ</label>
+                    <label class="checkbox price"><input type="checkbox"   value="PRICE500" /> Dưới 500.000 đ</label>
+                    <label class="checkbox price"><input type="checkbox"   value="PRICE1000" /> 500.000 đ - 1.000.000 đ</label>
+                    <label class="checkbox price"><input type="checkbox"   value="PRICE2000" /> 1.000.000 đ - 2.000.000 đ</label>
+                    <label class="checkbox price"><input type="checkbox"   value="PRICE5000" /> 3.000.000 đ - 5.000.000 đ</label>
+                    <label class="checkbox price"><input type="checkbox"   value="PRICEMORE" /> Trên 5.000.000 đ</label>
                     <b>Hoặc</b>
                     <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" />
                     <hr />
                     <b>Tiêu chuẩn hạng khách sạn</b>
-                    <label class="checkbox"><input type="checkbox" value="START1" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(1))</label>
-                    <label class="checkbox"><input type="checkbox" value="START2" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(2))</label>
-                    <label class="checkbox"><input type="checkbox" value="START3" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(3))</label>
-                    <label class="checkbox"><input type="checkbox" value="START4" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(4))</label>
-                    <label class="checkbox"><input type="checkbox" value="START5" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(5))</label>
+                    <label class="checkbox star"><input type="checkbox"   value="STAR1" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(1))</label>
+                    <label class="checkbox star"><input type="checkbox"   value="STAR2" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(2))</label>
+                    <label class="checkbox star"><input type="checkbox"   value="STAR3" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(3))</label>
+                    <label class="checkbox star"><input type="checkbox"   value="STAR4" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(4))</label>
+                    <label class="checkbox star"><input type="checkbox"   value="STAR5" /> @Html.Raw(Autravel.Models.Function.Funtions.FillStarView(5))</label>
                     <hr />
                     <b>Địa điểm</b>
                     @foreach (DataRow item in DiaDiem.Rows)
@@ -103,12 +103,12 @@
 
     loadgrid();
     function loadgrid() {
-        var filter = $(".checkbox input:checked").map(function () {
-            return this.value;
-        }).get().join(",");
+        var night = $(".night input:checked").map(function () { return this.value;}).get().join(",");
+        var price = $(".price input:checked").map(function () { return this.value;}).get().join(",");
+        var star = $(".star input:checked").map(function () { return this.value;}).get().join(",");
         var KeySearch = $('#KeySearch').val();
         KeySearch = encodeURI(KeySearch);
-        $('#gridsearchResult').load("/PHotel/ListHotelgrid?filter=" + filter + "&KeySearch=" + KeySearch);
+        $('#gridsearchResult').load("/PHotel/ListHotelgrid?night=" + night + "&price=" + price + "&star=" + star + "&KeySearch=" + KeySearch);
 
     }
     $(".checkbox input").click(function (e) {
@@ -122,4 +122,9 @@
             $('#btnKeySearch').click();
         }
     });
+    $(document).on("click", ".SortPrice button", function () {
+         $(".SortPrice button").removeClass("active");
+        $(this).addClass("active"); 
+    });
+    
 </script>

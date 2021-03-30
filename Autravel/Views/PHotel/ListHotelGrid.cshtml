@@ -5,6 +5,13 @@
 @{
     var Hotel_Facilities = (DataTable)ViewBag.Hotel_Facilities;
 }
+<style>
+    .ComboBestSelling .body-content-Combo span.time-duration, .time-duration
+    {
+        top:unset!important;
+        bottom:10px!important
+    }
+</style>
 <div>
 
     <h1>@ViewBag.KeySearch</h1>
@@ -57,7 +64,7 @@
                     <div class="pull-right">
                         <div class="col-md-8" style="text-align:right">
                             <p style="margin:0"> <b>Tuyệt hảo</b></p>
-                            <span>24 đánh giá</span>
+                            <span>@item["SoLuongDanhGia"] đánh giá</span>
                         </div>
                         <div class="col-md-4">
                             <span class="btn  label-default" style="margin-right: 130px;background-color: #eee;font-weight:bold;font-size:16px">@item["Hotel_Score"]</span>
@@ -67,10 +74,14 @@
                     <div style="margin-top:100px;text-align:right;margin-right:20px">
                         @if (Hotel_Qty != 0)
                         {
-                            <p class="m-0">
-                                <span style="text-decoration:line-through">@item.ToIntCurrency("Hotel_Price") đ</span>
-                                <a class="btn btn-xs btn-black">@discount %</a>
-                            </p>
+                            if (discount != 0)
+                            {
+                                <p class="m-0">
+                                    <span style="text-decoration:line-through">@item.ToIntCurrency("Hotel_Price") đ</span>
+                                    <a class="btn btn-xs btn-black">@discount %</a>
+                                </p>
+                            }
+
                             <p>
                                 <b>@item.ToIntCurrency("Hotel_PriceSale") đ</b>
                             </p>

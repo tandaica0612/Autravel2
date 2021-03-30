@@ -66,8 +66,11 @@ namespace Autravel.Controllers.Huy
                 row.RoomHotel_Adutls = item.RoomHotel_Adutls;
                 row.RoomHotel_Infants = item.RoomHotel_Infants;
                 row.RoomHotel_Acreage = item.RoomHotel_Acreage;
-
-
+                row.Hotel_TimeZone = item.Hotel_TimeZone;
+                row.Hotel_Price = item.Hotel_Price;
+                row.Hotel_PriceSale = item.Hotel_PriceSale;
+                row.Hotel_Qty = item.Hotel_Qty;
+            
 
                 row.Update();
 
@@ -95,8 +98,11 @@ namespace Autravel.Controllers.Huy
             row.RoomHotel_Infants        =  item.RoomHotel_Infants         ;
             row.RoomHotel_Acreage        = item.RoomHotel_Acreage          ;
 
-
-
+            row.Hotel_TimeZone              = item.Hotel_TimeZone                 ;
+            row.Hotel_Price              = item.Hotel_Price                 ;
+            row.Hotel_PriceSale              = item.Hotel_PriceSale                 ;
+            row.Hotel_Qty              = item.Hotel_Qty                 ;
+ 
             row.Update();
             return JsonMax(new { result = "Success" });
 

@@ -58,35 +58,57 @@
                             @InputText("RoomHotel_Infants", "Trẻ em", Model.RoomHotel_Infants)
                             @InputText("RoomHotel_Acreage", "Diện tích", Model.RoomHotel_Acreage)
                             @InputText("RoomHotel_View", "Hướng", Model.RoomHotel_View)
-                            <div class="box box-info box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title fileter-title" data-widget="collapse">Lợi ích khi đặt phòng</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                        <div class="row col-md-12">
+                            <div class="col-md-6">
+                                <div class="box box-info box ">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title fileter-title" data-widget="collapse">Lợi ích khi đặt phòng</h3>
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="category-all" class="tabs-panel">
+                                            <ul id="Locationchecklist" data-wp-lists="list:Location" class="Locationchecklist form-no-clear">
+                                                @foreach (System.Data.DataRow item in RoomHotel_Extensions.Rows)
+                                                {
+                                                    string status = "";
+                                                    string ID = item["ID"].ToString();
+                                                    string Name = item["Name"].ToString();
+                                                    if (Funtions.ContainItemInList(Model.RoomHotel_Extensions, ID))
+                                                    { status = "checked"; }
+                                                    <li id="@ID">
+                                                        <label class="selectit">
+                                                            <input value="@ID" type="checkbox" name="tour_Topic" id="@ID" @status> @Name
+                                                        </label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="box-body">
-                                    <div id="category-all" class="tabs-panel">
-                                        <ul id="Locationchecklist" data-wp-lists="list:Location" class="Locationchecklist form-no-clear">
-                                            @foreach (System.Data.DataRow item in RoomHotel_Extensions.Rows)
-                                            {
-                                                string status = "";
-                                                string ID = item["ID"].ToString();
-                                                string Name = item["Name"].ToString();
-                                                if (Funtions.ContainItemInList(Model.RoomHotel_Extensions, ID))
-                                                { status = "checked"; }
-                                                <li id="@ID">
-                                                    <label class="selectit">
-                                                        <input value="@ID" type="checkbox" name="tour_Topic" id="@ID" @status> @Name
-                                                    </label>
-                                                </li>
-                                            }
-                                        </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-info box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title fileter-title" data-widget="collapse">Giá phòng</h3>
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                                        </div>
                                     </div>
+                                    <div class="box-body">
+                                        @InputText("Hotel_TimeZone", "Số đêm", Model.Hotel_TimeZone)
+                                        @InputText("Hotel_Price", "Giá niêm yết", Model.Hotel_Price)
+                                        @InputText("Hotel_PriceSale", "Giá ưu đãi", Model.Hotel_PriceSale)
+                                        @InputText("Hotel_Qty", "Số phòng", Model.Hotel_Qty)
+ 
 
+                                    </div>
                                 </div>
                             </div>
 
+                        </div>
                             <div class="form-group">
                                 <div id="publishing-action">
                                     <span class="spinner"></span>
@@ -161,15 +183,7 @@
     }
 
 </div>
-<div class="box box-info box Hotel_AllRoom col-md-12">
-    <div class="box-header with-border">
-        <h3 class="box-title fileter-title" data-widget="collapse">Danh sách giá phòng theo từng thời điểm</h3>
-      
-    </div>
-    <div class="box-body">
-        @Html.Action("index", "RoomHotel_Prices", new { ID = Model.RoomHotel_ID })
-    </div>
-</div>
+ 
 <script type="text/javascript">
     $(function () {
         var date = new Date();

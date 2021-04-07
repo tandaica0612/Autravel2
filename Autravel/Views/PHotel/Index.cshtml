@@ -11,45 +11,50 @@
 }
 <style>
     .div-location, .div-Departure {
-         width: 30%;
-        
+        width: 30%;
     }
 
-    .qtyBtn
-    {
-        display:inline-flex
+    .qtyBtn {
+        display: inline-flex
     }
+
         .qtyBtn input {
             width: 40px;
             border: 1px solid #999;
-             text-align: center;
+            text-align: center;
             MARGIN-TOP: 2PX;
             HEIGHT: 32PX;
         }
-     .qtyBtn .fa-plus {
-        border: 1px solid black;
-    }
+
+        .qtyBtn .fa-plus {
+            border: 1px solid black;
+        }
+
     .qty-box label {
         width: 80px
     }
-    .qty-box{
-        margin:10px
+
+    .qty-box {
+        margin: 10px
     }
+
     .gty-container .dropdown-btn span {
         color: black;
         font-weight: bold
     }
-    .gty-container  p {
-      margin:0
+
+    .gty-container p {
+        margin: 0
     }
+
     .qtyBtn i {
         margin: 2px 0 2px 0;
         BORDER: 1PX SOLID #999;
         padding: 8px;
-     }
+    }
 
-    .dropdown-menu{
-        width:400px
+    .dropdown-menu {
+        width: 400px
     }
 </style>
 <div class="banner-site">
@@ -185,7 +190,7 @@
         </div>
     </div>
 </div>
-<div  style="display:flex">
+<div style="display:flex">
 
     <div class="panel panel-default col-md-7" style="margin:0 auto;margin-top:30px">
         <div class="panel-body">
@@ -249,7 +254,7 @@
             }
         </div>
     </div>
-</div> 
+</div>
 <div class="Hanbook">
     <div class="container">
         <div class="headingContent">
@@ -294,7 +299,7 @@
         var AutoYear = d.getFullYear();
         var AutoYearEnd = d.getFullYear();
         if (AutoDay > TotalDayOfMonth) {
-             
+
             AutoDay = AutoDay - TotalDayOfMonth;
             AutoMonth += 1;
             if (AutoMonth > 12) {
@@ -423,33 +428,447 @@
             $('input[name="adult_number"]', t).trigger("change"),
 
             $('input[name="child_number"]', t).change(function () {
-            var n = parseInt($(this).val()),
-                a = n;
+                var n = parseInt($(this).val()),
+                    a = n;
                 "number" == typeof n && (a = n < 2 ? n + " " + $(".children", t).data("text") : n + " " + $(".children", t).data("text-multi")),
                     $(".children", t).html(a)
             }),
             $('input[name="child_number"]', t).trigger("change"),
             $('input[name="infants_number"]', t).change(function () {
-            var n = parseInt($(this).val()),
-                a = n;
+                var n = parseInt($(this).val()),
+                    a = n;
                 "number" == typeof n && (a = n < 2 ? n + " " + $(".infants", t).data("text") : n + " " + $(".infants", t).data("text-multi")),
                     $(".infants", t).html(a)
             }),
             $('input[name="infants_number"]', t).trigger("change"),
             $('input[name="BABY_number"]', t).change(function () {
-            var n = parseInt($(this).val()),
-                a = n;
+                var n = parseInt($(this).val()),
+                    a = n;
                 "number" == typeof n && (a = n < 2 ? n + " " + $(".BABY", t).data("text") : n + " " + $(".BABY", t).data("text-multi")),
                     $(".BABY", t).html(a)
             }),
             $('input[name="BABY_number"]', t).trigger("change")
     });
 
-    
+
     $(document).on('click', '.dropdown .dropdown-menu', function (e) {
         e.stopPropagation();
     });
 </script>
 <script>
     $("#SlideBannerCombo .carousel-inner .item:eq(0)").addClass("active");
+</script>
+
+
+<article class="max-w-full mx-auto bg-white mt-12 px-10 py-12">
+    <h1 class="flex justify-center pb-6 text-2xl uppercase">Our Gaming Gear</h1>
+
+    <!-- Slider Start -->
+    <div class="slider px-6">
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide mx-2">
+            <div class="overflow-hidden relative">
+                <div class="image-box">
+                    <img src="https://picsum.photos/seed/game/500/500" alt="This is a photo">
+                </div>
+                <div class="links absolute z-10 flex flex-col items-center py-12">
+                    <a class="main-link" href="#">Mice</a>
+                    <div class="sub-links flex flex-col items-center">
+                        <a class="link-item text-sm" href="#">Wired</a>
+                        <a class="link-item text-sm" href="#">Wireless</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Slider End -->
+</article>
+
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-20 transform translate-y-4 hover:translate-y-0 duration-300">
+    <div class="md:flex">
+        <div class="md:flex-shrink-0">
+            <img class="h-48 w-full object-cover md:w-48" src="https://picsum.photos/200/300" alt="Man looking at item at a store">
+        </div>
+        <div class="p-8">
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Case study</div>
+            <a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Finding customers for your new business</a>
+            <p class="mt-2 text-gray-500">Getting a new business off the ground is a lot of hard work. Here are five ideas you can use to find your first customers.</p>
+        </div>
+    </div>
+</div>
+<script src="~/Content/plugins/slick-carousel/slick.min.js"></script>
+<style>
+ body {
+  background: #1d1d1d;
+  height: 200vh;
+}
+
+.slider .slick-track {
+  display: flex;
+}
+
+.slider .slick-slide {
+  background: white;
+  width: 600px !important;
+  padding: 0;
+  margin: 0 10px;
+}
+
+.slider .image-box {
+  overflow: hidden;
+}
+
+.slider .slide img {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.slider .slide img:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  /* IE 9 */
+  transform: scale(1.2);
+}
+
+.slide .links {
+  color: white;
+  background: black;
+  background: linear-gradient(0deg, black 0%, rgba(255, 255, 255, 0) 100%);
+  bottom: 0;
+  width: 100%;
+}
+
+/* Arrows */
+.slick-prev,
+.slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.slick-arrow:focus-visible {
+  outline: 2px solid black;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  color: transparent;
+  outline: none;
+  background: transparent;
+}
+
+.slick-prev:hover:before,
+.slick-prev:focus:before,
+.slick-next:hover:before,
+.slick-next:focus:before {
+  opacity: 1;
+}
+
+.slick-prev.slick-disabled:before,
+.slick-next.slick-disabled:before {
+  opacity: 0.25;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-family: "slick";
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0.75;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev {
+  left: -25px;
+}
+
+[dir=rtl] .slick-prev {
+  right: -25px;
+  left: auto;
+}
+
+.slick-prev:before {
+  content: "←";
+}
+
+[dir=rtl] .slick-prev:before {
+  content: "→";
+}
+
+.slick-next {
+  right: -25px;
+}
+
+[dir=rtl] .slick-next {
+  right: auto;
+  left: -25px;
+}
+
+.slick-next:before {
+  content: "→";
+}
+
+[dir=rtl] .slick-next:before {
+  content: "←";
+}
+
+.slick-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+  margin: 0rem;
+  padding: 1rem 0;
+  list-style-type: none;
+}
+.slick-dots li {
+  margin: 0 1px;
+  padding: 1rem 0.5rem;
+}
+.slick-dots button {
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  padding: 0;
+  font-size: 0;
+  border: none;
+  border-radius: 80px/100px;
+  background-color: #555;
+  transition: all 0.4s linear;
+}
+.slick-dots button:hover {
+  height: 0.4rem;
+  border-radius: 80px/100px;
+}
+.slick-dots li.slick-active button {
+  background-color: #333;
+  height: 0.35rem;
+  border-radius: 80px/100px;
+}
+</style>
+
+<script>
+    $(".slider").slick({
+        dots: true,
+        arrow: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        variableWidth: false,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 2,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+
 </script>

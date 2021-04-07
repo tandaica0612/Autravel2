@@ -29,6 +29,10 @@
     {
       "library": "tinymce@5.7.1",
       "destination": "Content/plugins/tinymce/"
+    },
+    {
+      "library": "slick-carousel@1.8.1",
+      "destination": "Content/plugins/slick-carousel/"
     }
   ]
 }

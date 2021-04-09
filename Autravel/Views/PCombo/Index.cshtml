@@ -13,7 +13,7 @@
 <div class="banner-site">
     <div class="slider-banner">
         <div id="SlideBannerCombo" class="carousel slide" data-ride="carousel">
-           
+
             <div class="carousel-inner">
                 @foreach (DataRow item in BANNER.Rows)
                 {
@@ -52,7 +52,7 @@
                             </label>
                         </div>
                         <div class="div-btnSearchbox">
-                            <a  class="btn btn-primary" id="btnSearchbox">
+                            <a class="btn btn-primary" id="btnSearchbox">
                                 <i class="fa  fa-search"></i>
                             </a>
                         </div>
@@ -70,20 +70,45 @@
             <span class="description-heading">Khám phá những Combo đặc biệt nhé</span>
         </div>
         <div class="body-content-Combo">
-            @foreach (DataRow item in ChuDe.Rows)
-            {
-                <a href="/PCombo/ListCombo">
-                    <div class="col-md-2 combo-item">
-                        <div class="div-img-combo">
-                            <img class="img-combo" src="@item["TopicTour_Image"]" />
-                        </div>
-                        <div class="titel-combo">
-                            <b class="titel">@item["TopicTour_Name"]</b>
-                        </div>
-                    </div>
+            <div id="carouselChuDe" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                <div class="carousel-inner">
 
-                </a>
-            }
+                    @foreach (DataRow item in ChuDe.Rows)
+                    {
+                        <div class="item">
+                            <div class="carousel-col">
+                                <a href="/PCombo/ListCombo">
+                                    <div class="combo-item">
+                                        <div class="div-img-combo">
+                                            <img class="img-combo" src="@item["TopicTour_Image"]" />
+                                        </div>
+                                        <div class="titel-combo">
+                                            <b class="titel">@item["TopicTour_Name"]</b>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Controls -->
+                <div class="left carousel-control">
+                    <a href="#carouselChuDe" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+                <div class="right carousel-control">
+                    <a href="#carouselChuDe" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+
+         
 
         </div>
     </div>
@@ -95,26 +120,49 @@
             <span class="description-heading">Lên đường săn tuyến với combo Sapa của Autravel</span>
         </div>
         <div class="body-content-Combo">
-            @foreach (DataRow item in BanChay.Rows)
-            {
-                <a href="/PCombo/Details/@item["Tour_ID"]">
-                    <div class="col-md-3 combo-item">
-                        <div class="div-img-combo">
-                            <img class="img-combo" src="@item["Tour_Image"]" />
-                            <span class="time-duration">@item["Tour_TimeZoneText"]</span>
-                        </div>
-                        <div class="titel-combo">
-                            @*<span class="location-combo-item">SAPA</span>*@
-                            @*<span class="titel"><a>Chụp ảnh</a></span>*@
-                            <div class="rateStar-item">
-                                @Html.Raw(Funtions.FillStarView(item.ToFloat("Tour_StarRate")))
+            <div id="carouselBanChay" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                <div class="carousel-inner">
+
+                    @foreach (DataRow item in BanChay.Rows)
+                    {
+                        <div class="item">
+                            <div class="carousel-col">
+                                <a href="/PCombo/Details/@item["Tour_ID"]">
+                                    <div class="combo-item">
+                                        <div class="div-img-combo">
+                                            <img class="img-combo" src="@item["Tour_Image"]" />
+                                            <span class="time-duration">@item["Tour_TimeZoneText"]</span>
+                                        </div>
+                                        <div class="titel-combo">
+                                              <div class="rateStar-item">
+                                                @Html.Raw(Funtions.FillStarView(item.ToFloat("Tour_StarRate")))
+                                            </div>
+                                            <span class="extention-combo">Trọn gói: Khách sạn + xe khứ hồi</span>
+                                            <div class="price-item">@item.ToIntCurrency("Tour_Price") ₫</div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                            <span class="extention-combo">Trọn gói: Khách sạn + xe khứ hồi</span>
-                            <div class="price-item">@item.ToIntCurrency("Tour_Price") ₫</div>
                         </div>
-                    </div>
-                </a>
-            }
+                    }
+                </div>
+
+                <!-- Controls -->
+                <div class="left carousel-control">
+                    <a href="#carouselBanChay" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+                <div class="right carousel-control">
+                    <a href="#carouselBanChay" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+          
         </div>
     </div>
 </div>
@@ -125,20 +173,44 @@
             <span class="description-heading">Cùng Autravel khám phá những địa điểm đẹp nhé:</span>
         </div>
         <div class="body-content-Combo">
-            @foreach (DataRow item in DiaDiem.Rows)
-            {
-                <a href="/PCombo/ListCombo">
-                    <div class="col-md-3 combo-item">
-                        <div class="div-img-combo">
-                            <img class="img-combo" src="@item["Location_images"]" />
+            <div id="carouselDiaDiem" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                <div class="carousel-inner">
+
+                    @foreach (DataRow item in DiaDiem.Rows)
+                    {
+                        <div class="item">
+                            <div class="carousel-col">
+                                <a href="/PCombo/ListCombo">
+                                    <div class="combo-item">
+                                        <div class="div-img-combo">
+                                            <img class="img-combo" src="@item["Location_images"]" />
+                                        </div>
+                                        <div class="titel-combo">
+                                            <span class="titel"><a href="/">@item["Location_Name"]</a></span>
+                                            <span class="total-combo">2 combo</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="titel-combo">
-                            <span class="titel"><a href="/">@item["Location_Name"]</a></span>
-                            <span class="total-combo">2 combo</span>
-                        </div>
-                    </div>
-                </a>
-            }
+                    }
+                </div>
+
+                <!-- Controls -->
+                <div class="left carousel-control">
+                    <a href="#carouselDiaDiem" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+                <div class="right carousel-control">
+                    <a href="#carouselDiaDiem" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+          
         </div>
     </div>
 </div>
@@ -149,20 +221,42 @@
             <span class="description-heading">Chuẩn bị hành trang cùng Autravel</span>
         </div>
         <div class="body-content-Combo">
-            @foreach (DataRow item in CamNang.Rows)
-            {
-                <a href="/PCombo/Details">
-                    <div class="col-md-3 combo-item">
-                        <div class="div-img-combo">
-                            <a href="/"> <img class="img-combo" src="@item["Post_Images"]" /></a>
+            <div id="carouselCamNang" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                <div class="carousel-inner">
+
+                    @foreach (DataRow item in CamNang.Rows)
+                    {
+                        <div class="item">
+                            <div class="carousel-col">
+                                <a href="/PCombo/Details">
+                                    <div class=" combo-item">
+                                        <div class="div-img-combo">
+                                            <img class="img-combo" src="@item["Post_Images"]" />
+                                        </div>
+                                        <div class="titel-combo">
+                                            <b class="description-combo">@item["Post_Tile"]</b>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="titel-combo">
-                            @*<span class="titel"><a href="/">Ẩm thực</a></span>*@
-                            <b class="description-combo">@item["Post_Tile"]</b>
-                        </div>
-                    </div>
-                </a>
-            }
+                    }
+                </div>
+
+                 <div class="left carousel-control">
+                    <a href="#carouselCamNang" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+                <div class="right carousel-control">
+                    <a href="#carouselCamNang" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+           
         </div>
     </div>
 </div>
@@ -186,7 +280,7 @@
         var AutoYear = d.getFullYear();
         var AutoYearEnd = d.getFullYear();
         if (AutoDay > TotalDayOfMonth) {
-             AutoDay = AutoDay - TotalDayOfMonth;
+            AutoDay = AutoDay - TotalDayOfMonth;
             AutoMonth += 1;
             if (AutoMonth > 12) {
                 AutoYear += 1;
@@ -275,14 +369,14 @@
         console.log(obj);
         $('#inp-Departure').attr("From", moment(obj.date1).format('YYYY-MM-DD'));
         $('#inp-Departure').attr("To", moment(obj.date2).format('YYYY-MM-DD'));
-         
+
     });;
 
- 
-     $.ajax({
+
+    $.ajax({
         type: "POST",
         url: "/Pcombo/GetLocation",
-         dataType: "json",
+        dataType: "json",
         success: function (response) {
             var response = JSON.parse(response);
             var objectKeys = $.map(response, function (value, key) {
@@ -295,12 +389,41 @@
     $("#btnSearchbox").click(function (e) {
         e.preventDefault();
         var KeySearch = $("#inp-location").val();
-         var From = $('#inp-Departure').attr("From");
+        var From = $('#inp-Departure').attr("From");
         var To = $('#inp-Departure').attr("To");
-          KeySearch = encodeURI(KeySearch);
+        KeySearch = encodeURI(KeySearch);
         window.location.href = "/PCombo/ListCombo?KeySearch=" + KeySearch + "&From=" + From + "&To=" + To;
     });
 </script>
 <script>
     $("#SlideBannerCombo .carousel-inner .item:eq(0)").addClass("active");
+</script>
+
+
+<script>
+    $("#carouselCamNang .carousel-inner .item:eq(0)").addClass("active");
+    $("#carouselDiaDiem .carousel-inner .item:eq(0)").addClass("active");
+     $("#carouselBanChay .carousel-inner .item:eq(0)").addClass("active");
+    $("#carouselChuDe .carousel-inner .item:eq(0)").addClass("active");
+</script>
+
+
+
+<script>
+    $('.carousel[data-type="multi"] .item').each(function () {
+        var next = $(this).next();
+        if (!next.length) {
+            next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i = 0; i < 2; i++) {
+            next = next.next();
+            if (!next.length) {
+                next = $(this).siblings(':first');
+            }
+
+            next.children(':first-child').clone().appendTo($(this));
+        }
+    });
 </script>

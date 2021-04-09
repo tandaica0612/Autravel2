@@ -14,7 +14,7 @@ namespace Autravel.Controllers
         {
             ViewBag.BANNER = SqlModule.GetDataTable(" SELECT * FROM  [BANNER] where type ='HOTEL' order by ISNULL(stt,9999)");
             ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Hotel_ID,Hotel_Name,Hotel_Price,HotelImage,Hotel_TimeZoneText,Hotel_StarRate FROM [VHotel] ");
-            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
+            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 8 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
             ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
             return View();
         }

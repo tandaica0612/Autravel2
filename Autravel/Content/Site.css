@@ -211,3 +211,18 @@ body {
 .ComboBestSelling .top-right {
     color: black !important
 }
+
+.carousel-control.left, .carousel-control.right {
+    margin-right: 0;
+    margin-left: 0;
+    background-image: none !important;
+    opacity: 1;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 5%;
+}

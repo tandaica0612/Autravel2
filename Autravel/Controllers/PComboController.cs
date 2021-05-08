@@ -15,9 +15,9 @@ namespace Autravel.Controllers
         {
             ViewBag.ChuDe = SqlModule.GetDataTable(" SELECT * FROM [TopicTour]");
             ViewBag.BANNER = SqlModule.GetDataTable(" SELECT * FROM  [BANNER] where type ='COMBO' order by ISNULL(stt,9999)");
-            ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 4 Tour_ID,Tour_Name,Tour_Price,Tour_Image,Tour_TimeZoneText,Tour_StarRate FROM [VTour] WHERE Tour_Fixed =1 AND Tour_Active=1");
-            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 4 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
-            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 4 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
+            ViewBag.BanChay = SqlModule.GetDataTable(" SELECT top 10 Tour_ID,Tour_Name,Tour_Price,Tour_Image,Tour_TimeZoneText,Tour_StarRate FROM [VTour] WHERE Tour_Fixed =1 AND Tour_Active=1");
+            ViewBag.DiaDiem = SqlModule.GetDataTable(" SELECT top 10 [Location_ID],[Location_Name] ,[Location_images] FROM [Location]");
+            ViewBag.CamNang = SqlModule.GetDataTable(" SELECT top 10 t1.[Post_id] ,t1.[Post_Tile] ,t1.[Post_Images] ,t1.[Post_CategoryID] ,t1.[Post_Slug] FROM [Post] t1");
             return View();
         }
         public PartialViewResult ComboSale()

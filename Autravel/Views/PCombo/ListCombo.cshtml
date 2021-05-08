@@ -6,6 +6,7 @@
         margin-right: 0;
         width: 100%
     }
+
     .KhoiHanh {
         margin-top: 20px;
         border: 0 !important
@@ -55,7 +56,7 @@
             </div>
 
             <br />
-           <hr />
+            <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">Lọc kết quả <a id="ResetSearch" class="pull-right btn" style="padding:0">Đặt lại</a></div>
                 <div class="panel-body">
@@ -118,14 +119,14 @@
             return this.value;
         }).get().join(",");
         var KeySearch = $('#KeySearch').val();
-         KeySearch = encodeURI(KeySearch);
+        KeySearch = encodeURI(KeySearch);
         var From = $('#inp-Departure').attr("From");
         var To = $('#inp-Departure').attr("To");
         $('#gridsearchResult').load("/PCombo/ListCombogrid?filter=" + filter + "&KeySearch=" + KeySearch + "&From=" + From + "&To=" + To);
 
     }
     $(".checkbox input").click(function (e) {
-         loadgrid();
+        loadgrid();
     });
     $("#btnKeySearch").click(function (e) {
         loadgrid();
@@ -142,9 +143,9 @@
 </script>
 <script>
     $(document).ready(function () {
-        var output = moment(new Date("@ViewBag.From")).format('DD/MM/YYYY');
-        var outputend = moment(new Date("@ViewBag.To")).format('DD/MM/YYYY');
-          $('#inp-Departure').val(output + ' đến ' + outputend);
+        var output = "@ViewBag.From";
+        var outputend = "@ViewBag.To";
+           $('#inp-Departure').val(output + ' đến ' + outputend);
         $('#inp-Departure').attr("From", output);
         $('#inp-Departure').attr("To", outputend);
 
